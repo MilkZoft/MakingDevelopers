@@ -5,7 +5,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'MakingDevelopers.com' });
+    res.render('index', { title: 'MakingDevelopers' });
 });
 
 module.exports = router;
