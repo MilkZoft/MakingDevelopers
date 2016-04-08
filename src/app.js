@@ -13,21 +13,26 @@ var exphbs = require('express-handlebars');
 var hbsHelpers = require('./lib/helpers/handlebars');
 var stylus = require('stylus');
 
+// Loading config
+global.$config = require('./lib/config');
+
 // Stylus middleware
-app.use(
-    stylus.middleware({
-        src: __dirname + '/stylus',
-        dest: __dirname + '/public/css',
-        compile: function(str, path) {
-            return stylus(str).set('filename', path).set('compress', true);
-        }
-    })
-);
+if (!$config().html.css.stylusPrecompile) {
+    app.use(
+        stylus.middleware({
+            src: __dirname + '/stylus',
+            dest: __dirname + '/public/css',
+            compile: function(str, path) {
+                return stylus(str).set('filename', path).set('compress', true);
+            }
+        })
+    );
+}
 
 // Handlebars setup
-app.engine('.hbs', exphbs({
-    extname: '.hbs',
-    defaultLayout: 'main',
+app.engine($config().views.engine, exphbs({
+    extname: $config().views.extension,
+    defaultLayout: $config().views.layout,
     layoutsDir: __dirname + '/views/layouts',
     partialsDir: __dirname + '/views/partials',
     helpers: hbsHelpers
@@ -35,7 +40,7 @@ app.engine('.hbs', exphbs({
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', '.hbs');
+app.set('view engine', $config().views.engine);
 
 // uncomment after placing your favicon in /public
 app.use(logger('dev'));
@@ -79,7 +84,7 @@ app.use(function(err, req, res, next) {
 });
 
 if (!module.parent) {
-    app.listen(3333);
+    app.listen($config().serverPort);
 }
 
 module.exports = app;

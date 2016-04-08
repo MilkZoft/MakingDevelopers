@@ -1,0 +1,35 @@
+---
+production: &default
+  serverPort: 3333
+  baseUrl: http://www.makingdevelopers.com
+  views:
+    engine: .hbs
+    extension: .hbs
+    layout: main
+  html:
+    minify: true
+    css:
+      stylusPrecompile: true
+      compress: true
+  app:
+    default: blog
+  languages:
+    default: en
+    list: [en, es]
+
+stage: &stage
+  <<: *default
+  baseUrl: http://stage.makingdevelopers.com
+
+latest: &latest
+  <<: *stage
+  baseUrl: http://latest.makingdevelopers.com
+
+development:
+  <<: *latest
+  baseUrl: http://local.makingdevelopers.com
+  html:
+    minify: false
+    css:
+      stylusPrecompile: false
+      compress: false
