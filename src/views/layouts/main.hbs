@@ -1,6 +1,8 @@
+{{#compress}}
 <!DOCTYPE html>
 <html>
     <head>
+        {{> site/metas }}
         <title>Making Developers</title>
         <link href="/css/style.css" rel="stylesheet" />
     </head>
@@ -11,5 +13,8 @@
         <div class="container">
             {{{ body }}}
         </div>
+
+        {{> development/livereload }}
     </body>
 </html>
+{{/compress}}

@@ -1,15 +1,17 @@
-'use strict';
+import { minify } from 'html-minifier';
 
-var htmlMinify = require('html-minifier').minify;
+function compress(content) {
+  if (!$config().html.minify) {
+    return content.fn(this);
+  }
 
-module.exports = {
-    minify: minify
-};
-
-function minify(content) {
-    return htmlMinify(content.fn(this), {
-        removeComments: true,
-        collapseWhitespace: true,
-        minifyJS: true
-    });
+  return minify(content.fn(this), {
+    removeComments: true,
+    collapseWhitespace: true,
+    minifyJS: true
+  });
 }
+
+export default {
+  compress: compress
+};

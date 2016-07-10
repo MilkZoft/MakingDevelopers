@@ -2,11 +2,15 @@
 production: &default
   serverPort: 3333
   baseUrl: http://www.makingdevelopers.com
+  site:
+    title: Making Developers
+    description: Web Development Tutorials
   views:
     engine: .hbs
     extension: .hbs
     layout: main
   html:
+    livereload: false
     minify: true
     css:
       stylusPrecompile: true
@@ -29,6 +33,7 @@ development:
   <<: *latest
   baseUrl: http://local.makingdevelopers.com
   html:
+    livereload: true
     minify: false
     css:
       stylusPrecompile: false
