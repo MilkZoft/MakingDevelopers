@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 
 // development error handler
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -92,5 +92,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Listening port..
+// Listening port...
 app.listen($config().serverPort || 3000);
