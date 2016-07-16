@@ -3,9 +3,9 @@ import _ from 'lodash';
 import utils from './utils';
 
 export default {
-  getCurrentLanguage: getCurrentLanguage,
-  getLanguagePath: getLanguagePath,
-  load: load
+  getCurrentLanguage,
+  getLanguagePath,
+  load
 };
 
 function getCurrentLanguage(url) {

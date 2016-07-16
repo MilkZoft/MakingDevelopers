@@ -1,3 +1,4 @@
+import $config from './config';
 import _ from 'lodash';
 import utils from './utils';
 
@@ -19,6 +20,7 @@ export default (req, res, next) => {
     httpOnly: configData.httpOnly
   };
 
+  // Methods
   res.session = session;
   res.clearSession = clearSession;
   res.destroySessions = destroySessions;

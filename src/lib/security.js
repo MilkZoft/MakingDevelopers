@@ -1,12 +1,12 @@
 import $config from './config';
 import crypto from 'crypto';
 
-const salt = $config().security.secret;
-
 export default {
-  md5: md5,
-  sha1: sha1
+  md5,
+  sha1
 };
+
+const salt = $config().security.secret;
 
 function md5(str) {
   return crypto

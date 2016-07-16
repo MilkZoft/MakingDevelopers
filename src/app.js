@@ -36,18 +36,18 @@ app.use((req, res, next) => {
 
 // Handlebars setup
 app.engine($config().views.engine, exphbs({
-  extname: $config().views.extension,
   defaultLayout: $config().views.layout,
+  extname: $config().views.extension,
+  helpers: hbsHelpers,
   layoutsDir: path.join(__dirname, '/views/layouts'),
-  partialsDir: path.join(__dirname, '/views/partials'),
-  helpers: hbsHelpers
+  partialsDir: path.join(__dirname, '/views/partials')
 }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', $config().views.engine);
 
-// uncomment after placing your favicon in /public
+// BodyParser
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -56,9 +56,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Router
 router(app);
-
-// Disabling x-powered-by
-app.disable('x-powered-by');
 
 // Listening port...
 app.listen($config().serverPort || 3000);

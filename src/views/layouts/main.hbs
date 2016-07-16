@@ -4,7 +4,10 @@
     <head>
         {{> site/metas }}
         <title>Making Developers</title>
-        <link href="/css/style.css" rel="stylesheet" />
+
+        {{#css}}
+        <link rel="stylesheet" href="{{ this }}" />
+        {{/css}}
     </head>
 
     <body>

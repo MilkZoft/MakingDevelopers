@@ -3,6 +3,51 @@ import dateFormat from 'date-format';
 import dot from 'dot-object';
 import security from './security';
 
+export default {
+  Date: {
+    day,
+    isDay,
+    isMonth,
+    isYear,
+    month,
+    now,
+    year
+  },
+  Device: {
+    isDesktop,
+    isMobile,
+    getCurrentDevice
+  },
+  Object: {
+    buildJson,
+    pick,
+    stringify
+  },
+  Type: {
+    isArray,
+    isDefined,
+    isFunction,
+    isJson,
+    isNumber,
+    isString,
+    isUndefined
+  },
+  Security: {
+    encrypt,
+    md5,
+    sha1
+  },
+  String: {
+    clean,
+    escape,
+    randomCode,
+    removeHTML
+  },
+  Url: {
+    getParamsFromUrl
+  }
+};
+
 // Date functions
 function day() {
   return dateFormat('dd', new Date());
@@ -180,48 +225,3 @@ function isString(variable) {
 function isUndefined(variable) {
   return typeof variable === 'undefined' || variable === null;
 }
-
-export default {
-  Date: {
-    day,
-    isDay,
-    isMonth,
-    isYear,
-    month,
-    now,
-    year
-  },
-  Device: {
-    isDesktop,
-    isMobile,
-    getCurrentDevice
-  },
-  Object: {
-    buildJson,
-    pick,
-    stringify
-  },
-  Type: {
-    isArray,
-    isDefined,
-    isFunction,
-    isJson,
-    isNumber,
-    isString,
-    isUndefined
-  },
-  Security: {
-    encrypt,
-    md5,
-    sha1
-  },
-  String: {
-    clean,
-    escape,
-    randomCode,
-    removeHTML
-  },
-  Url: {
-    getParamsFromUrl
-  }
-};
