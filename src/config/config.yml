@@ -2,9 +2,6 @@
 production: &default
   serverPort: 3333
   baseUrl: http://www.makingdevelopers.com
-  site:
-    title: Making Developers
-    description: Web Development Tutorials
   views:
     engine: .hbs
     extension: .hbs
@@ -15,11 +12,17 @@ production: &default
     css:
       stylusPrecompile: true
       compress: true
-  app:
-    default: blog
   languages:
     default: en
-    list: [en, es]
+    list: [en, es, jp]
+  security:
+    secret: m4k1ingd3v3lop3ers.com
+  session:
+    cookieDomain: .makingdevelopers.com
+    maxAge: 259200
+    cookiePrefix: 'mdSession_'
+    path: '/'
+    httpOnly: true
 
 stage: &stage
   <<: *default

@@ -1,3 +1,4 @@
+import $config from './config';
 import { minify } from 'html-minifier';
 
 function compress(content) {

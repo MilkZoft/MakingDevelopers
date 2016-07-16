@@ -6,16 +6,12 @@ import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import stylus from 'stylus';
 
-import config from './lib/config';
-import hbsHelpers from './lib/helpers/handlebars';
+import $config from './lib/config';
+import hbsHelpers from './lib/handlebars';
 
-import routes from './routes/index';
-import users from './routes/users';
+import router from './router';
 
 const app = express();
-
-// Loading config
-global.$config = config;
 
 // Stylus middleware
 if (!$config().html.css.stylusPrecompile) {
@@ -23,7 +19,7 @@ if (!$config().html.css.stylusPrecompile) {
     stylus.middleware({
       src: path.join(__dirname, '/stylus'),
       dest: path.join(__dirname, '/public/css'),
-      compile: function(str, path) {
+      compile: (str, path) => {
         return stylus(str)
           .set('filename', path)
           .set('compress', true);
@@ -58,39 +54,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
-app.use('/', routes);
-app.use('/users', users);
+// Router
+router(app);
 
 // Disabling x-powered-by
 app.disable('x-powered-by');
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// development error handler
-if (app.get('env') === 'development') {
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
 
 // Listening port...
 app.listen($config().serverPort || 3000);

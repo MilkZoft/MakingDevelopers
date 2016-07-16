@@ -1,0 +1,14 @@
+{
+  "Site": {
+    "language": "es",
+    "title": "Making Developers - Español",
+    "meta": {
+      "abstract": "Learn to code",
+      "description": "Learn to code",
+      "keywords": "HTML5, JavaScript, Node.js"
+    }
+  },
+  "Home": {
+    "welcome": "Bienvenidos a Making Developers"
+  }
+}
