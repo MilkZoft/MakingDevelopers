@@ -197,7 +197,7 @@ describe('@Utils', () => {
           foo: 'Foo'
         };
 
-        assert.isTrue(
+        assert.isFalse(
           utils.Type.isObject(test),
           'test variable should be an object'
         );

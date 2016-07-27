@@ -5,6 +5,7 @@ import yaml from 'js-yaml';
 /**
  * Returns the selected environment configuration
  *
+ * @returns {object} Config
  */
 export default function getConfig() {
   const config = yaml.safeLoad(
