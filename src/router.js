@@ -8,14 +8,26 @@ import homeController from './app/home/home.controller';
 export default (app) => {
   const availableLanguages = $config().languages.list.join('|');
 
-  // Set i18n content, basePath, and isMobile
+  // Languages (i18j)
   app.use((req, res, next) => {
     res.__ = res.locals.__ = i18n.load(i18n.getCurrentLanguage(req.url));
-    res.locals.basePath = `${$config().baseUrl}${i18n.getLanguagePath(req.url)}`;
     res.locals.currentLanguage = i18n.getCurrentLanguage(req.url);
+
+    return next();
+  });
+
+  // Basepath
+  app.use((req, res, next) => {
+    res.locals.basePath = `${$config().baseUrl}${i18n.getLanguagePath(req.url)}`;
+
+    return next();
+  });
+
+  // Device detector
+  app.use((req, res, next) => {
     res.locals.isMobile = utils.Device.isMobile(req.headers['user-agent']);
 
-    next();
+    return next();
   });
 
   // Default css & js
@@ -27,7 +39,7 @@ export default (app) => {
     res.locals.topJs = [];
     res.locals.bottomJs = [];
 
-    next();
+    return next();
   });
 
   // Controllers dispatch
@@ -42,7 +54,7 @@ export default (app) => {
   app.use((req, res, next) => {
     const err = new Error('Not Found');
     err.status = 404;
-    next(err);
+    return next(err);
   });
 
   // development error handler

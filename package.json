@@ -7,6 +7,14 @@
     "type": "git",
     "url": "git://github.com/MilkZoft/MakingDevelopers.git"
   },
+  "config": {
+    "ghooks": {
+      "pre-commit": "gulp analyze",
+      "pre-push": "gulp test",
+      "post-merge": "npm install",
+      "post-rewrite": "npm install"
+    }
+  },
   "dependencies": {
     "babel-eslint": "^6.1.2",
     "babel-preset-es2015": "^6.9.0",
