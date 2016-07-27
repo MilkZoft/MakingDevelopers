@@ -1,6 +1,8 @@
+import $config from './config';
 import _ from 'lodash';
 import dateFormat from 'date-format';
 import dot from 'dot-object';
+import fs from 'fs';
 import security from './security';
 
 export default {
@@ -18,8 +20,11 @@ export default {
     isMobile,
     getCurrentDevice
   },
+  Files: {
+    glob
+  },
   Object: {
-    buildJson,
+    buildContentJson,
     pick,
     stringify
   },
@@ -29,6 +34,7 @@ export default {
     isFunction,
     isJson,
     isNumber,
+    isObject,
     isString,
     isUndefined
   },
@@ -79,23 +85,55 @@ function year() {
 
 // Device functions
 function isDesktop(ua) {
-  return !(/mobile/i.test(ua));
+  return !/mobile/i.test(ua);
 }
 
 function isMobile(ua) {
-  return (/mobile/i.test(ua));
+  return /mobile/i.test(ua);
 }
 
 function getCurrentDevice(ua) {
-  return (/mobile/i.test(ua)) ? 'mobile' : 'desktop';
+  return /mobile/i.test(ua) ? 'mobile' : 'desktop';
+}
+
+// Files functions
+function glob(dir, _files, urls) {
+  const files = fs.readdirSync(dir);
+  let name;
+  let tmp;
+  let url;
+
+  _files = _files || [];
+  urls = urls || [];
+
+  for (const i in files) {
+    if (files[i] !== '.DS_Store' && files[i] !== '.gitkeep') {
+      name = `${dir}/${files[i]}`;
+
+      if (fs.statSync(name).isDirectory()) {
+        glob(name, _files, urls);
+      } else {
+        tmp = name.split('/public/');
+
+        if (isDefined(tmp[1])) {
+          url = `${$config().baseUrl}/${tmp[1]}`;
+
+          _files.push(name);
+          urls.push(url);
+        }
+      }
+    }
+  }
+
+  return urls;
 }
 
 // Object functions
-function buildJson(nodes, raw) {
-  let row = {};
+function buildContentJson(nodes, raw) {
+  const row = {};
 
   _.forEach(nodes, node => {
-    row[node.keyName] = node.keyValue;
+    row[node.name] = node.value;
   });
 
   if (!raw) {
@@ -179,14 +217,6 @@ function removeHTML(str) {
   return false;
 }
 
-// Url functions
-function getParamsFromUrl(params) {
-  params = params.split('/');
-  params.shift();
-
-  return params;
-}
-
 // Type functions
 function isArray(variable) {
   return variable instanceof Array;
@@ -218,10 +248,22 @@ function isNumber(number) {
   return !isNaN(number);
 }
 
+function isObject(variable) {
+  return typeof variable === 'object';
+}
+
 function isString(variable) {
   return typeof variable === 'string';
 }
 
 function isUndefined(variable) {
   return typeof variable === 'undefined' || variable === null;
+}
+
+// Url functions
+function getParamsFromUrl(params) {
+  params = params.split('/');
+  params.shift();
+
+  return params;
 }

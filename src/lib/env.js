@@ -1,5 +1,7 @@
 /**
  * Gets the current environment based on NODE_ENV var.
+ *
+ * @returns {string} Environment
  */
 export default function getEnv() {
   return {
