@@ -23,6 +23,15 @@ production: &default
     cookiePrefix: 'mdSession_'
     path: '/'
     httpOnly: true
+  db:
+    mysql:
+      host: localhost
+      user: root
+      password: '123456'
+      database: makingdevelopers
+      port: 3306
+      debug: true
+      socket: /var/mysql/mysql.sock
 
 stage: &stage
   <<: *default
