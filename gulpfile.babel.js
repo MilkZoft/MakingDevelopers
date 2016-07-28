@@ -1,3 +1,4 @@
+import $config from './src/lib/config';
 import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import livereload from 'gulp-livereload';
@@ -5,11 +6,22 @@ import nodemon from 'gulp-nodemon';
 import notify from 'gulp-notify';
 import stylus from 'gulp-stylus';
 import mocha from 'gulp-mocha';
+import remoteSrc from 'gulp-remote-src';
+import jsonFormat from 'gulp-json-format';
+
+// Content task
+gulp.task('content', function() {
+  remoteSrc(['en.json', 'es.json'], {
+    base: `${$config('development').baseUrl}/content/`
+  })
+  .pipe(jsonFormat(2))
+  .pipe(gulp.dest('./src/content/i18n/'));
+});
 
 // Mocha task
 gulp.task('test', () => {
   return gulp.src([
-    'test/**/*.js'
+    'test/**/*Test.js'
   ])
   .pipe(mocha());
 });
@@ -18,6 +30,7 @@ gulp.task('test', () => {
 gulp.task('analyze', () => {
   return gulp.src([
     'src/**/*.js',
+    'test/**/*.js',
     '!src/public/bower_components/**/*.js'
   ])
   .pipe(eslint())
