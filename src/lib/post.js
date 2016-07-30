@@ -3,7 +3,6 @@ import { now } from './utils/date';
 import { isArray, isDefined } from './utils/is';
 import { md5 } from './utils/security';
 import { escapeString, removeHTML } from './utils/string';
-import _ from 'lodash';
 
 let postData = {};
 
@@ -22,7 +21,7 @@ export default (req, res, next) => {
   return next();
 
   function action() {
-    return req.params.action === 'add' || req.params.action === 'edit' ? req.params.action : 'view';
+    return req.params.action === 'add' || req.params.action === 'edit' ? req.params.action : 'results';
   }
 
   function debug(letiable) {
@@ -45,7 +44,11 @@ export default (req, res, next) => {
 
     postData.forEach((value, key) => {
       if (options.exclude.length > 0) {
-        if (!_.includes(options.exclude, key)) {
+        const exists = options.exclude.filter(option => {
+          return option === key;
+        });
+
+        if (!exists) {
           values[key] = value;
         }
       } else {
@@ -60,7 +63,7 @@ export default (req, res, next) => {
 
   function getContentFromTemplate(template, messageTemplate) {
     // const interpolation = ({ template }) => `${messageTemplate)}`;
-    return _.template(messageTemplate)(template);
+    // return _.template(messageTemplate)(template);
   }
 
   function isGet() {

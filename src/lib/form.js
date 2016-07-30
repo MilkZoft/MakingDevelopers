@@ -14,7 +14,9 @@ export function createInput(attrs) {
     html += 'class="input" ';
   }
 
-  attrs.forIn((value, attr) => {
+  Object.keys(attrs).forEach(attr => {
+    let value = attrs[attr];
+
     if (attr === 'name') {
       value = md5(value);
     }
@@ -39,7 +41,9 @@ export function createTextarea(attrs) {
     html += 'class="textarea" ';
   }
 
-  attrs.forIn((value, attr) => {
+  Object.keys(attrs).forEach(attr => {
+    let value = attrs[attr];
+
     if (attr === 'name') {
       value = md5(value);
     }
@@ -67,7 +71,9 @@ export function createSelect(attrs) {
     html += 'class="select" ';
   }
 
-  attrs.forIn((value, attr) => {
+  Object.keys(attrs).forEach(attr => {
+    let value = attrs[attr];
+
     if (attr === 'name') {
       value = md5(value);
     }
@@ -98,7 +104,9 @@ export function createSelect(attrs) {
 export function createLabel(attrs, text) {
   let html = '<label ';
 
-  attrs.forIn((value, attr) => {
+  Object.keys(attrs).forEach(attr => {
+    const value = attrs[attr];
+
     html += `${attr}="${value}" `;
   });
 

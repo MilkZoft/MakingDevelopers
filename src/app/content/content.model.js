@@ -1,12 +1,6 @@
-import Model from '../../lib/model';
+import * as Content from '../../lib/model';
 
-const Content = new Model();
-
-export default {
-  getContent
-};
-
-function getContent(language, callback) {
+export default function getContent(language, callback) {
   const procedure = Content.getProcedure('getContent', language, ['language']);
 
   Content.query(procedure, callback, (result, callback) => {

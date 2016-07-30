@@ -1,4 +1,5 @@
 import { $social } from './config';
+import { parseJson } from './utils/object';
 import { OAuth } from 'oauth';
 
 const oauth = new OAuth(
@@ -12,11 +13,11 @@ const oauth = new OAuth(
 );
 
 export function api(url) {
-  return `${$config().social.twitter.apiUrl}${url}`;
+  return `${$social().twitter.apiUrl}${url}`;
 }
 
 export function getAuthenticateUrl(oauthToken) {
-  return `${$config().social.twitter.authenticateUrl}?oauth_token=${oauthToken}`;
+  return `${$social().twitter.authenticateUrl}?oauth_token=${oauthToken}`;
 }
 
 export function getOAuthRequestToken(callback) {
@@ -48,9 +49,8 @@ export function getOAuthAccessToken(token, tokenSecret, oauthVerifier, callback)
           api('account/verify_credentials.json'),
           oauthAccessToken,
           oauthAccessTokenSecret,
-
           (error, data) => {
-            data = JSON.parse(data);
+            data = parseJson(data);
 
             userSession = {
               'networkId': data.id,

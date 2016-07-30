@@ -29,10 +29,11 @@ export default (req, res, next) => {
   function parseSession() {
     const rVal = {};
 
-    if (req.cookies.length > 0) {
-      req.cookies.forEach((value, key) => {
+    if (req.cookies) {
+      Object.keys(req.cookies).forEach(key => {
         const sessionPrefix = new RegExp(`^${cookiePrefix}`);
         const isSessionCookie = key.search(sessionPrefix) !== -1;
+        let value = req.cookies[key];
 
         if (isSessionCookie) {
           key = key.replace(sessionPrefix, '');

@@ -1,6 +1,4 @@
-import Model from '../../lib/model';
-
-const Blog = new Model();
+import * as Blog from '../../lib/model';
 
 const fields = [
   'title',
@@ -19,11 +17,7 @@ const fields = [
   'state'
 ];
 
-export default {
-  save
-};
-
-function save(post, callback) {
+export default function save(post, callback) {
   const procedure = Blog.getProcedure('savePost', post, fields, false);
 
   Blog.query(procedure, callback, (result, callback) => {

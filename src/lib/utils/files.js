@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { $baseUrl } from './../config';
+import { isDefined } from './is';
 
 export function glob(dir, _files, urls) {
   const files = fs.readdirSync(dir);

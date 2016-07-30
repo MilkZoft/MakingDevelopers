@@ -1,4 +1,4 @@
-import Users from '../app/users/users.model';
+import * as Users from '../app/users/users.model';
 import { isDefined } from './utils/is';
 
 export default (req, res, next) => {

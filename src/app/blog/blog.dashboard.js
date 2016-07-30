@@ -2,10 +2,10 @@ import path from 'path';
 import { now, day, month, year } from '../../lib/utils/date';
 import { glob } from '../../lib/utils/files';
 import { isDefined } from '../../lib/utils/is';
-import blogModel from './blog.model';
+import Blog from './blog.model';
 
-const formView = 'blog/dashboard/form';
-const resultsView = 'blog/dashboard/results';
+const formView = 'app/blog/dashboard/form';
+const resultsView = 'app/blog/dashboard/results';
 let emptyElements;
 let post = {};
 
@@ -76,7 +76,7 @@ export default (req, res, next) => {
 
             res.render(formView, res.renderScope.get());
           } else {
-            blogModel.save(post, state => {
+            Blog.save(post, state => {
               if (isDefined(state[0][0].error)) {
                 if (state[0][0].error === 'exists:post') {
                   res.renderScope.set('message', res.content('messages.add.exists'));
@@ -92,8 +92,6 @@ export default (req, res, next) => {
         } else {
           res.render(formView, res.renderScope.get());
         }
-      } else {
-        res.redirect('/');
       }
     });
   }

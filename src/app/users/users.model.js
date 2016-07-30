@@ -1,6 +1,4 @@
-import Model from '../../lib/model';
-
-const Users = new Model();
+import * as Users from '../../lib/model';
 
 const fields = [
   'network',
@@ -12,13 +10,7 @@ const fields = [
   'subscribed'
 ];
 
-export default {
-  getPrivilege,
-  getUser,
-  save
-};
-
-function getPrivilege(user, callback) {
+export function getPrivilege(user, callback) {
   const procedure = Users.getProcedure('getUserPrivilege', user, fields);
 
   Users.query(procedure, callback, (result, callback) => {
@@ -28,7 +20,7 @@ function getPrivilege(user, callback) {
   });
 }
 
-function getUser(user, callback) {
+export function getUser(user, callback) {
   const procedure = Users.getProcedure('getUser', user, fields);
 
   Users.query(procedure, callback, (result, callback) => {
@@ -38,7 +30,7 @@ function getUser(user, callback) {
   });
 }
 
-function save(user, callback) {
+export function save(user, callback) {
   const procedure = Users.getProcedure('saveUser', user, fields1, {
     password: 'encrypt'
   });

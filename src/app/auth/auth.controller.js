@@ -1,5 +1,5 @@
 import express from 'express';
-import twitter from '../../lib/twitter';
+import { getAuthenticateUrl, getOAuthAccessToken, getOAuthRequestToken } from '../../lib/twitter';
 
 const router = express.Router();
 
@@ -7,14 +7,14 @@ const router = express.Router();
  * Redirects to twitter to do the login
  */
 router.get('/twitter', (req, res) => {
-  twitter.getOAuthRequestToken((tokens) => {
+  getOAuthRequestToken((tokens) => {
     const oauthSession = {
       'token': tokens[0],
       'tokenSecret': tokens[1]
     };
 
     res.session('oauth', oauthSession);
-    res.redirect(twitter.getAuthenticateUrl(tokens[0]));
+    res.redirect(getAuthenticateUrl(tokens[0]));
   });
 });
 
@@ -28,7 +28,7 @@ router.get('/twitter/callback', (req, res) => {
   if (data) {
     oauthVerifier = req.query.oauth_verifier;
 
-    twitter.getOAuthAccessToken(data.token, data.tokenSecret, oauthVerifier, sessions => {
+    getOAuthAccessToken(data.token, data.tokenSecret, oauthVerifier, sessions => {
       res.session('oauth', sessions[0]);
       res.session('user', sessions[1]);
 

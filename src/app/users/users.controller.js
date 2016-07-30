@@ -1,5 +1,5 @@
 import express from 'express';
-import usersModel from './users.model';
+import * as Users from './users.model';
 import { isDefined } from '../../lib/utils/is';
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.get('/validation', (req, res, next) => {
   if (isDefined(res.session('user')) && isDefined(res.session('oauth'))) {
     const connectedUser = res.session('user');
 
-    usersModel.getUser({
+    Users.getUser({
       network: connectedUser.network,
       networkId: connectedUser.networkId,
       username: connectedUser.username,
@@ -70,7 +70,7 @@ router.get('/register', (req, res, next) => {
 router.post('/registration', (req, res, next) => {
   var post = res.getAllPost();
 
-  usersModel.save(post, (state) => {
+  Users.save(post, (state) => {
     if (!isDefined(state)) {
       res.redirect('/');
     } else {

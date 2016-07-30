@@ -1,6 +1,11 @@
 import { $html } from './config';
 import { minify } from 'html-minifier';
-import form from './form';
+import {
+  createInput,
+  createLabel,
+  createSelect,
+  createTextarea
+} from './form';
 import { isDefined } from './utils/is';
 import { stringify } from './utils/object';
 
@@ -41,7 +46,7 @@ function checkbox(options) {
   if (isDefined(options.hash)) {
     options.hash.type = 'checkbox';
 
-    return form.createInput(options.hash);
+    return createInput(options.hash);
   }
 
   return false;
@@ -67,7 +72,7 @@ function email(options) {
     options.hash.maxlength = '80';
     options.hash.pattern = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$';
 
-    return form.createInput(options.hash);
+    return createInput(options.hash);
   }
 
   return false;
@@ -89,7 +94,7 @@ function hidden(options) {
   if (isDefined(options.hash)) {
     options.hash.type = 'hidden';
 
-    return form.createInput(options.hash);
+    return createInput(options.hash);
   }
 
   return false;
@@ -101,7 +106,7 @@ function icon(icon) {
 
 function input(options) {
   if (isDefined(options.hash)) {
-    return form.createInput(options.hash);
+    return createInput(options.hash);
   }
 
   return false;
@@ -121,7 +126,7 @@ function json(content) {
 
 function label(options) {
   if (isDefined(options.hash)) {
-    return form.createLabel(options.hash, options.hash.text ? options.hash.text : '');
+    return createLabel(options.hash, options.hash.text ? options.hash.text : '');
   }
 
   return false;
@@ -149,7 +154,7 @@ function password(options) {
     options.hash.type = 'password';
     options.hash.name = 'password';
 
-    return form.createInput(options.hash);
+    return createInput(options.hash);
   }
 
   return false;
@@ -159,7 +164,7 @@ function radio(options) {
   if (isDefined(options.hash)) {
     options.hash.type = 'radio';
 
-    return form.createInput(options.hash);
+    return createInput(options.hash);
   }
 
   return false;
@@ -171,7 +176,7 @@ function reverse(str) {
 
 function select(options) {
   if (isDefined(options.hash)) {
-    return form.createSelect(options.hash);
+    return createSelect(options.hash);
   }
 
   return false;
@@ -187,7 +192,7 @@ function submit(options) {
       options.hash.class += ' submit';
     }
 
-    return form.createInput(options.hash);
+    return createInput(options.hash);
   }
 
   return false;
@@ -195,7 +200,7 @@ function submit(options) {
 
 function textarea(options) {
   if (isDefined(options.hash)) {
-    return form.createTextarea(options.hash);
+    return createTextarea(options.hash);
   }
 
   return false;
@@ -209,7 +214,7 @@ function token(securityToken) {
     options.name = 'securityToken';
     options.value = securityToken;
 
-    return form.createInput(options);
+    return createInput(options);
   }
 
   return false;
