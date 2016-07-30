@@ -1,7 +1,8 @@
-import $config from './config';
+import { $html } from './config';
 import { minify } from 'html-minifier';
 import form from './form';
-import utils from './utils';
+import { isDefined } from './utils/is';
+import { stringify } from './utils/object';
 
 export default {
   ceil,
@@ -37,7 +38,7 @@ function ceil(number) {
 }
 
 function checkbox(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     options.hash.type = 'checkbox';
 
     return form.createInput(options.hash);
@@ -47,7 +48,7 @@ function checkbox(options) {
 }
 
 function compress(content) {
-  if (!$config().html.minify) {
+  if (!$html().minify) {
     return content.fn(this);
   }
 
@@ -59,7 +60,7 @@ function compress(content) {
 }
 
 function email(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     options.hash.id = 'email';
     options.hash.type = 'email';
     options.hash.name = 'email';
@@ -85,7 +86,7 @@ function gte(value1, value2, options) {
 }
 
 function hidden(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     options.hash.type = 'hidden';
 
     return form.createInput(options.hash);
@@ -99,7 +100,7 @@ function icon(icon) {
 }
 
 function input(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     return form.createInput(options.hash);
   }
 
@@ -115,11 +116,11 @@ function isNot(variable, value, options) {
 }
 
 function json(content) {
-  return JSON.stringify(content);
+  return stringify(content);
 }
 
 function label(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     return form.createLabel(options.hash, options.hash.text ? options.hash.text : '');
   }
 
@@ -143,7 +144,7 @@ function now() {
 }
 
 function password(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     options.hash.id = 'password';
     options.hash.type = 'password';
     options.hash.name = 'password';
@@ -155,7 +156,7 @@ function password(options) {
 }
 
 function radio(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     options.hash.type = 'radio';
 
     return form.createInput(options.hash);
@@ -169,7 +170,7 @@ function reverse(str) {
 }
 
 function select(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     return form.createSelect(options.hash);
   }
 
@@ -177,10 +178,10 @@ function select(options) {
 }
 
 function submit(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     options.hash.type = 'submit';
 
-    if (utils.Type.isUndefined(options.hash.class)) {
+    if (!isDefined(options.hash.class)) {
       options.hash.class = 'submit';
     } else {
       options.hash.class += ' submit';
@@ -193,7 +194,7 @@ function submit(options) {
 }
 
 function textarea(options) {
-  if (utils.Type.isDefined(options.hash)) {
+  if (isDefined(options.hash)) {
     return form.createTextarea(options.hash);
   }
 
@@ -203,7 +204,7 @@ function textarea(options) {
 function token(securityToken) {
   const options = {};
 
-  if (utils.Type.isDefined(securityToken)) {
+  if (isDefined(securityToken)) {
     options.type = 'hidden';
     options.name = 'securityToken';
     options.value = securityToken;

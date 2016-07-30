@@ -1,14 +1,6 @@
-import _ from 'lodash';
-import utils from './utils';
+import { md5 } from './utils/security';
 
-export default {
-  createInput,
-  createLabel,
-  createTextarea,
-  createSelect
-};
-
-function createInput(attrs) {
+export function createInput(attrs) {
   let html = '<input ';
   const type = attrs.type;
   const hasType = attrs.hasOwnProperty('type');
@@ -22,9 +14,9 @@ function createInput(attrs) {
     html += 'class="input" ';
   }
 
-  _.forIn(attrs, (value, attr) => {
+  attrs.forIn((value, attr) => {
     if (attr === 'name') {
-      value = utils.Security.md5(value);
+      value = md5(value);
     }
 
     if (value !== '') {
@@ -37,7 +29,7 @@ function createInput(attrs) {
   return html;
 }
 
-function createTextarea(attrs) {
+export function createTextarea(attrs) {
   let html = '<textarea ';
   let content = '';
   const type = attrs.type;
@@ -47,9 +39,9 @@ function createTextarea(attrs) {
     html += 'class="textarea" ';
   }
 
-  _.forIn(attrs, (value, attr) => {
+  attrs.forIn((value, attr) => {
     if (attr === 'name') {
-      value = utils.Security.md5(value);
+      value = md5(value);
     }
 
     if (attr === 'value' && value !== '') {
@@ -64,7 +56,7 @@ function createTextarea(attrs) {
   return html;
 }
 
-function createSelect(attrs) {
+export function createSelect(attrs) {
   const options = attrs.options.split('|');
   const type = attrs.type;
   const hasClass = attrs.hasOwnProperty('class');
@@ -75,9 +67,9 @@ function createSelect(attrs) {
     html += 'class="select" ';
   }
 
-  _.forIn(attrs, (value, attr) => {
+  attrs.forIn((value, attr) => {
     if (attr === 'name') {
-      value = utils.Security.md5(value);
+      value = md5(value);
     }
 
     if (value !== '') {
@@ -87,7 +79,7 @@ function createSelect(attrs) {
 
   html += '>';
 
-  _.forEach(options, (option) => {
+  options.forEach(option => {
     html += `<option>${option}</option>`;
 
     if (option.indexOf(':') > -1) {
@@ -103,10 +95,10 @@ function createSelect(attrs) {
   return html;
 }
 
-function createLabel(attrs, text) {
+export function createLabel(attrs, text) {
   let html = '<label ';
 
-  _.forIn(attrs, (value, attr) => {
+  attrs.forIn((value, attr) => {
     html += `${attr}="${value}" `;
   });
 

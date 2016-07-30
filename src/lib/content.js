@@ -1,4 +1,4 @@
-import utils from './utils';
+import { pick } from './utils/object';
 
 export default (req, res, next) => {
   let contentBase;
@@ -10,10 +10,10 @@ export default (req, res, next) => {
   function content(contentKey, base) {
     if (base) {
       contentBase = contentKey;
-    } else if (contentBase && utils.Object.pick(contentKey, res.__) === contentKey) {
+    } else if (contentBase && pick(contentKey, res.__) === contentKey) {
       contentKey = `${contentBase}.${contentKey}`;
     }
 
-    return utils.Object.pick(contentKey, res.__);
+    return pick(contentKey, res.__);
   }
 };

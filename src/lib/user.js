@@ -1,5 +1,5 @@
-import usersModel from '../app/users/users.model';
-import utils from './utils';
+import Users from '../app/users/users.model';
+import { isDefined } from './utils/is';
 
 export default (req, res, next) => {
   res.profileAllowed = profileAllowed;
@@ -9,8 +9,8 @@ export default (req, res, next) => {
   function profileAllowed(callback) {
     const connectedUser = res.session('user');
 
-    if (utils.Type.isDefined(connectedUser) && utils.Type.isDefined(res.session('oauth'))) {
-      usersModel.getPrivilege({
+    if (isDefined(connectedUser) && isDefined(res.session('oauth'))) {
+      Users.getPrivilege({
         network: connectedUser.network,
         networkId: connectedUser.networkId,
         username: connectedUser.username,

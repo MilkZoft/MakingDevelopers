@@ -1,6 +1,12 @@
-import $config from './lib/config';
-import i18n from './lib/i18n';
-import utils from './lib/utils';
+import { $baseUrl } from './lib/config';
+import {
+  availableLanguages,
+  getCurrentLanguage,
+  getLanguagePath,
+  loadLanguage
+} from './lib/i18n';
+import { isMobile } from './lib/utils/device';
+import { sha1 } from './lib/utils/security';
 
 // Importing controllers
 import authController from './app/auth/auth.controller';
@@ -14,15 +20,13 @@ import usersController from './app/users/users.controller';
 import blogDashboard from './app/blog/blog.dashboard';
 
 export default (app) => {
-  const availableLanguages = $config().languages.list.join('|');
-
   // Content machine
   app.use('/content', contentController);
 
   // Security token
   app.use((req, res, next) => {
     if (!res.session('securityToken')) {
-      res.session('securityToken', utils.Security.sha1(new Date()));
+      res.session('securityToken', sha1(new Date()));
       res.locals.securityToken = res.session('securityToken');
     }
 
@@ -31,22 +35,22 @@ export default (app) => {
 
   // i18n
   app.use((req, res, next) => {
-    res.__ = res.locals.__ = i18n.load(i18n.getCurrentLanguage(req.url));
-    res.locals.currentLanguage = i18n.getCurrentLanguage(req.url);
+    res.__ = res.locals.__ = loadLanguage(getCurrentLanguage(req.url));
+    res.locals.currentLanguage = getCurrentLanguage(req.url);
 
     return next();
   });
 
   // basePath
   app.use((req, res, next) => {
-    res.locals.basePath = `${$config().baseUrl}${i18n.getLanguagePath(req.url)}`;
+    res.locals.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
 
     return next();
   });
 
   // Device detector
   app.use((req, res, next) => {
-    res.locals.isMobile = utils.Device.isMobile(req.headers['user-agent']);
+    res.locals.isMobile = isMobile(req.headers['user-agent']);
 
     return next();
   });
@@ -68,8 +72,8 @@ export default (app) => {
 
   // Controllers dispatch
   app.use('/', homeController);
-  app.use(`/:language(${availableLanguages})`, homeController);
-  app.use(`/:language(${availableLanguages})/dashboard`, dashboardController);
+  app.use(`/:language(${availableLanguages()})`, homeController);
+  app.use(`/:language(${availableLanguages()})/dashboard`, dashboardController);
   app.use('/auth', authController);
   app.use('/blog', blogController);
   app.use('/dashboard', dashboardController);

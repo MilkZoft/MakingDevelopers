@@ -1,32 +1,25 @@
-import $config from './config';
+import { $social } from './config';
 import { OAuth } from 'oauth';
 
 const oauth = new OAuth(
-  $config().social.twitter.requestTokenUrl,
-  $config().social.twitter.accessTokenUrl,
-  $config().social.twitter.consumerKey,
-  $config().social.twitter.consumerSecret,
-  $config().social.twitter.apiVersion,
-  $config().social.twitter.callbackUrl,
-  $config().social.twitter.signMethod
+  $social().twitter.requestTokenUrl,
+  $social().twitter.accessTokenUrl,
+  $social().twitter.consumerKey,
+  $social().twitter.consumerSecret,
+  $social().twitter.apiVersion,
+  $social().twitter.callbackUrl,
+  $social().twitter.signMethod
 );
 
-export default {
-  api,
-  getAuthenticateUrl,
-  getOAuthRequestToken,
-  getOAuthAccessToken
-};
-
-function api(url) {
+export function api(url) {
   return `${$config().social.twitter.apiUrl}${url}`;
 }
 
-function getAuthenticateUrl(oauthToken) {
+export function getAuthenticateUrl(oauthToken) {
   return `${$config().social.twitter.authenticateUrl}?oauth_token=${oauthToken}`;
 }
 
-function getOAuthRequestToken(callback) {
+export function getOAuthRequestToken(callback) {
   oauth.getOAuthRequestToken((error, oauthToken, oauthTokenSecret, results) => {
     if (!error) {
       return callback([oauthToken, oauthTokenSecret]);
@@ -36,7 +29,7 @@ function getOAuthRequestToken(callback) {
   });
 }
 
-function getOAuthAccessToken(token, tokenSecret, oauthVerifier, callback) {
+export function getOAuthAccessToken(token, tokenSecret, oauthVerifier, callback) {
   oauth.getOAuthAccessToken(
     token,
     tokenSecret,

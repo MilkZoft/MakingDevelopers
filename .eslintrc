@@ -73,7 +73,6 @@
     "no-unused-vars": [2, {args: none}],
     "no-void": 2,
     "no-undefined": 2,
-    "no-warning-comments": 2,
     "prefer-const": 2,
     "prefer-template": 2,
     "quotes": [2, single, avoid-escape],

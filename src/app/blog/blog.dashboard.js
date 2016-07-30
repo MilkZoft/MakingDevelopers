@@ -1,5 +1,7 @@
 import path from 'path';
-import utils from '../../lib/utils';
+import { now, day, month, year } from '../../lib/utils/date';
+import { glob } from '../../lib/utils/files';
+import { isDefined } from '../../lib/utils/is';
 import blogModel from './blog.model';
 
 const formView = 'blog/dashboard/form';
@@ -30,7 +32,7 @@ export default (req, res, next) => {
 
       res.renderScope.set('userInfo', userInfo);
 
-      res.renderScope.set('multimedia', utils.Files.glob(path.join(__dirname, '../../public/images/uploads')));
+      res.renderScope.set('multimedia', glob(path.join(__dirname, '../../public/images/uploads')));
       res.renderScope.set('section', action === 'add' ? res.content('action') : res.content('name'));
 
       if (userInfo) {
@@ -57,10 +59,10 @@ export default (req, res, next) => {
             'author'
           ], 'empty');
 
-          post.createdAt = utils.Date.now();
-          post.day = utils.Date.day();
-          post.month = utils.Date.month();
-          post.year = utils.Date.year();
+          post.createdAt = now();
+          post.day = day();
+          post.month = month();
+          post.year = year();
 
           res.renderScope.set('message', res.content('messages.add.success'));
 
@@ -75,7 +77,7 @@ export default (req, res, next) => {
             res.render(formView, res.renderScope.get());
           } else {
             blogModel.save(post, state => {
-              if (utils.Type.isDefined(state[0][0].error)) {
+              if (isDefined(state[0][0].error)) {
                 if (state[0][0].error === 'exists:post') {
                   res.renderScope.set('message', res.content('messages.add.exists'));
                   res.renderScope.set('flashData', post);

@@ -1,4 +1,4 @@
-import $config from './src/lib/config';
+import { baseUrl } from './src/lib/config';
 import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import livereload from 'gulp-livereload';
@@ -12,7 +12,7 @@ import jsonFormat from 'gulp-json-format';
 // Content task
 gulp.task('content', () => {
   remoteSrc(['en.json', 'es.json'], {
-    base: `${$config('development').baseUrl}/content/`
+    base: `${$baseUrl('development')}/content/`
   })
   .pipe(jsonFormat(2))
   .pipe(gulp.dest('./src/content/i18n/'));

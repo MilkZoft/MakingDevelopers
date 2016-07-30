@@ -1,6 +1,9 @@
+import { $security } from './config';
+import { now } from './utils/date';
+import { isArray, isDefined } from './utils/is';
+import { md5 } from './utils/security';
+import { escapeString, removeHTML } from './utils/string';
 import _ from 'lodash';
-import $config from './config';
-import utils from './utils';
 
 let postData = {};
 
@@ -31,16 +34,16 @@ export default (req, res, next) => {
 
     validateSecurityToken();
 
-    if (utils.Type.isUndefined(options)) {
+    if (!isDefined(options)) {
       options = {
         exclude: [
-          utils.Security.md5('register'),
-          utils.Security.md5('securityToken')
+          md5('register'),
+          md5('securityToken')
         ]
       };
     }
 
-    _.forEach(postData, (value, key) => {
+    postData.forEach((value, key) => {
       if (options.exclude.length > 0) {
         if (!_.includes(options.exclude, key)) {
           values[key] = value;
@@ -56,6 +59,7 @@ export default (req, res, next) => {
   }
 
   function getContentFromTemplate(template, messageTemplate) {
+    // const interpolation = ({ template }) => `${messageTemplate)}`;
     return _.template(messageTemplate)(template);
   }
 
@@ -79,20 +83,20 @@ export default (req, res, next) => {
 
     validateSecurityToken();
 
-    if (utils.Type.isArray(inputs)) {
-      _.forEach(inputs, (input) => {
-        value = postData[utils.Security.md5(input)];
+    if (isArray(inputs)) {
+      inputs.forEach(input => {
+        value = postData[md5(input)];
         filter = input.split(':');
         fn = input.split('|');
 
         if (fn[1] === 'now') {
           input = input.replace('|now', '');
-          value = utils.Date.now();
+          value = now();
         }
 
         if (filter[1]) {
           input = input.replace(`:${filter[1]}`, '');
-          value = postData[utils.Security.md5(input)];
+          value = postData[md5(input)];
 
           if (filter[1] !== 'html') {
             value = utils[filter[1]](value);
@@ -105,13 +109,13 @@ export default (req, res, next) => {
       return posts;
     }
 
-    if (utils.Type.isDefined(postData[utils.Security.md5(input)])) {
-      value = postData[utils.Security.md5(input)];
+    if (isDefined(postData[md5(input)])) {
+      value = postData[md5(input)];
 
       if (filter === 'escape') {
-        value = utils.escape(value);
+        value = escapeString(value);
       } else if (filter === 'clean') {
-        value = utils.String.escape(utils.String.removeHTML(value));
+        value = escapeString(removeHTML(value));
       }
 
       if (value === 'yes') {
@@ -125,7 +129,7 @@ export default (req, res, next) => {
   }
 
   function refreshSecurityToken() {
-    if ($config().refreshSecurityToken) {
+    if ($security().refreshSecurityToken) {
       res.clearSession('securityToken');
     }
   }
@@ -133,9 +137,9 @@ export default (req, res, next) => {
   function validate(inputs, validation) {
     const element = [];
 
-    _.forEach(inputs, (input) => {
+    inputs.forEach(input => {
       if (!validation || validation === 'empty') {
-        if (postData[utils.Security.md5(input)] === '') {
+        if (postData[md5(input)] === '') {
           element.push(input);
           return;
         }
@@ -146,11 +150,11 @@ export default (req, res, next) => {
   }
 
   function validateSecurityToken() {
-    if ($config().social.validateSecurityToken) {
-      if (res.session('securityToken') === req.body[utils.Security.md5('securityToken')]) {
+    if ($security().validateSecurityToken) {
+      postData = false;
+
+      if (res.session('securityToken') === req.body[md5('securityToken')]) {
         postData = req.body;
-      } else {
-        postData = false;
       }
     } else {
       postData = req.body;

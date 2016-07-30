@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import stylus from 'stylus';
 
-import $config from './lib/config';
+import { $html, $views, $serverPort } from './lib/config';
 
 import hbsHelper from './lib/handlebars';
 import contentHelper from './lib/content';
@@ -20,7 +20,7 @@ import router from './router';
 const app = express();
 
 // Stylus middleware
-if (!$config().html.css.stylusPrecompile) {
+if (!$html().css.stylusPrecompile) {
   app.use(
     stylus.middleware({
       src: path.join(__dirname, '/stylus'),
@@ -33,12 +33,6 @@ if (!$config().html.css.stylusPrecompile) {
     })
   );
 }
-
-// Sending config to templates
-app.use((req, res, next) => {
-  res.locals.config = $config();
-  next();
-});
 
 // Templates
 app.use(templatesHelper);
@@ -61,9 +55,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Handlebars setup
-app.engine($config().views.engine, exphbs({
-  defaultLayout: $config().views.layout,
-  extname: $config().views.extension,
+app.engine($views().engine, exphbs({
+  defaultLayout: $views().layout,
+  extname: $views().extension,
   helpers: hbsHelper,
   layoutsDir: path.join(__dirname, '/views/layouts'),
   partialsDir: path.join(__dirname, '/views/partials')
@@ -71,10 +65,10 @@ app.engine($config().views.engine, exphbs({
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', $config().views.engine);
+app.set('view engine', $views().engine);
 
 // Router
 router(app);
 
 // Listening port...
-app.listen($config().serverPort || 3000);
+app.listen($serverPort() || 3000);

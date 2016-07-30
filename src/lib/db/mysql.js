@@ -1,25 +1,15 @@
-import $config from '../config';
+import { $db } from '../config';
 import mysql from 'mysql';
 
 const connection = mysql.createConnection({
-  database: $config().db.mysql.database,
-  host: $config().db.mysql.host,
-  password: $config().db.mysql.password,
-  port: $config().db.mysql.port,
-  user: $config().db.mysql.user
+  database: $db().mysql.database,
+  host: $db().mysql.host,
+  password: $db().mysql.password,
+  port: $db().mysql.port,
+  user: $db().mysql.user
 });
 
-export default {
-  find,
-  findAll,
-  findBy,
-  findBySQL,
-  findFirst,
-  findLast,
-  query
-};
-
-function getQuery(obj, find) {
+export function getQuery(obj, find) {
   const getFields = () => obj.fields || '*';
   const getTable = () => obj.table;
   const getGroup = () => obj.group && ` GROUP BY ${obj.group} ` || '';
@@ -57,7 +47,7 @@ function getQuery(obj, find) {
   return `SELECT ${getFields()} FROM ${getTable()}${where}${getGroup()}${order}${limit}`;
 }
 
-function find(obj, callback) {
+export function find(obj, callback) {
   if (!obj.id) {
     return false;
   }
@@ -65,23 +55,23 @@ function find(obj, callback) {
   return connection.query(getQuery(obj), callback);
 }
 
-function findAll(obj, callback) {
+export function findAll(obj, callback) {
   return connection.query(getQuery(obj), callback);
 }
 
-function findBy(obj, callback) {
+export function findBy(obj, callback) {
   return connection.query(getQuery(obj), callback);
 }
 
-function findBySQL(obj, callback) {
+export function findBySQL(obj, callback) {
   return connection.query(getQuery(obj), callback);
 }
 
-function findFirst(obj, callback) {
+export function findFirst(obj, callback) {
   return connection.query(getQuery(obj, 'first'), callback);
 }
 
-function findLast(obj, callback) {
+export function findLast(obj, callback) {
   if (!obj.key) {
     return false;
   }
@@ -89,7 +79,7 @@ function findLast(obj, callback) {
   return connection.query(getQuery(obj, 'last'), callback);
 }
 
-function query(sql, callback) {
+export function query(sql, callback) {
   return sql
     ? connection.query(sql, callback)
     : false;

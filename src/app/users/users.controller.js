@@ -1,6 +1,6 @@
 import express from 'express';
 import usersModel from './users.model';
-import utils from '../../lib/utils';
+import { isDefined } from '../../lib/utils/is';
 
 const router = express.Router();
 const renderOptions = {};
@@ -9,7 +9,7 @@ const renderOptions = {};
  * Validates that the user is connected
  */
 router.get('/validation', (req, res, next) => {
-  if (utils.Type.isDefined(res.session('user')) && utils.Type.isDefined(res.session('oauth'))) {
+  if (isDefined(res.session('user')) && isDefined(res.session('oauth'))) {
     const connectedUser = res.session('user');
 
     usersModel.getUser({
@@ -49,7 +49,7 @@ router.get('/login', (req, res, next) => {
  * Renders register view
  */
 router.get('/register', (req, res, next) => {
-  if (utils.Type.isDefined(res.session('user')) && utils.Type.isDefined(res.session('oauth'))) {
+  if (isDefined(res.session('user')) && isDefined(res.session('oauth'))) {
     const connectedUser = res.session('user');
 
     res.clearSession(['user', 'oauth']);
@@ -71,14 +71,14 @@ router.post('/registration', (req, res, next) => {
   var post = res.getAllPost();
 
   usersModel.save(post, (state) => {
-    if (utils.Type.isUndefined(state)) {
+    if (!isDefined(state)) {
       res.redirect('/');
     } else {
       renderOptions.message = res.content('Users.register.success');
       renderOptions.alertType = 'success';
       renderOptions.iconType = 'fa-check';
 
-      if (utils.Type.isDefined(state[0][0].error)) {
+      if (isDefined(state[0][0].error)) {
         renderOptions.message = res.__.Db.errors[state[0][0].error];
         renderOptions.alertType = 'danger';
         renderOptions.iconType = 'fa-times';
