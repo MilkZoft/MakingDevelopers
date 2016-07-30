@@ -7,7 +7,13 @@ import exphbs from 'express-handlebars';
 import stylus from 'stylus';
 
 import $config from './lib/config';
-import hbsHelpers from './lib/handlebars';
+
+import hbsHelper from './lib/handlebars';
+import contentHelper from './lib/content';
+import postHelper from './lib/post';
+import sessionHelper from './lib/session';
+import templatesHelper from './lib/templates';
+import userHelper from './lib/user';
 
 import router from './router';
 
@@ -34,11 +40,31 @@ app.use((req, res, next) => {
   next();
 });
 
+// Templates
+app.use(templatesHelper);
+
+// Post
+app.use(postHelper);
+
+// Content
+app.use(contentHelper);
+
+// Cookies / Session / User
+app.use(cookieParser());
+app.use(sessionHelper);
+app.use(userHelper);
+
+// BodyParser
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Handlebars setup
 app.engine($config().views.engine, exphbs({
   defaultLayout: $config().views.layout,
   extname: $config().views.extension,
-  helpers: hbsHelpers,
+  helpers: hbsHelper,
   layoutsDir: path.join(__dirname, '/views/layouts'),
   partialsDir: path.join(__dirname, '/views/partials')
 }));
@@ -46,13 +72,6 @@ app.engine($config().views.engine, exphbs({
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', $config().views.engine);
-
-// BodyParser
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Router
 router(app);

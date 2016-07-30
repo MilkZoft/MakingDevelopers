@@ -1,0 +1,221 @@
+<div class="add">
+    <form action="{{ basePath }}/dashboard/blog/add" method="post">
+        <h2>{{{ icon "fa-plus" }}} {{ section }}</h2>
+
+        {{#if message }}
+            <h3>{{{ message }}}</h3>
+        {{/if}}
+
+        <div class="leftBlock">
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="blogTitle"
+                        text=__.dashboard.forms.fields.title
+                }}}
+
+                <p>
+                    {{{
+                        input
+                            id="blogTitle"
+                            name="title"
+                            required=true
+                            value=(flash flashData.title)
+                    }}}
+                </p>
+            </div>
+
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="blogSlug"
+                        text=__.dashboard.forms.fields.slug
+                }}}
+
+                <p>
+                    {{{
+                        input
+                            id="blogSlug"
+                            name="slug"
+                            required=true
+                            value=(flash flashData.slug)
+                    }}}
+                </p>
+            </div>
+
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="blogTags"
+                        text=__.dashboard.forms.fields.tags
+                }}}
+
+                <p>
+                    {{{
+                        input
+                            id="blogTags"
+                            name="tags"
+                            value=(flash flashData.tags)
+                    }}}
+                </p>
+            </div>
+
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="blogAuthor"
+                        text=__.dashboard.forms.fields.author
+                }}}
+
+                <p>
+                    {{{
+                        input
+                            id="blogAuthor"
+                            name="author"
+                            value=userInfo.username
+                            value=(flash flashData.author)
+                    }}}
+                </p>
+            </div>
+        </div>
+
+        <div class="rightBlock">
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="blogLanguage"
+                        text=__.dashboard.forms.fields.language
+                }}}
+
+                <p>
+                    {{{
+                        select
+                            id="blogLanguage"
+                            name="language"
+                            options=__.dashboard.forms.fields.selects.languages
+                    }}}
+                </p>
+            </div>
+
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="blogActiveComments"
+                        text=__.dashboard.forms.fields.activeComments
+                }}}
+
+                <p>
+                    {{{
+                        select
+                            id="blogActiveComments"
+                            name="activeComments"
+                            options=__.dashboard.forms.fields.selects.decision
+                    }}}
+                </p>
+            </div>
+
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="blogEstatus"
+                        text=__.dashboard.forms.fields.status
+                }}}
+
+                <p>
+                    {{{
+                        select
+                            id="blogEstatus"
+                            name="estatus"
+                            options=__.dashboard.forms.fields.selects.status
+                    }}}
+                </p>
+            </div>
+
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="blogPublish"
+                        text=__.dashboard.forms.fields.publish
+                }}}
+
+                <p>
+                    {{{
+                        submit
+                            id="blogPublish"
+                            class="btn btn-success"
+                            name="publish"
+                            value=__.dashboard.forms.fields.publish
+                    }}}
+                </p>
+            </div>
+        </div>
+
+        <div class="centralBlock clearfix">
+            <div class="multimedia">
+                <ul>
+                {{#multimedia}}
+                    <li>{{ this }}</li>
+                {{/multimedia}}
+                </ul>
+            </div>
+
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="excerpt"
+                        text=__.dashboard.forms.fields.excerpt
+                }}}
+
+                <p>
+                    {{{
+                        textarea
+                            id="excerpt"
+                            class="editor textarea"
+                            name="excerpt"
+                            value=(flash flashData.excerpt)
+                    }}}
+                </p>
+            </div>
+
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="content"
+                        text=__.dashboard.forms.fields.content
+                }}}
+
+                <p>
+                    <a class="pointer" id="blogIncludeAd"><i class="fa fa-google"></i></a>
+                    <a class="pointer" id="blogIncludeCode"><i class="fa fa-code"></i></a>
+                </p>
+
+                <p>
+                    {{{
+                        textarea
+                            id="content"
+                            class="editor textarea"
+                            name="content"
+                            value=(flash flashData.content)
+                    }}}
+                </p>
+            </div>
+
+            <div class="inputBlock">
+                {{{
+                    label
+                        for="blogCodes"
+                        text=__.dashboard.forms.fields.codes
+                }}}
+
+                <p>
+                    {{{
+                        textarea
+                            id="blogCodes"
+                            name="codes"
+                            value=(flash flashData.codes)
+                    }}}
+                </p>
+            </div>
+        </div>
+    </form>
+</div>

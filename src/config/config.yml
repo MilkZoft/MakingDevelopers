@@ -17,6 +17,8 @@ production: &default
     list: [en, es, jp]
   security:
     secret: m4k1ingd3v3lop3ers.com
+    validateSecurityToken: true
+    refreshSecurityToken: false
   session:
     cookieDomain: .makingdevelopers.com
     maxAge: 259200
@@ -32,6 +34,24 @@ production: &default
       port: 3306
       debug: true
       socket: /var/mysql/mysql.sock
+  social:
+    facebook:
+      account: MakingDevelopers
+      clientId: 123
+      clientSecret: xxx
+    twitter:
+      account: MakDevTest
+      consumerKey: FJDzr3KBzRsqjCNIBtYPCAJbL
+      consumerSecret: 8cVpCb4Tww4kqenT6PNoqgh7SJvrX2Vx7Oga38gZ3IQlnCk1RA
+      accessToken: 757439206155182082-926OcimmkVYjm8VEpFkF77ibOFsH61m
+      accessTokenSecret: taRKE0LC0lZBGbrKPzqgqlLna8NZHKVHEGIvuWkv1BdO3
+      callbackUrl: http://local.makingdevelopers.com/auth/twitter/callback
+      requestTokenUrl: https://api.twitter.com/oauth/request_token
+      accessTokenUrl: https://api.twitter.com/oauth/access_token
+      authenticateUrl: https://twitter.com/oauth/authenticate
+      apiUrl: https://api.twitter.com/1.1/
+      apiVersion: 1.0A
+      signMethod: HMAC-SHA1
 
 stage: &stage
   <<: *default

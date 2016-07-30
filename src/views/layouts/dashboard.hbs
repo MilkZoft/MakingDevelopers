@@ -1,0 +1,36 @@
+{{#compress}}
+<!DOCTYPE html>
+<html lang="{{ __.Site.language }}">
+    <head>
+        {{> site/metas }}
+
+        <title>{{ __.site.title }}</title>
+
+        <link href="/css/dashboard/style.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="images/favicon.png">
+
+        <!-- Scripts -->
+        {{#topJs}}
+            <script src="{{ this }}"></script>
+        {{/topJs}}
+    </head>
+
+    <body>
+        {{> dashboard/header }}
+        {{> dashboard/sidebar }}
+
+        <div class="Content">
+            {{{ body }}}
+        </div>
+
+        {{> dashboard/footer }}
+
+        <!-- Scripts -->
+        {{#bottomJs}}
+            <script src="{{ this }}"></script>
+        {{/bottomJs}}
+
+        {{> development/livereload }}
+    </body>
+</html>
+{{/compress}}
