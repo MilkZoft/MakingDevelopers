@@ -1,4 +1,4 @@
-import { baseUrl } from './src/lib/config';
+import { $baseUrl } from './src/lib/config';
 import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import livereload from 'gulp-livereload';

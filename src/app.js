@@ -8,7 +8,7 @@ import stylus from 'stylus';
 
 import { $html, $views, $serverPort } from './lib/config';
 
-import hbsHelper from './lib/handlebars';
+import * as hbsHelper from './lib/handlebars';
 import contentHelper from './lib/content';
 import postHelper from './lib/post';
 import sessionHelper from './lib/session';

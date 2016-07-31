@@ -7,42 +7,78 @@ import {
   createTextarea
 } from './form';
 import { isDefined } from './utils/is';
-import { stringify } from './utils/object';
+import { pick, stringify } from './utils/object';
 
-export default {
-  ceil,
-  checkbox,
-  compress,
-  email,
-  flash,
-  gt,
-  gte,
-  hidden,
-  icon,
-  input,
-  is,
-  isNot,
-  json,
-  label,
-  lowercase,
-  lt,
-  lte,
-  now,
-  password,
-  radio,
-  reverse,
-  select,
-  submit,
-  textarea,
-  token,
-  uppercase
-};
+export function renderSchema(options) {
+  const inputOptions = { hash: {} };
+  const textareaOptions = { hash: {} };
+  const labelOptions = { hash: {} };
+  const selectOptions = { hash: {} };
+  const submitOptions = { hash: {} };
 
-function ceil(number) {
+  let html = '';
+
+  if (options.hash) {
+    const schema = options.hash.schema;
+    // const userInfo = options.hash.userInfo;
+    const __ = options.hash.__;
+
+    Object.keys(schema).forEach(field => {
+      if (schema[field].render) {
+        html += '<div class="inputBlock">';
+
+        inputOptions.hash.id = field;
+        textareaOptions.hash.id = field;
+        selectOptions.hash.id = field;
+
+        inputOptions.hash.class = schema[field].className;
+        textareaOptions.hash.class = schema[field].className;
+        selectOptions.hash.class = schema[field].className;
+
+        inputOptions.hash.name = field;
+        textareaOptions.hash.name = field;
+        selectOptions.hash.name = field;
+
+        labelOptions.hash.for = field;
+        labelOptions.hash.text = pick(schema[field].label, __);
+
+        selectOptions.hash.options = schema[field].options || false;
+
+        html += label(labelOptions);
+
+        html += '<p>';
+
+        if (schema[field].type === 'input') {
+          html += input(inputOptions);
+        } else if (schema[field].type === 'textarea') {
+          html += textarea(textareaOptions);
+        } else if (schema[field].type === 'select') {
+          html += select(selectOptions);
+        }
+
+        html += '</p>';
+        html += '</div>';
+      }
+    });
+
+    submitOptions.hash.id = 'publish';
+    submitOptions.hash.class = 'btn btn-success';
+    submitOptions.hash.name = 'publish';
+    submitOptions.hash.value = __.Dashboard.forms.fields.save;
+
+    html += submit(submitOptions);
+
+    return html;
+  }
+
+  return false;
+}
+
+export function ceil(number) {
   return Math.ceil(parseFloat(number));
 }
 
-function checkbox(options) {
+export function checkbox(options) {
   if (isDefined(options.hash)) {
     options.hash.type = 'checkbox';
 
@@ -52,7 +88,7 @@ function checkbox(options) {
   return false;
 }
 
-function compress(content) {
+export function compress(content) {
   if (!$html().minify) {
     return content.fn(this);
   }
@@ -64,7 +100,7 @@ function compress(content) {
   });
 }
 
-function email(options) {
+export function email(options) {
   if (isDefined(options.hash)) {
     options.hash.id = 'email';
     options.hash.type = 'email';
@@ -78,19 +114,19 @@ function email(options) {
   return false;
 }
 
-function flash(value) {
+export function flash(value) {
   return value || '';
 }
 
-function gt(value1, value2, options) {
+export function gt(value1, value2, options) {
   return value1 > value2 ? options.fn(this) : options.inverse(this);
 }
 
-function gte(value1, value2, options) {
+export function gte(value1, value2, options) {
   return value1 >= value2 ? options.fn(this) : options.inverse(this);
 }
 
-function hidden(options) {
+export function hidden(options) {
   if (isDefined(options.hash)) {
     options.hash.type = 'hidden';
 
@@ -100,11 +136,11 @@ function hidden(options) {
   return false;
 }
 
-function icon(icon) {
+export function icon(icon) {
   return `<i class="fa ${icon}"></i>`;
 }
 
-function input(options) {
+export function input(options) {
   if (isDefined(options.hash)) {
     return createInput(options.hash);
   }
@@ -112,19 +148,19 @@ function input(options) {
   return false;
 }
 
-function is(variable, value, options) {
+export function is(variable, value, options) {
   return variable && variable === value ? options.fn(this) : options.inverse(this);
 }
 
-function isNot(variable, value, options) {
+export function isNot(variable, value, options) {
   return !variable || variable !== value ? options.fn(this) : options.inverse(this);
 }
 
-function json(content) {
+export function json(content) {
   return stringify(content);
 }
 
-function label(options) {
+export function label(options) {
   if (isDefined(options.hash)) {
     return createLabel(options.hash, options.hash.text ? options.hash.text : '');
   }
@@ -132,23 +168,23 @@ function label(options) {
   return false;
 }
 
-function lowercase(str) {
+export function lowercase(str) {
   return str.toLowerCase();
 }
 
-function lt(value1, value2, options) {
+export function lt(value1, value2, options) {
   return value1 < value2 ? options.fn(this) : options.inverse(this);
 }
 
-function lte(value1, value2, options) {
+export function lte(value1, value2, options) {
   return value1 <= value2 ? options.fn(this) : options.inverse(this);
 }
 
-function now() {
+export function now() {
   return new Date();
 }
 
-function password(options) {
+export function password(options) {
   if (isDefined(options.hash)) {
     options.hash.id = 'password';
     options.hash.type = 'password';
@@ -160,7 +196,7 @@ function password(options) {
   return false;
 }
 
-function radio(options) {
+export function radio(options) {
   if (isDefined(options.hash)) {
     options.hash.type = 'radio';
 
@@ -170,11 +206,11 @@ function radio(options) {
   return false;
 }
 
-function reverse(str) {
+export function reverse(str) {
   return str.split('').reverse().join('');
 }
 
-function select(options) {
+export function select(options) {
   if (isDefined(options.hash)) {
     return createSelect(options.hash);
   }
@@ -182,7 +218,7 @@ function select(options) {
   return false;
 }
 
-function submit(options) {
+export function submit(options) {
   if (isDefined(options.hash)) {
     options.hash.type = 'submit';
 
@@ -198,7 +234,7 @@ function submit(options) {
   return false;
 }
 
-function textarea(options) {
+export function textarea(options) {
   if (isDefined(options.hash)) {
     return createTextarea(options.hash);
   }
@@ -206,7 +242,7 @@ function textarea(options) {
   return false;
 }
 
-function token(securityToken) {
+export function token(securityToken) {
   const options = {};
 
   if (isDefined(securityToken)) {
@@ -220,6 +256,6 @@ function token(securityToken) {
   return false;
 }
 
-function uppercase(str) {
+export function uppercase(str) {
   return str.toUpperCase();
 }

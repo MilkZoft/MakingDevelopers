@@ -2,9 +2,89 @@ import * as Db from './db/mysql';
 import { isDefined, /* isFunction ,*/ isNumber } from './utils/is';
 import { md5 } from './utils/security';
 import { clean } from './utils/string';
+import { availableLanguages } from './i18n';
 
 export function executeQuery(sql, callback) {
   Db.query(sql, callback);
+}
+
+export function getColumns(table, callback, fn) {
+  return query(`SHOW COLUMNS FROM ${table}`, callback, fn);
+}
+
+export function getSchemaFrom(table, callback) {
+  getColumns(table, callback, (columns, callback) => {
+    const schema = {};
+
+    if (columns) {
+      columns.forEach(column => {
+        let props = {};
+        const field = column.Field;
+        const primaryKey = column.Key === 'PRI';
+        const columnType = column.Type;
+        const privateField = field[0] === '_' || primaryKey;
+        const getInputInfo = () => {
+          let inputType = 'input';
+          let className = 'input';
+          let options = '';
+
+          if (columnType.search('tinyint') > -1) {
+            inputType = 'select';
+            options = 'active|inactive';
+            className = 'select';
+          } else if (columnType.search('text') > -1) {
+            inputType = 'textarea';
+            className = 'textarea';
+          } else if (columnType.search('datetime') > -1) {
+            inputType = 'datapicker';
+            className = 'datapicker';
+          } else if (field === 'language' && columnType.search('varchar') > -1) {
+            inputType = 'select';
+            options = availableLanguages();
+            className = 'select';
+          } else if (field === 'state') {
+            inputType = 'select';
+            options = 'active|inactive';
+            className = 'select';
+          }
+
+          return {
+            inputType,
+            options,
+            className
+          };
+        };
+
+        const inputInfo = getInputInfo();
+
+        if (primaryKey) {
+          props = {
+            primaryKey: primaryKey,
+            render: !privateField
+          };
+        } else if (privateField) {
+          props = {
+            render: !privateField
+          };
+        } else {
+          props = {
+            type: inputInfo.inputType,
+            className: inputInfo.className,
+            label: `Dashboard.forms.fields.${field}`,
+            render: !privateField
+          };
+        }
+
+        if (inputInfo.inputType === 'select') {
+          props.options = inputInfo.options;
+        }
+
+        schema[field] = props;
+      });
+    }
+
+    callback(schema);
+  });
 }
 
 export function getProcedure(procedure, values, fields, filter) {

@@ -1,23 +1,12 @@
 import * as Blog from '../../lib/model';
 
-const fields = [
-  'title',
-  'slug',
-  'excerpt',
-  'content',
-  'codes',
-  'tags',
-  'author',
-  'createdAt',
-  'day',
-  'month',
-  'year',
-  'language',
-  'activeComments',
-  'state'
-];
+export function getSchema(callback) {
+  Blog.getSchemaFrom('blog', callback, (schema, callback) => {
+    callback(schema);
+  });
+}
 
-export default function save(post, callback) {
+export function save(post, callback) {
   const procedure = Blog.getProcedure('savePost', post, fields, false);
 
   Blog.query(procedure, callback, (result, callback) => {

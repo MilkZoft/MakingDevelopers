@@ -1,6 +1,6 @@
 import express from 'express';
 
-import contentModel from './content.model';
+import { getContent } from './content.model';
 import { availableLanguages } from '../../lib/i18n';
 import { buildContentJson } from '../../lib/utils/object';
 
@@ -10,7 +10,7 @@ const router = express.Router();
  * Content
  */
 router.get(`/:language(${availableLanguages()}).json`, (req, res) => {
-  contentModel.getContent({
+  getContent({
     language: req.params.language
   }, (content) => {
     if (content) {
@@ -22,7 +22,7 @@ router.get(`/:language(${availableLanguages()}).json`, (req, res) => {
 });
 
 router.get(`/:language(${availableLanguages()})`, (req, res) => {
-  contentModel.getContent({
+  getContent({
     language: req.params.language
   }, (content) => {
     if (content) {
