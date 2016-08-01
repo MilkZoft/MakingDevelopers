@@ -51,8 +51,6 @@
     "gulp-nodemon": "^2.1.0",
     "gulp-notify": "^2.2.0",
     "gulp-remote-src": "^0.4.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^1.6.0",
     "gulp-stylus": "^2.5.0",
     "mocha": "^2.4.5",
     "nodemon": "^1.9.2",
