@@ -1,0 +1,43 @@
+.MainHeader
+    center()
+    font('Comfortaa')
+    height 60px
+    width 95%
+
+    .logo
+        float left
+        position relative
+        width 200px
+
+        a
+            color $darkGray
+            text-decoration none
+
+            .coding
+                fontBold()
+
+            .first
+                fontLight()
+
+            .underscore
+                position(absolute, -2px, false, false, 169px)
+                fontLight()
+                color $green
+
+    .MainMenu
+        ul
+            font('Open Sans')
+            resetList()
+            float right
+            margin-top 30px
+
+            li
+                display inline-block
+
+                a
+                    color $darkGray
+                    padding-right 10px
+                    text-decoration none
+
+                    &:hover
+                        color #ff0048

@@ -1,0 +1,16 @@
+<div class="add">
+    <form action="{{ basePath }}/dashboard/blog/add" method="post">
+        <h2>{{{ icon "fa-plus" }}} {{ section }}</h2>
+
+        {{#if message }}
+            <h3>{{{ message }}}</h3>
+        {{/if}}
+
+        {{{
+            renderSchema
+                schema = schema
+                userInfo = userInfo
+                __ = __
+        }}}
+    </form>
+</div>

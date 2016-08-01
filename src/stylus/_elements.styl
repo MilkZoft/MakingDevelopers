@@ -1,0 +1,34 @@
+.btn
+    cursor(pointer)
+    font(Arial, 13px)
+    fontBold()
+    color $white
+    display inline-block
+    padding 6px 12px
+    text-decoration none
+
+    &:active
+        position relative
+        top 1px
+
+    &.btn-default
+        color $darkGray
+        btn($defaultStartColor, $defaultEndColor, $defaultBorderColor, $defaultShadowColor)
+
+    &.btn-success
+        btn($sucessStartColor, $successEndColor, $successBorderColor, $sucessShadowColor)
+
+    &.btn-primary
+        btn($primaryStartColor, $primaryEndColor, $primaryBorderColor, $primaryShadowColor)
+
+    &.btn-danger
+        btn($dangerStartColor, $dangerEndColor, $dangerBorderColor, $dangerShadowColor)
+
+    &.btn-warning
+        btn($warningStartColor, $warningEndColor, $warningBorderColor, $warningShadowColor)
+
+    &.btn-dark
+        btn($darkStartColor, $darkEndColor, $darkBorderColor, $darkShadowColor)
+
+    &.btn-fc-black
+        color $darkGray

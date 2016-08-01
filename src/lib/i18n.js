@@ -1,40 +1,45 @@
-import $config from './config';
-import _ from 'lodash';
-import utils from './utils';
+import { $languages } from './config';
+import { getParamsFromUrl } from './utils/url';
 
-export default {
-  getCurrentLanguage,
-  getLanguagePath,
-  load
-};
-
-function getCurrentLanguage(url) {
-  const params = utils.Url.getParamsFromUrl(url);
-
-  return _.includes($config().languages.list, params[0])
-    ? params[0]
-    : $config().languages.default;
+export function availableLanguages() {
+  return $languages().list.join('|');
 }
 
-function getLanguagePath(url) {
-  const params = utils.Url.getParamsFromUrl(url);
-
-  return _.includes($config().languages.list, params[0])
-    ? `/${params[0]}`
-    : '';
+export function defaultLanguage() {
+  return $languages().default;
 }
 
-function load(language) {
+export function getCurrentLanguage(url) {
+  const params = getParamsFromUrl(url);
+
+  return isLanguage(params[0]) ? params[0] : defaultLanguage();
+}
+
+export function getLanguagePath(url) {
+  const params = getParamsFromUrl(url);
+
+  return isLanguage(params[0]) ? `/${params[0]}` : '';
+}
+
+export function isLanguage(lang) {
+  const currentLanguage = $languages().list.filter(language => {
+    return language === lang;
+  });
+
+  return currentLanguage.length > 0;
+}
+
+export function loadLanguage(language) {
   let content;
 
-  if (_.includes($config().languages.list, language)) {
+  if (isLanguage(language)) {
     try {
       content = require(`../content/i18n/${language}`);
     } catch (e) {
-      content = require(`../content/i18n/${$config().languages.default}`);
+      content = require(`../content/i18n/${defaultLanguage()}`);
     }
   } else {
-    content = require(`../content/i18n/${$config().languages.default}`);
+    content = require(`../content/i18n/${defaultLanguage()}`);
   }
 
   return content;
