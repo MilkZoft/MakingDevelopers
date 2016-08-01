@@ -2,7 +2,6 @@ import * as Db from './db/mysql';
 import { isDefined, /* isFunction ,*/ isNumber } from './utils/is';
 import { md5 } from './utils/security';
 import { clean } from './utils/string';
-import { availableLanguages } from './i18n';
 
 export function executeQuery(sql, callback) {
   Db.query(sql, callback);
@@ -30,22 +29,22 @@ export function getSchemaFrom(table, callback) {
 
           if (columnType.search('tinyint') > -1) {
             inputType = 'select';
-            options = 'active|inactive';
-            className = 'select';
+            options = 'Dashboard.forms.fields.selects.state';
+            className = `select ${field}`;
           } else if (columnType.search('text') > -1) {
             inputType = 'textarea';
-            className = 'textarea';
+            className = `textarea editor ${field}`;
           } else if (columnType.search('datetime') > -1) {
             inputType = 'datapicker';
-            className = 'datapicker';
+            className = `datapicker ${field}`;
           } else if (field === 'language' && columnType.search('varchar') > -1) {
             inputType = 'select';
-            options = availableLanguages();
-            className = 'select';
+            options = 'Dashboard.forms.fields.selects.languages';
+            className = `select ${field}`;
           } else if (field === 'state') {
             inputType = 'select';
-            options = 'active|inactive';
-            className = 'select';
+            options = 'Dashboard.forms.fields.selects.state';
+            className = `select ${field}`;
           }
 
           return {

@@ -86,13 +86,13 @@ export function createSelect(attrs) {
   html += '>';
 
   options.forEach(option => {
-    html += `<option>${option}</option>`;
-
     if (option.indexOf(':') > -1) {
       value = option.substr(0, option.indexOf(':'));
       option = option.substr(option.indexOf(':') + 1);
 
       html += `<option value="${value}">${option}</option>`;
+    } else {
+      html += `<option>${option}</option>`;
     }
   });
 

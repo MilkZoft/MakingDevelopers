@@ -6,3 +6,5 @@ src/public/bower_components
 src/public/css/**/*.css
 src/public/css/*.css
 src/content/i18n/*.json
+src/public/js/all.js
+src/public/js/vendor.js

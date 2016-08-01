@@ -42,7 +42,9 @@ export function renderSchema(options) {
         labelOptions.hash.for = field;
         labelOptions.hash.text = pick(schema[field].label, __);
 
-        selectOptions.hash.options = schema[field].options || false;
+        if (schema[field].options) {
+          selectOptions.hash.options = pick(schema[field].options, __);
+        }
 
         html += label(labelOptions);
 
