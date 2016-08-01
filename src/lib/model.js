@@ -1,5 +1,5 @@
 import * as Db from './db/mysql';
-import { isDefined, /* isFunction ,*/ isNumber } from './utils/is';
+import { isDefined, isNumber } from './utils/is';
 import { md5 } from './utils/security';
 import { clean } from './utils/string';
 
@@ -11,8 +11,10 @@ export function getColumns(table, callback, fn) {
   return query(`SHOW COLUMNS FROM ${table}`, callback, fn);
 }
 
-export function getSchemaFrom(table, callback) {
-  getColumns(table, callback, (columns, callback) => {
+export function getSchemaFrom(info, callback) {
+  const ignoreFields = info.ignoreFields || [];
+
+  getColumns(info.table, callback, (columns, callback) => {
     const schema = {};
 
     if (columns) {
@@ -21,7 +23,7 @@ export function getSchemaFrom(table, callback) {
         const field = column.Field;
         const primaryKey = column.Key === 'PRI';
         const columnType = column.Type;
-        const privateField = field[0] === '_' || primaryKey;
+        const noRender = ignoreFields.indexOf(field) > -1 || primaryKey;
         const getInputInfo = () => {
           let inputType = 'input';
           let className = 'input';
@@ -59,18 +61,18 @@ export function getSchemaFrom(table, callback) {
         if (primaryKey) {
           props = {
             primaryKey: primaryKey,
-            render: !privateField
+            render: !noRender
           };
-        } else if (privateField) {
+        } else if (noRender) {
           props = {
-            render: !privateField
+            render: !noRender
           };
         } else {
           props = {
             type: inputInfo.inputType,
             className: inputInfo.className,
             label: `Dashboard.forms.fields.${field}`,
-            render: !privateField
+            render: !noRender
           };
         }
 

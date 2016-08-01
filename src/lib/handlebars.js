@@ -20,7 +20,7 @@ export function renderSchema(options) {
 
   if (options.hash) {
     const schema = options.hash.schema;
-    // const userInfo = options.hash.userInfo;
+    const userInfo = options.hash.userInfo;
     const __ = options.hash.__;
 
     Object.keys(schema).forEach(field => {
@@ -41,6 +41,10 @@ export function renderSchema(options) {
 
         labelOptions.hash.for = field;
         labelOptions.hash.text = pick(schema[field].label, __);
+
+        if (field === 'author') {
+          inputOptions.hash.value = userInfo.username;
+        }
 
         if (schema[field].options) {
           selectOptions.hash.options = pick(schema[field].options, __);

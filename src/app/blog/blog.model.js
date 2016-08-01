@@ -1,7 +1,17 @@
 import * as Blog from '../../lib/model';
 
 export function getSchema(callback) {
-  Blog.getSchemaFrom('blog', callback, (schema, callback) => {
+  const data = {
+    table: 'blog',
+    ignoreFields: [
+      'createdAt',
+      'day',
+      'month',
+      'year'
+    ]
+  };
+
+  Blog.getSchemaFrom(data, callback, (schema, noRender, callback) => {
     callback(schema);
   });
 }
