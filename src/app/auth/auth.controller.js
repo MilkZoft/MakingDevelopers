@@ -31,7 +31,8 @@ router.get('/twitter/callback', (req, res) => {
     getOAuthAccessToken(data.token, data.tokenSecret, oauthVerifier, sessions => {
       res.session('oauth', sessions[0]);
       res.session('user', sessions[1]);
-
+      /* eslint no-console: 0 */
+      console.log('>>>> AUTH INFO:', sessions);
       res.redirect(`${res.locals.basePath}/users/validation`);
     });
   }

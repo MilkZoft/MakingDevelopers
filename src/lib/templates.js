@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 let renderOptions = {};
 let defaultOptions = {};
 
@@ -14,15 +12,15 @@ export default (req, res, next) => {
 
   function defaultScope(scope) {
     defaultOptions = scope;
-    renderOptions = _.cloneDeep(defaultOptions);
+    renderOptions = scope;
   }
 
   function get(key) {
     let scope;
 
     if (!key) {
-      scope = _.cloneDeep(renderOptions);
-      renderOptions = _.cloneDeep(defaultOptions);
+      scope = renderOptions;
+      renderOptions = defaultOptions;
 
       return scope;
     }

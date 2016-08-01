@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 27, 2016 at 08:47 PM
+-- Generation Time: Aug 01, 2016 at 03:34 AM
 -- Server version: 5.7.12
 -- PHP Version: 5.5.34
 
@@ -297,12 +297,12 @@ CREATE TABLE `content` (
 
 INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (1, 'Site.language', 'en', 'en'),
-(2, 'Site.title', 'Coding1st - English', 'en'),
+(2, 'Site.title', 'MakingDevelopers', 'en'),
 (3, 'Site.meta.abstract', 'Learn to code', 'en'),
 (4, 'Site.meta.description', 'Learn to code', 'en'),
 (5, 'Site.meta.keywords', 'HTML5, JavaScript, Node.js', 'en'),
 (6, 'Site.language', 'es', 'es'),
-(7, 'Site.title', 'Coding1st - Español', 'es'),
+(7, 'Site.title', 'MakingDevelopers', 'es'),
 (8, 'Site.meta.abstract', 'Aprende a programar', 'es'),
 (9, 'Site.meta.description', 'Aprende a programar', 'es'),
 (10, 'Site.meta.keywords', 'HTML5, JavaScript, Node.js', 'es'),
@@ -312,7 +312,7 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (14, 'Dashboard.forms.fields.content', 'Content', 'en'),
 (15, 'Dashboard.forms.fields.excerpt', 'Excerpt', 'en'),
 (16, 'Dashboard.forms.fields.language', 'Language', 'en'),
-(17, 'Dashboard.forms.fields.publish', 'Publish', 'en'),
+(17, 'Dashboard.forms.fields.save', 'Save', 'en'),
 (18, 'Dashboard.forms.fields.selects.decision', 'yes:Yes|no:No', 'en'),
 (19, 'Dashboard.forms.fields.selects.languages', 'en:English|es:Spanish', 'en'),
 (20, 'Dashboard.forms.fields.selects.state', 'draft:Draft|published:Published', 'en'),
@@ -352,10 +352,10 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (54, 'Dashboard.forms.fields.content', 'Contenido', 'es'),
 (55, 'Dashboard.forms.fields.excerpt', 'Extracto', 'es'),
 (56, 'Dashboard.forms.fields.language', 'Idioma', 'es'),
-(57, 'Dashboard.forms.fields.publish', 'Publicar', 'es'),
+(57, 'Dashboard.forms.fields.save', 'Guardar', 'es'),
 (58, 'Dashboard.forms.fields.selects.decision', 'yes:Si|no:No', 'es'),
 (59, 'Dashboard.forms.fields.selects.languages', 'en:Inglés|es:Español', 'es'),
-(60, 'Dashboard.forms.fields.selects.state', 'draft:Borrador|published:Publicado', 'es'),
+(60, 'Dashboard.forms.fields.selects.state', 'active:Activo|inactive:Inactivo', 'es'),
 (61, 'Dashboard.forms.fields.slug', 'URL Amigable', 'es'),
 (62, 'Dashboard.forms.fields.state', 'Estado', 'es'),
 (63, 'Dashboard.forms.fields.tags', 'Etiquetas', 'es'),
@@ -365,7 +365,7 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (67, 'Dashboard.modules.blog.action', 'Agregar nueva publicación', 'es'),
 (68, 'Dashboard.modules.blog.name', 'Blog', 'es'),
 (69, 'Dashboard.modules.config.name', 'Configuración', 'es'),
-(70, 'Dashboard.modules.Dashboard.name', 'Dashboard', 'es'),
+(70, 'Dashboard.modules.dashboard.name', 'Dashboard', 'es'),
 (71, 'Dashboard.modules.feedback.name', 'Contacto', 'es'),
 (72, 'Dashboard.modules.logout.name', 'Desconectar', 'es'),
 (73, 'Dashboard.modules.pages.action', 'Agregar nueva Página', 'es'),
@@ -403,7 +403,9 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (105, 'Users.email.placeholder', 'email@example.com', 'en'),
 (106, 'Users.email.placeholder', 'email@dominio.com', 'es'),
 (107, 'Users.hello', 'Hello', 'en'),
-(108, 'Users.hello', 'Hola', 'es');
+(108, 'Users.hello', 'Hola', 'es'),
+(109, 'Home.welcome', 'Welcome', 'en'),
+(110, 'Home.welcome', 'Bienvenidos', 'es');
 
 -- --------------------------------------------------------
 
@@ -423,6 +425,13 @@ CREATE TABLE `users` (
   `privilege` varchar(5) NOT NULL DEFAULT 'user',
   `state` varchar(25) NOT NULL DEFAULT 'inactive'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `network`, `networkId`, `username`, `password`, `email`, `avatar`, `suscribed`, `privilege`, `state`) VALUES
+(1, 'twitter', '461804603', 'codejobs', '', 'azapedia@gmail.com', 'https://pbs.twimg.com/profile_images/603310588190658560/6jLlKtr1.png', 0, 'god', 'active');
 
 --
 -- Indexes for dumped tables
@@ -459,9 +468,12 @@ ALTER TABLE `blog`
 -- AUTO_INCREMENT for table `content`
 --
 ALTER TABLE `content`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

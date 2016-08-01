@@ -18,12 +18,12 @@ export default (req, res, next) => {
       }, (userInfo) => {
         if (userInfo) {
           return callback(userInfo[0].privilege !== 'user' ? connectedUser : false);
+        } else {
+          return res.redirect('/');
         }
-
-        return res.redirect('/');
       });
+    } else {
+      return res.redirect('/');
     }
-
-    return callback(false);
   }
 };

@@ -45,6 +45,8 @@ export default (req, res, next) => {
   }
 
   function results() {
-    res.render(resultsView, res.renderScope.get());
+    res.profileAllowed(userInfo => {
+      res.render(resultsView, res.renderScope.get());
+    });
   }
 };
