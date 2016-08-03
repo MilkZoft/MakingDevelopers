@@ -1,25 +1,26 @@
-import $config from '../config';
+// NPM Dependencies
 import mysql from 'mysql';
 
+// Configuration
+import { $db } from '../config';
+
+// Database connection
 const connection = mysql.createConnection({
-  database: $config().db.mysql.database,
-  host: $config().db.mysql.host,
-  password: $config().db.mysql.password,
-  port: $config().db.mysql.port,
-  user: $config().db.mysql.user
+  database: $db().mysql.database,
+  host: $db().mysql.host,
+  password: $db().mysql.password,
+  port: $db().mysql.port,
+  user: $db().mysql.user
 });
 
-export default {
-  find,
-  findAll,
-  findBy,
-  findBySQL,
-  findFirst,
-  findLast,
-  query
-};
-
-function getQuery(obj, find) {
+/**
+ * Builds the SQL Query
+ *
+ * @param {object} obj Query Object
+ * @param {string} find Defines if want to find by "first" or "last"
+ * @returns {string} SQL Query
+ */
+export function getQuery(obj, find) {
   const getFields = () => obj.fields || '*';
   const getTable = () => obj.table;
   const getGroup = () => obj.group && ` GROUP BY ${obj.group} ` || '';
@@ -57,7 +58,14 @@ function getQuery(obj, find) {
   return `SELECT ${getFields()} FROM ${getTable()}${where}${getGroup()}${order}${limit}`;
 }
 
-function find(obj, callback) {
+/**
+ * Find a row by id
+ *
+ * @param {object} obj Query Object
+ * @param {function} callback Callback
+ * @returns {string} SQL Query
+ */
+export function find(obj, callback) {
   if (!obj.id) {
     return false;
   }
@@ -65,23 +73,58 @@ function find(obj, callback) {
   return connection.query(getQuery(obj), callback);
 }
 
-function findAll(obj, callback) {
+/**
+ * Find All Rows
+ *
+ * @param {object} obj Query Object
+ * @param {function} callback Callback
+ * @returns {string} SQL Query
+ */
+export function findAll(obj, callback) {
   return connection.query(getQuery(obj), callback);
 }
 
-function findBy(obj, callback) {
+/**
+ * Find a row by field
+ *
+ * @param {object} obj Query Object
+ * @param {function} callback Callback
+ * @returns {string} SQL Query
+ */
+export function findBy(obj, callback) {
   return connection.query(getQuery(obj), callback);
 }
 
-function findBySQL(obj, callback) {
+/**
+ * Find a row by SQL Query
+ *
+ * @param {object} obj Query Object
+ * @param {function} callback Callback
+ * @returns {string} SQL Query
+ */
+export function findBySQL(obj, callback) {
   return connection.query(getQuery(obj), callback);
 }
 
-function findFirst(obj, callback) {
+/**
+ * Find first row
+ *
+ * @param {object} obj Query Object
+ * @param {function} callback Callback
+ * @returns {string} SQL Query
+ */
+export function findFirst(obj, callback) {
   return connection.query(getQuery(obj, 'first'), callback);
 }
 
-function findLast(obj, callback) {
+/**
+ * Find last row
+ *
+ * @param {object} obj Query Object
+ * @param {function} callback Callback
+ * @returns {string} SQL Query
+ */
+export function findLast(obj, callback) {
   if (!obj.key) {
     return false;
   }
@@ -89,7 +132,14 @@ function findLast(obj, callback) {
   return connection.query(getQuery(obj, 'last'), callback);
 }
 
-function query(sql, callback) {
+/**
+ * Executes a query
+ *
+ * @param {string} sql SQL Query
+ * @param {function} callback Callback
+ * @returns {object} SQL Object
+ */
+export function query(sql, callback) {
   return sql
     ? connection.query(sql, callback)
     : false;

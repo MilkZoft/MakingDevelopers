@@ -1,4 +1,4 @@
-import $config from './src/lib/config';
+import { $baseUrl } from './src/lib/config';
 import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import livereload from 'gulp-livereload';
@@ -8,11 +8,32 @@ import stylus from 'gulp-stylus';
 import mocha from 'gulp-mocha';
 import remoteSrc from 'gulp-remote-src';
 import jsonFormat from 'gulp-json-format';
+import concat from 'gulp-concat';
+
+// Vendor task
+gulp.task('vendor', () => {
+  return gulp.src([
+    './src/public/bower_components/jquery/dist/jquery.min.js',
+    './src/public/js/vendors/ckeditor/basepath.js',
+    './src/public/bower_components/ckeditor/ckeditor.js'
+    ])
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest('./src/public/js/'));
+});
+
+// All task
+gulp.task('all', () => {
+  return gulp.src([
+    './src/public/js/dashboard/main.js'
+    ])
+    .pipe(concat('all.js'))
+    .pipe(gulp.dest('./src/public/js/'));
+});
 
 // Content task
 gulp.task('content', () => {
   remoteSrc(['en.json', 'es.json'], {
-    base: `${$config('development').baseUrl}/content/`
+    base: `${$baseUrl('development')}/content/`
   })
   .pipe(jsonFormat(2))
   .pipe(gulp.dest('./src/content/i18n/'));
@@ -31,7 +52,10 @@ gulp.task('analyze', () => {
   return gulp.src([
     'src/**/*.js',
     'test/**/*Test.js',
-    '!src/public/bower_components/**/*.js'
+    '!src/public/bower_components/**/*.js',
+    '!src/public/js/vendors/**/*.js',
+    '!src/public/js/vendor.js',
+    '!src/public/js/all.js'
   ])
   .pipe(eslint())
   .pipe(eslint.format())

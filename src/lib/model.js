@@ -1,145 +1,195 @@
-import _ from 'lodash';
-import db from './db/mysql';
-import utils from './utils';
+// Local Dependencies
+import * as Db from './db/mysql';
+import { isDefined, isNumber } from './utils/is';
+import { md5 } from './utils/security';
+import { clean } from './utils/string';
 
-export default __construct;
-
-function __construct(schema) {
-  return {
-    executeQuery: executeQuery,
-    get: get,
-    getProcedure: getProcedure,
-    query: query
-  };
+/**
+ * Performs a SQL Query
+ *
+ * @param {string} sql SQL Query
+ * @param {function} callback Callback
+ * @returns {callback} Callback
+ */
+export function executeQuery(sql, callback) {
+  return Db.query(sql, callback);
 }
 
-function executeQuery(sql, callback) {
-  db.query(sql, callback);
+/**
+ * Gets Columns Information
+ *
+ * @param {string} table Table
+ * @param {function} callback Callback
+ * @param {function} fn Callback
+ * @returns {callback} Callback
+ */
+export function getColumns(table, callback, fn) {
+  return query(`SHOW COLUMNS FROM ${table}`, callback, fn);
 }
 
-function get(q, callback) {
-  const fields = Object.keys(q);
-  const count = fields.length - 1;
-  let query = '';
-  let field;
-  let value;
-  let i;
+/**
+ * Gets Schema from a given table
+ *
+ * @param {object} data Includes the table & ignoreFields
+ * @param {function} callback Callback
+ * @returns {callback} Callback
+ */
+export function getSchemaFrom(data, callback) {
+  const ignoreFields = data.ignoreFields || [];
 
-  if (q === 'all') {
-    schema.fields = schema.fields;
+  getColumns(data.table, callback, (columns, callback) => {
+    const schema = {};
 
-    db.findAll({
-      table: schema.table,
-      fields: schema.fields,
-      group: schema.group,
-      order: schema.order,
-      limit: schema.limit
-    }, callback);
-  } else if (!isNaN(q)) {
-    schema.key = schema.key;
-    schema.fields = schema.fields;
+    if (columns) {
+      columns.forEach(column => {
+        let props = {};
+        const field = column.Field;
+        const primaryKey = column.Key === 'PRI';
+        const columnType = column.Type;
+        const noRender = ignoreFields.indexOf(field) > -1 || primaryKey;
+        const getInputInfo = () => {
+          let inputType = 'input';
+          let className = 'input';
+          let options = '';
 
-    db.find({
-      id: parseInt(q),
-      table: schema.table,
-      fields: schema.fields,
-      key: schema.key
-    }, callback);
-  } else if (utils.Type.isObject(q)) {
-    if (fields.length > 1) {
-      for (i = 0; i <= count; i++) {
-        if (i === count) {
-          query += `${fields[i]} = '${q[fields[i]]}'`;
+          if (columnType.search('tinyint') > -1) {
+            inputType = 'select';
+            options = 'Dashboard.forms.fields.selects.state';
+            className = `select ${field}`;
+          } else if (columnType.search('text') > -1) {
+            inputType = 'textarea';
+            className = `textarea editor ${field}`;
+          } else if (columnType.search('datetime') > -1) {
+            inputType = 'datapicker';
+            className = `datapicker ${field}`;
+          } else if (field === 'language' && columnType.search('varchar') > -1) {
+            inputType = 'select';
+            options = 'Dashboard.forms.fields.selects.languages';
+            className = `select ${field}`;
+          } else if (field === 'state') {
+            inputType = 'select';
+            options = 'Dashboard.forms.fields.selects.state';
+            className = `select ${field}`;
+          }
+
+          return {
+            inputType,
+            options,
+            className
+          };
+        };
+
+        const inputInfo = getInputInfo();
+
+        if (primaryKey) {
+          props = {
+            primaryKey: primaryKey,
+            render: !noRender
+          };
+        } else if (noRender) {
+          props = {
+            render: !noRender
+          };
         } else {
-          query += `${fields[i]} = '${q[fields[i]]}' AND `;
+          props = {
+            type: inputInfo.inputType,
+            className: inputInfo.className,
+            label: `Dashboard.forms.fields.${field}`,
+            render: !noRender
+          };
         }
-      }
 
-      db.findBySQL({
-        query: query,
-        table: schema.table,
-        fields: schema.fields,
-        group: schema.group,
-        order: schema.order,
-        limit: schema.limit
-      }, callback);
-    } else {
-      field = fields[0];
-      value = q[field];
+        if (inputInfo.inputType === 'select') {
+          props.options = inputInfo.options;
+        }
 
-      db.findBy({
-        field: field,
-        value: value,
-        table: schema.table,
-        fields: schema.fields,
-        group: schema.group,
-        order: schema.order,
-        limit: schema.limit
-      }, callback);
+        schema[field] = props;
+      });
     }
-  }
 
-  return false;
+    return callback(schema);
+  });
 }
 
-function getProcedure(procedure, values, fields, filter) {
-  const keys = _.keys(values);
+/**
+ * Gets Procedure Query
+ *
+ * @param {string} procedure Procedure name
+ * @param {object} values Values
+ * @param {object} fields Fields
+ * @param {function} callback Callback
+ * @returns {callback} Callback
+ */
+export function getProcedure(procedure, values, fields) {
+  const keys = Object.keys(values);
   const total = fields.length - 1;
   let encrypted = false;
-  let filters = filter || {};
   let i = 0;
-  let method;
   let params = '';
   let value;
-
-  if (utils.Type.isUndefined(filters)) {
-    filters = {};
-  }
 
   if (keys[0].length === 32) {
     encrypted = true;
   }
 
-  _.forEach(fields, (field) => {
-    value = values[encrypted ? utils.Security.md5(field) : field];
+  fields.forEach(field => {
+    const getValue = () => {
+      let value = values[encrypted ? md5(field) : field];
 
-    if (utils.Type.isUndefined(value)) {
-      value = '';
-    }
+      if (!isDefined(value)) {
+        value = '';
+      }
 
-    if (field === 'networkId') {
-      value = `'${utils.String.clean(value.toString())}'`;
-    }
+      if (field === 'networkId') {
+        value = `${clean(value.toString())}`;
+      }
 
-    if (!utils.Type.isNumber(value)) {
-      method = filters[field];
-
-      if (filter === false) {
-        value = `'${value}'`;
-      } else {
-        if (utils.Type.isDefined(method) && utils.Type.isFunction(utils[method])) {
-          value = `'${utils[method](value)}'`;
+      if (!isNumber(value)) {
+        if (!isDefined(filter)) {
+          value = `'${value}'`;
         } else {
-          value = `'${utils.String.clean(value)}'`;
+          value = `'${clean(value)}'`;
         }
       }
-    }
+
+      if (value === false) {
+        value = '\'\'';
+      }
+
+      return value;
+    };
+
+    value = getValue();
 
     if (i === total) {
-      params += value;
+      if (value !== '') {
+        params += value;
+      }
     } else {
-      params += `${value}, `;
-      i++;
+      if (value !== '') {
+        params += `${value}, `;
+        i++;
+      }
     }
   });
 
   procedure = `CALL ${procedure} (${params});`;
 
+  procedure = procedure.replace(', )', ')');
+
   return procedure.replace(new RegExp(', ,', 'g'), ', \'\',');
 }
 
-function query(sql, callback, fn) {
+/**
+ * Performs a SQL Query and returns a callback
+ *
+ * @param {string} sql SQL Query
+ * @param {function} callback Callback
+ * @param {function} fn Callback
+ * @returns {callback} Callback
+ */
+export function query(sql, callback, fn) {
   executeQuery(sql, (error, result) => {
-    fn(result, callback);
+    return fn(result, callback);
   });
 }

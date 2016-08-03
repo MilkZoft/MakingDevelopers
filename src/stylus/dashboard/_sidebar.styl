@@ -1,0 +1,56 @@
+.Sidebar
+    float left
+    width 200px
+
+    ul
+        resetList()
+        position relative
+        z-index 100
+
+        li
+            fontSize(14px)
+            height 40px
+            line-height 40px
+            position relative
+            text-indent 40px
+
+            a
+                &.module
+                    color $lightGray
+                    display block
+                    text-decoration none
+                    text-indent 50px
+                    width 100%
+                &.add
+                    position(absolute, 0px, 10px)
+                    color $lightGray
+
+            &:hover
+                background-color #181818
+            &.dashboard
+                &::before
+                    icon('f0e4', $lightGray, 1em, 0px, 0px, -20px)
+            &.ads
+                &::before
+                    icon('f0a1', $lightGray, 1em, 0px, 0px, -20px)
+            &.blog
+                &::before
+                    icon('f02d', $lightGray, 1em, 0px, 0px, -20px)
+            &.config
+                &::before
+                    icon('f013', $lightGray, 1em, 0px, 0px, -20px)
+            &.feedback
+                &::before
+                    icon('f0e0', $lightGray, 1em, 0px, 0px, -20px)
+            &.pages
+                &::before
+                    icon('f1ea', $lightGray, 1em, 0px, 0px, -20px)
+            &.polls
+                &::before
+                    icon('f0f6', $lightGray, 1em, 0px, 0px, -20px)
+            &.users
+                &::before
+                    icon('f0c0', $lightGray, 1em, 0px, 0px, -20px)
+            &.logout
+                &::before
+                    icon('f0a5', $lightGray, 1em, 0px, 0px, -20px)

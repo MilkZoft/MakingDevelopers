@@ -1,7 +1,7 @@
-import $config from '../src/lib/config';
-import sinon from 'sinon';
+// NPM Dependencies
 import { assert } from 'chai';
+import sinon from 'sinon';
 
-global.$config = $config;
+// Global vars
 global.assert = assert;
 global.sinon = sinon;
