@@ -11,6 +11,7 @@ import stylus from 'stylus';
 import * as hbsHelper from './lib/handlebars';
 import contentHelper from './lib/content';
 import sessionHelper from './lib/session';
+import templatesHelper from './lib/templates';
 import userHelper from './lib/user';
 
 // Configuration
@@ -39,6 +40,9 @@ if (!$html().css.stylusPrecompile) {
 
 // Content
 app.use(contentHelper);
+
+// Templates
+app.use(templatesHelper);
 
 // Cookies / Session / User
 app.use(cookieParser());
