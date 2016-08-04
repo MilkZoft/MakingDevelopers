@@ -117,10 +117,10 @@ export function getSchemaFrom(data, callback) {
  * @param {string} procedure Procedure name
  * @param {object} values Values
  * @param {object} fields Fields
- * @param {function} callback Callback
+ * @param {string} filter Filter
  * @returns {callback} Callback
  */
-export function getProcedure(procedure, values, fields) {
+export function getProcedure(procedure, values, fields, filter) {
   const keys = Object.keys(values);
   const total = fields.length - 1;
   let encrypted = false;
