@@ -1,20 +1,30 @@
-import express from 'express';
-import path from 'path';
-import logger from 'morgan';
-import cookieParser from 'cookie-parser';
+// NPM Dependencies
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import exphbs from 'express-handlebars';
+import express from 'express';
+import logger from 'morgan';
+import path from 'path';
 import stylus from 'stylus';
 
-import $config from './lib/config';
-import hbsHelpers from './lib/handlebars';
+// Local Dependencies
+import * as hbsHelper from './lib/handlebars';
+import contentHelper from './lib/content';
+import sessionHelper from './lib/session';
+import templatesHelper from './lib/templates';
+import userHelper from './lib/user';
 
+// Configuration
+import { $html, $views, $serverPort } from './lib/config';
+
+// Router
 import router from './router';
 
+// Starting express application
 const app = express();
 
 // Stylus middleware
-if (!$config().html.css.stylusPrecompile) {
+if (!$html().css.stylusPrecompile) {
   app.use(
     stylus.middleware({
       src: path.join(__dirname, '/stylus'),
@@ -28,34 +38,38 @@ if (!$config().html.css.stylusPrecompile) {
   );
 }
 
-// Sending config to templates
-app.use((req, res, next) => {
-  res.locals.config = $config();
-  next();
-});
+// Content
+app.use(contentHelper);
+
+// Templates
+app.use(templatesHelper);
+
+// Cookies / Session / User
+app.use(cookieParser());
+app.use(sessionHelper);
+app.use(userHelper);
+
+// BodyParser
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Handlebars setup
-app.engine($config().views.engine, exphbs({
-  defaultLayout: $config().views.layout,
-  extname: $config().views.extension,
-  helpers: hbsHelpers,
+app.engine($views().engine, exphbs({
+  defaultLayout: $views().layout,
+  extname: $views().extension,
+  helpers: hbsHelper,
   layoutsDir: path.join(__dirname, '/views/layouts'),
   partialsDir: path.join(__dirname, '/views/partials')
 }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', $config().views.engine);
-
-// BodyParser
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', $views().engine);
 
 // Router
 router(app);
 
 // Listening port...
-app.listen($config().serverPort || 3000);
+app.listen($serverPort() || 3000);

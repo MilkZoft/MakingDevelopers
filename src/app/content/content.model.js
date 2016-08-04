@@ -1,12 +1,14 @@
-import Model from '../../lib/model';
+// Local Dependencies
+import * as Content from '../../lib/model';
 
-const Content = new Model();
-
-export default {
-  getContent
-};
-
-function getContent(language, callback) {
+/**
+ * Returns content from database
+ *
+ * @param {string} language Language
+ * @param {function} callback Callback
+ * @returns {function} Callback
+ */
+export function getContent(language, callback) {
   const procedure = Content.getProcedure('getContent', language, ['language']);
 
   Content.query(procedure, callback, (result, callback) => {

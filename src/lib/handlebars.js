@@ -1,12 +1,17 @@
-import $config from './config';
+// NPM Dependencies
 import { minify } from 'html-minifier';
 
-export default {
-  compress
-};
+// Configuration
+import { $html } from './config';
 
-function compress(content) {
-  if (!$config().html.minify) {
+/**
+ * Compress the HTML Output
+ *
+ * @param {object} content Handlebars content
+ * @returns {string} Compressed html
+ */
+export function compress(content) {
+  if (!$html().minify) {
     return content.fn(this);
   }
 

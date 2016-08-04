@@ -1,0 +1,30 @@
+{{#compress}}
+<!DOCTYPE html>
+<html lang="{{ __.Site.language }}">
+    <head>
+        {{> site/metas }}
+
+        <title>{{ __.Site.title }}</title>
+
+        <link href="/css/dashboard/style.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="images/favicon.png">
+    </head>
+
+    <body>
+        {{> dashboard/header }}
+        {{> dashboard/sidebar }}
+
+        <div class="Content">
+            {{{ body }}}
+        </div>
+
+        {{> dashboard/footer }}
+
+        <!-- Scripts -->
+        <script src="/js/vendor.js"></script>
+        <script src="/js/all.js"></script>
+
+        {{> development/livereload }}
+    </body>
+</html>
+{{/compress}}

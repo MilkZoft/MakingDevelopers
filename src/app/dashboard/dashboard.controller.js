@@ -1,11 +1,32 @@
+// NPM Dependencies
 import express from 'express';
 
-const router = express.Router();
+// Express Router
+const Router = express.Router();
 
-router.get('/', (req, res, next) => {
-  res.render('index', {
-    title: 'Dashboard'
+/**
+ * Dashboard index
+ */
+Router.get('/', (req, res) => {
+  // Setting layout
+  res.renderScope.default({
+    layout: 'dashboard.hbs'
+  });
+
+  // If user is connected...
+  res.profileAllowed(userInfo => {
+    res.renderScope.set('userInfo', userInfo);
+
+    res.render('app/dashboard/index', res.renderScope.get());
   });
 });
 
-export default router;
+/**
+ * Dashboard: Blog || Add Post
+ */
+Router.use('/blog/:action*?', (req, res) => {
+  res.blogDashboard[res.action()]();
+});
+
+
+export default Router;

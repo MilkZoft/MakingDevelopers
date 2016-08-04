@@ -1,11 +1,14 @@
+// NPM Dependencies
 import express from 'express';
 
-const router = express.Router();
+// Express Router
+const Router = express.Router();
 
-router.get('/', (req, res, next) => {
-  res.render('index', {
-    title: 'Home'
+Router.get('/', (req, res, next) => {
+  res.render('app/home/index', {
+    avatar: res.session('user').avatar,
+    user: res.session('user').username
   });
 });
 
-export default router;
+export default Router;

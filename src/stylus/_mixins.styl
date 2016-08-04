@@ -1,0 +1,123 @@
+bg($color)
+    background-color $color
+
+bgGradient($startColor, $endColor)
+    background -moz-linear-gradient(top, $startColor 5%, $endColor 100%)
+    background -ms-linear-gradient(top, $startColor 5%, $endColor 100%)
+    background -o-linear-gradient(top, $startColor 5%, $endColor 100%)
+    background -webkit-gradient(linear, left top, left bottom, color-stop(0.05, $startColor), color-stop(1, $endColor))
+    background -webkit-linear-gradient(top, $startColor 5%, $endColor 100%)
+    background linear-gradient(to bottom, $startColor 5%, $endColor 100%)
+
+border($color = red, $size = 1px, $type = solid)
+    border $size $type $color
+
+btn($startColor, $endColor, $borderColor, $shadowColor)
+    bg($startColor)
+    bgGradient($startColor, $endColor)
+    border($borderColor)
+    prefix(box-shadow, inset 0px 1px 0px 0px $shadowColor)
+
+    &:hover
+        bg($endColor)
+        bgGradient($endColor, $startColor)
+
+center($margin = 0, $width = false, $display = false)
+    if $display != false
+        display $display
+    margin $margin auto
+    if $width != false
+        width $width
+
+clearfix()
+    *zoom 1
+    &:after
+        content ''
+        display block
+        clear both
+        height 0
+
+cursor($type = pointer)
+    cursor $type
+
+font($font, $size = false, $color = false)
+    if $color != false
+        color $color
+    font-family $font, sans-serif
+    if $size != false
+        fontSize($size)
+
+fontBold()
+    font-weight $fontWeightBold
+
+fontFace($fontFamily, $fontFile)
+    @font-face
+        font-family $fontFamily
+        src url('../assets/fonts/' + $fontFamily + '/' + $fontFile + '.eot')
+        src url('../assets/fonts/' + $fontFamily + '/' + $fontFile + '.eot?#iefix') format('embedded-opentype'),
+            url('../assets/fonts/' + $fontFamily + '/' + $fontFile + '.woff2') format('woff2'),
+            url('../assets/fonts/' + $fontFamily + '/' + $fontFile + '.woff') format('woff'),
+            url('../assets/fonts/' + $fontFamily + '/' + $fontFile + '.ttf') format('truetype'),
+            url('../assets/fonts/' + $fontFamily + '/' + $fontFile + '.svg#' + $fontFamily) format('svg');
+        font-weight $fontWeightNormal
+        font-style normal
+
+fontNormal()
+    font-weight $fontWeightNormal
+
+fontLight()
+    font-weight $fontWeightLight
+
+fontSize($size)
+    font-size $size
+    font-size rem-calc($size)
+
+icon($code, $color = $white, $size = 2em, $top = 14px, $right = 0px, $left = 15px, $width = 50px)
+    color $color
+    content '\' + $code
+    font-family FontAwesome
+    font-size $size
+    position absolute
+    left $left
+    right $right
+    top $top
+    width $width
+
+position($position, $args...)
+    position $position
+    if length($args) == 4
+        if $args[0] != false
+            top $args[0]
+        if $args[1] != false
+            right $args[1]
+        if $args[2] != false
+            bottom $args[2]
+        if $args[3] != false
+            left $args[3]
+    else if length($args) == 3
+        if $args[0] != false
+            top $args[0]
+        if $args[1] != false
+            right $args[1]
+        if $args[2] != false
+            bottom $args[2]
+    else if length($args) == 2
+        if $args[0] != false
+            top $args[0]
+        if $args[1] != false
+            right $args[1]
+    else
+        if $args[0] != false
+            top $args[0]
+
+prefix($property, $value)
+    -webkit-{$property} $value
+    -moz-{$property} $value
+    -o-{$property} $value
+    -ms-{$property} $value
+    {$property} $value
+
+resetList()
+    list-style none
+    margin 0
+    padding 0

@@ -1,37 +1,44 @@
+// NPM Dependencies
 import express from 'express';
 
-import $config from '../../lib/config';
-import contentModel from './content.model';
-import utils from '../../lib/utils';
+// Local Dependencies
+import { availableLanguages } from '../../lib/i18n';
+import { buildContentJson } from '../../lib/utils/object';
 
-const router = express.Router();
-const availableLanguages = $config().languages.list.join('|');
+// Model
+import { getContent } from './content.model';
+
+// Express Router
+const Router = express.Router();
 
 /**
- * Content
+ * Returns content in JSon
  */
-router.get(`/:language(${availableLanguages}).json`, (req, res) => {
-  contentModel.getContent({
+Router.get(`/:language(${availableLanguages()}).json`, (req, res) => {
+  getContent({
     language: req.params.language
   }, (content) => {
     if (content) {
-      res.send(utils.Object.buildContentJson(content));
+      return res.send(buildContentJson(content));
     } else {
-      res.redirect('/');
+      return res.redirect('/');
     }
   });
 });
 
-router.get(`/:language(${availableLanguages})`, (req, res) => {
-  contentModel.getContent({
+/**
+ * Returns content in dot object notation
+ */
+Router.get(`/:language(${availableLanguages()})`, (req, res) => {
+  getContent({
     language: req.params.language
   }, (content) => {
     if (content) {
-      res.send(utils.Object.buildContentJson(content, true));
+      return res.send(buildContentJson(content, true));
     } else {
-      res.redirect('/');
+      return res.redirect('/');
     }
   });
 });
 
-export default router;
+export default Router;
