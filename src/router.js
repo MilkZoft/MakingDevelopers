@@ -65,6 +65,9 @@ export default (app) => {
     return next();
   });
 
+  // Dashboard actions
+  app.use(blogDashboard);
+
   // Controllers dispatch
   app.use('/', homeController);
   app.use(`/:language(${availableLanguages()})`, homeController);

@@ -22,9 +22,10 @@ export default (req, res, next) => {
 
   // Methods
   res.blogDashboard = {
-    add,
-    edit,
-    results
+    createAction,
+    readAction,
+    updateAction,
+    deleteAction
   };
 
   return next();
@@ -34,7 +35,7 @@ export default (req, res, next) => {
    *
    * @returns {void} void
    */
-  function create() {
+  function createAction() {
     res.profileAllowed(userInfo => {
       res.content('Dashboard.modules.blog', true);
 
@@ -57,7 +58,7 @@ export default (req, res, next) => {
    *
    * @returns {void} void
    */
-  function read() {
+  function readAction() {
     res.profileAllowed(userInfo => {
       res.render(resultsView, res.renderScope.get());
     });
@@ -68,7 +69,7 @@ export default (req, res, next) => {
    *
    * @returns {void} void
    */
-  function update() {
+  function updateAction() {
     res.profileAllowed(userInfo => {
       res.render(formView, res.renderScope.get());
     });
@@ -79,7 +80,7 @@ export default (req, res, next) => {
    *
    * @returns {void} void
    */
-  function delete() {
+  function deleteAction() {
     res.profileAllowed(userInfo => {
       res.render(formView, res.renderScope.get());
     });
