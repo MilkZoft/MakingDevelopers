@@ -72,5 +72,12 @@ describe('@Date', () => {
     it('should be a function', () => {
       assert.typeOf(year, 'function', 'year should be a function');
     });
+
+    it('should return the current year', () => {
+      const actualResult = parseInt(year());
+      const expectedResult = new Date().getFullYear();
+
+      assert.isTrue(actualResult === expectedResult, 'should be a valid year');
+    });
   });
 });

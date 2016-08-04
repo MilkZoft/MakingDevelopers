@@ -1,4 +1,4 @@
-import { $baseUrl } from './src/lib/config';
+// NPM Dependencies
 import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import livereload from 'gulp-livereload';
@@ -9,6 +9,9 @@ import mocha from 'gulp-mocha';
 import remoteSrc from 'gulp-remote-src';
 import jsonFormat from 'gulp-json-format';
 import concat from 'gulp-concat';
+
+// Configuration
+import { $baseUrl } from './src/lib/config';
 
 // Vendor task
 gulp.task('vendor', () => {
@@ -72,10 +75,12 @@ gulp.task('stylus', () => {
     .pipe(gulp.dest('src/public/css'));
 });
 
+// Livereload task
 gulp.task('livereload', () => {
   livereload({ start: true });
 });
 
+// Start dev task
 gulp.task('start-dev', () => {
   livereload.listen();
 
@@ -105,4 +110,5 @@ gulp.task('start', () => {
   });
 });
 
+// Default task
 gulp.task('default', ['livereload', 'start-dev']);

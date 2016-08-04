@@ -18,11 +18,34 @@ describe('@Is', () => {
     it('should be a function', () => {
       assert.typeOf(isArray, 'function', 'isArray should be a function');
     });
+
+    it('should return true if is an Array', () => {
+      const foo = [1, 2, 3];
+      const actualResult = isArray(foo);
+
+      assert.isTrue(actualResult, 'foo should be an array');
+    });
+
+    it('should return false if is not an Array', () => {
+      const foo = {
+        bar: 'bar',
+        foo: 'foo'
+      };
+      const actualResult = isArray(foo);
+
+      assert.isFalse(actualResult, 'foo should be an object');
+    });
   });
 
   describe('#isDay', () => {
     it('should be a function', () => {
       assert.typeOf(isDay, 'function', 'isDay should be a function');
+    });
+
+    it('should return true if is valid day', () => {
+      const actualResult = isDay(new Date().getDay());
+
+      assert.isTrue(actualResult, 'should be a valid day');
     });
   });
 
@@ -33,26 +56,32 @@ describe('@Is', () => {
 
     it('should return true if a variable is defined', () => {
       const test = 'Foo';
+      const actualResult = isDefined(test);
 
-      assert.isTrue(
-        isDefined(test),
-        'test variable should be defined'
-      );
+      assert.isTrue(actualResult, 'test variable should be defined');
     });
 
     it('should return false if a variable is undefined', () => {
       let test;
+      const actualResult = isDefined(test);
 
-      assert.isFalse(
-        isDefined(test),
-        'test variable should be defined'
-      );
+      assert.isFalse(actualResult, 'test variable should be defined');
     });
   });
 
   describe('#isFunction', () => {
     it('should be a function', () => {
       assert.typeOf(isFunction, 'function', 'isFunction should be a function');
+    });
+
+    it('should be true if a variable is a function', () => {
+      const foo = () => {
+        return 'bar';
+      };
+
+      const actualResult = isFunction(foo);
+
+      assert.isTrue(actualResult, 'test variable should be defined');
     });
   });
 

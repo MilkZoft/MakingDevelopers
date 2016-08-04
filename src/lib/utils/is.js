@@ -15,7 +15,7 @@ export function isArray(variable) {
  * @returns {boolean} True if is a valid day
  */
 export function isDay(day) {
-  return isDefined(day) && day.length === 2 && !isNaN(day) && day <= 31;
+  return isDefined(day) && isNumber(day) && day > 0 && day <= 31;
 }
 
 /**
@@ -45,7 +45,7 @@ export function isFunction(variable) {
  * @returns {boolean} True if is a valid hour
  */
 export function isHour(hour) {
-  return isDefined(hour) && hour.length === 2 && !isNaN(hour) && hour <= 24;
+  return isDefined(hour) && hour.length === 2 && isNumber(hour) && hour <= 24;
 }
 
 /**
@@ -75,7 +75,7 @@ export function isJson(str) {
  * @returns {boolean} True if is a valid minute
  */
 export function isMinute(minute) {
-  return isDefined(minute) && minute.length === 2 && !isNaN(minute) && minute <= 60;
+  return isDefined(minute) && minute.length === 2 && isNumber(minute) && minute <= 60;
 }
 
 /**
@@ -85,7 +85,7 @@ export function isMinute(minute) {
  * @returns {boolean} True if is a valid month
  */
 export function isMonth(month) {
-  return isDefined(month) && month.length === 2 && !isNaN(month) && month <= 12;
+  return isDefined(month) && isNumber(month) && month > 0 && month <= 12;
 }
 
 /**
@@ -115,7 +115,7 @@ export function isObject(variable) {
  * @returns {boolean} True if is a valid second
  */
 export function isSecond(second) {
-  return isDefined(second) && second.length === 2 && !isNaN(second) && second <= 60;
+  return isDefined(second) && isNumber(second) && second > 0 && second <= 60;
 }
 
 /**
@@ -145,5 +145,5 @@ export function isUndefined(variable) {
  * @returns {boolean} True if is a valid year
  */
 export function isYear(year) {
-  return isDefined(year) && year.length === 4 && !isNaN(year);
+  return isDefined(year) && year.length === 4 && isNumber(year);
 }

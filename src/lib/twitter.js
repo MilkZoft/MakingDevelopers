@@ -1,3 +1,6 @@
+// NPM Dependencies
+import { OAuth } from 'oauth';
+
 // Local Dependencies
 import { parseJson } from './utils/object';
 
