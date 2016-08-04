@@ -1,0 +1,62 @@
+<div class="Registration">
+    <form action="/users/registration" method="post">
+        {{#if user}}
+            <h2>{{{ icon "fa-users" }}} {{ __.users.completeRegister }}</h2>
+
+            <p class="avatar">
+                <img src="{{ user.avatar }}" alt="{{ user.username }}" />
+
+                <span class="welcome">
+                    {{ __.Users.hello }},
+                    <strong>{{#is user.network "twitter"}}@{{/is}}{{ user.username }}</strong>!
+                </span>
+            </p>
+
+            {{{ label for = "user" text = __.users.username }}}
+
+            <p>
+                {{{ input
+                    id = "user"
+                    name = "username"
+                    maxlength = "20"
+                    value = user.username
+                    required = true
+                }}}
+            </p>
+
+            {{{ label for = "email" text = __.Users.email.label }}}
+
+            <p>
+                {{{ email placeholder = __.Users.email.placeholder required = true }}}
+            </p>
+
+            <p>
+                {{{ checkbox id = "suscribe" name = "subscribed" checked = "true" }}}
+
+                {{{ label
+                    for = "suscribe"
+                    class = "checkboxLabel"
+                    text = __.Users.subscribe.label
+                }}}
+            </p>
+
+            <p>
+                {{{ input
+                    class = "btn btn-danger submit"
+                    type  = "submit"
+                    name  = "register"
+                    value = __.Users.register.label
+                }}}
+            </p>
+
+            {{{ hidden name = "avatar"    value = user.avatar    }}}
+            {{{ hidden name = "network"   value = user.network   }}}
+            {{{ hidden name = "networkId" value = user.networkId }}}
+        {{else}}
+            <h2>{{ __.Users.newUser }}</h2>
+            <p>Nuevo usuario</p>
+        {{/if}}
+
+        {{{ token securityToken }}}
+    </form>
+</div>

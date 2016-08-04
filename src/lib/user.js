@@ -1,5 +1,5 @@
 // Local Dependencies
-import { isDefined } from './utils/is';
+import { isArray, isDefined } from './utils/is';
 
 // Model
 import * as Users from '../app/users/users.model';
@@ -26,8 +26,10 @@ export default (req, res, next) => {
         username: connectedUser.username,
         password: false
       }, (userInfo) => {
-        if (userInfo) {
-          return callback(userInfo[0].privilege !== 'user' ? connectedUser : false);
+        const privilege = isArray(userInfo) ? userInfo[0].privilege : false;
+
+        if (privilege === 'god' || privilege === 'admin') {
+          return callback(connectedUser);
         } else {
           return res.redirect('/');
         }
