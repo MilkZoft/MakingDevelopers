@@ -121,7 +121,7 @@ export default (req, res, next) => {
     let cookieKey;
 
     if (sessionData) {
-      sessionData.forEach((value, key) => {
+      Object.keys(sessionData).forEach(key => {
         delete sessionData[key];
 
         cookieKey = `${cookiePrefix}${key}`;
