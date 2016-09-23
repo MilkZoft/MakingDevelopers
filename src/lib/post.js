@@ -21,7 +21,7 @@ export default (req, res, next) => {
   return next();
 
   function action() {
-    return req.params.action === 'add' || req.params.action === 'edit' ? req.params.action : 'results';
+    return req.params.action === 'create' || req.params.action === 'edit' ? `${req.params.action}Action` : 'readAction';
   }
 
   function debug(letiable) {
