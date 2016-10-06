@@ -74,7 +74,7 @@ export default (req, res, next) => {
 
     // retrieve value
     if (!value) {
-      return sessionData[key];
+      return sessionData[key] || false;
     }
 
     // set value

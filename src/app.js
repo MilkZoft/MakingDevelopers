@@ -10,6 +10,7 @@ import stylus from 'stylus';
 // Local Dependencies
 import * as hbsHelper from './lib/handlebars';
 import contentHelper from './lib/content';
+import postHelper from './lib/post';
 import sessionHelper from './lib/session';
 import templatesHelper from './lib/templates';
 import userHelper from './lib/user';
@@ -40,6 +41,9 @@ if (!$html().css.stylusPrecompile) {
 
 // Content
 app.use(contentHelper);
+
+// Post
+app.use(postHelper);
 
 // Templates
 app.use(templatesHelper);
