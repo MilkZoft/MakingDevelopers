@@ -44,7 +44,7 @@ export default (req, res, next) => {
       res.renderScope.set('userInfo', userInfo);
 
       res.renderScope.set('multimedia', glob(path.join(__dirname, '../../public/images/uploads')));
-      res.renderScope.set('section', action === 'add' ? res.content('action') : res.content('name'));
+      res.renderScope.set('section', action === 'create' ? res.content('action') : res.content('name'));
 
       if (userInfo) {
         Blog.getSchema(schema => {

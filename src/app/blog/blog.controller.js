@@ -14,7 +14,7 @@ Router.get('/', (req, res, next) => {
 
   res.session('visits', ++renderOptions.visits);
 
-  res.render('blog/welcome', renderOptions);
+  res.render('app/blog/index', renderOptions);
 });
 
 export default Router;
