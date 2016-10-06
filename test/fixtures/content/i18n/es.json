@@ -1,0 +1,8 @@
+{
+  "Foo": {
+    "bar": {
+      "hello": "Hola",
+      "bye": "Adios"
+    }
+  }
+}

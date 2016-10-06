@@ -8,8 +8,10 @@ import { glob } from '../../lib/utils/files';
 import * as Blog from './blog.model';
 
 // Global vars
-const formView = 'app/blog/dashboard/form';
-const resultsView = 'app/blog/dashboard/results';
+const createView = 'app/blog/dashboard/create';
+const readView = 'app/blog/dashboard/read';
+const updateView = 'app/blog/dashboard/update';
+const deleteView = 'app/blog/dashboard/delete';
 
 export default (req, res, next) => {
   // Setting layout
@@ -47,7 +49,7 @@ export default (req, res, next) => {
       if (userInfo) {
         Blog.getSchema(schema => {
           res.renderScope.set('schema', schema);
-          res.render(formView, res.renderScope.get());
+          res.render(createView, res.renderScope.get());
         });
       }
     });
@@ -60,7 +62,7 @@ export default (req, res, next) => {
    */
   function readAction() {
     res.profileAllowed(userInfo => {
-      res.render(resultsView, res.renderScope.get());
+      res.render(readView, res.renderScope.get());
     });
   }
 
@@ -71,7 +73,7 @@ export default (req, res, next) => {
    */
   function updateAction() {
     res.profileAllowed(userInfo => {
-      res.render(formView, res.renderScope.get());
+      res.render(updateView, res.renderScope.get());
     });
   }
 
@@ -82,7 +84,7 @@ export default (req, res, next) => {
    */
   function deleteAction() {
     res.profileAllowed(userInfo => {
-      res.render(formView, res.renderScope.get());
+      res.render(deleteView, res.renderScope.get());
     });
   }
 };
