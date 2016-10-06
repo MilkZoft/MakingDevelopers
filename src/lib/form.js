@@ -95,7 +95,7 @@ export function createSelect(attrs) {
     }
 
     if (attr !== 'value' && value !== '') {
-      html += i === elements.length - 1 ? `${attr}="${value}"` : `${attr}="${value}" `;
+      html += i === elements.length - 1 ? `${attr}="${value}" ` : `${attr}="${value}" `;
     }
   });
 
@@ -113,6 +113,8 @@ export function createSelect(attrs) {
   });
 
   html += '</select>';
+
+  html = html.replace(' >', '>');
 
   return html;
 }
