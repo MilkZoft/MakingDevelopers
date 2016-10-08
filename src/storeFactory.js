@@ -10,7 +10,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { createMiddleware as createStorageMiddleware } from 'redux-storage';
 
 // Config
-import { $appName } from '../../lib/config';
+import { $appName } from './lib/config';
 
 const injectMiddleware = deps => ({ dispatch, getState }) => next => action =>
   next(typeof action === 'function' ? action({ ...deps, dispatch, getState }) : action);

@@ -73,9 +73,6 @@ export default (app) => {
     return next();
   });
 
-  // React dispatch
-  app.get('*', render);
-
   // Dashboard actions
   app.use(blogDashboard);
 
@@ -84,6 +81,9 @@ export default (app) => {
   app.use('/auth', authController);
   app.use('/dashboard', dashboardController);
   app.use('/users', usersController);
+
+  // React dispatch
+  app.get('*', render);
 
   // Disabling x-powered-by
   app.disable('x-powered-by');
@@ -98,6 +98,9 @@ export default (app) => {
   // development error handler
   if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
+      /* eslint no-console: 0 */
+      console.log(err);
+
       res.status(err.status || 500);
       res.render('error', {
         message: err.message,

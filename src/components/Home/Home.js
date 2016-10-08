@@ -13,7 +13,7 @@ class Home extends Component {
       <div>
         <Helmet title={title} />
 
-        <h1>I'm Home!</h1>
+        <h1>I'm React Home!</h1>
       </div>
     );
   }
