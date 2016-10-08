@@ -8,15 +8,15 @@ import path from 'path';
 import stylus from 'stylus';
 
 // Local Dependencies
-import * as hbsHelper from './lib/handlebars';
-import contentHelper from './lib/content';
-import postHelper from './lib/post';
-import sessionHelper from './lib/session';
-import templatesHelper from './lib/templates';
-import userHelper from './lib/user';
+import * as hbsHelper from '../lib/handlebars';
+import contentHelper from '../lib/content';
+import postHelper from '../lib/post';
+import sessionHelper from '../lib/session';
+import templatesHelper from '../lib/templates';
+import userHelper from '../lib/user';
 
 // Configuration
-import { $html, $views, $serverPort } from './lib/config';
+import { $html, $views, $serverPort } from '../lib/config';
 
 // Router
 import router from './router';
@@ -64,12 +64,12 @@ app.engine($views().engine, exphbs({
   defaultLayout: $views().layout,
   extname: $views().extension,
   helpers: hbsHelper,
-  layoutsDir: path.join(__dirname, '/views/layouts'),
-  partialsDir: path.join(__dirname, '/views/partials')
+  layoutsDir: path.join(__dirname, '/../views/layouts'),
+  partialsDir: path.join(__dirname, '/../views/partials')
 }));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '/../views'));
 app.set('view engine', $views().engine);
 
 // Router

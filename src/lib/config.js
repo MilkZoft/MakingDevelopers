@@ -26,6 +26,10 @@ export function $config(environment) {
   return environment && config[environment] || config[env().name] || {};
 }
 
+export function $appName(env) {
+  return $config(env).appName;
+}
+
 /**
  * Returns baseUrl node
  *
@@ -114,4 +118,8 @@ export function $views(env) {
  */
 export function $social(env) {
   return $config(env).social;
+}
+
+export function $webpack(env) {
+  return $config(env).webpack;
 }
