@@ -14,6 +14,7 @@ const InitialState = Record({
 
 const initialState = new InitialState;
 
+// Reducer
 export default function deviceReducer(state = initialState, action) {
   if (!state instanceof InitialState) {
     return initialState.merge(state);
