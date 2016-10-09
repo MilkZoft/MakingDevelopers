@@ -1,22 +1,29 @@
 // Dependencies
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Component from 'react-pure-render/component';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 
 class Page404 extends Component {
+  static propTypes = {
+    __: PropTypes.object.isRequired
+  };
+
   render() {
-    const title = 'MakingDevelopers';
+    // Getting props
+    const { __ } = this.props;
 
     return (
       <div>
-        <Helmet title={title} />
+        <Helmet title={__.Site.title} />
 
-        <h1>404 Page Not Found</h1>
+        <h1>{__.Site.errors.error404}</h1>
       </div>
     );
   }
 }
 
 // Redux state
-export default connect(state => ({}), null)(Page404);
+export default connect(state => ({
+  __: state.language.__
+}), null)(Page404);

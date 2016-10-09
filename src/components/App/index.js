@@ -6,26 +6,27 @@ import { connect } from 'react-redux';
 
 class App extends Component {
   static propTypes = {
+    __: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired
   };
 
   render() {
-    const { children } = this.props;
+    // Getting props
+    const { __, children } = this.props;
 
-    const meta = [
-      {
-        'name': 'description',
-        'content': 'MakingDevelopers'
-      }
-    ];
+    const meta = [{
+      'name': 'description',
+      'content': __.Site.meta.description
+    }];
 
     return (
       <div>
         <Helmet
-          htmlAttributes={{ lang: 'en' }}
+          htmlAttributes={{ lang: __.Site.language }}
           meta={meta}
-          title="MakingDevelopers"
+          title={__.Site.title}
         />
+
         {children}
       </div>
     );
@@ -33,4 +34,6 @@ class App extends Component {
 }
 
 // Redux state
-export default connect(state => ({}))(App);
+export default connect(state => ({
+  __: state.language.__
+}))(App);
