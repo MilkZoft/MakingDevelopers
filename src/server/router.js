@@ -13,10 +13,8 @@ import { $baseUrl } from '../lib/config';
 
 // Importing controllers
 import authController from '../app/auth/auth.controller';
-// import blogController from '../app/blog/blog.controller';
 import contentController from '../app/content/content.controller';
 import dashboardController from '../app/dashboard/dashboard.controller';
-// import homeController from '../app/home/home.controller';
 import usersController from '../app/users/users.controller';
 
 // Dashboard
