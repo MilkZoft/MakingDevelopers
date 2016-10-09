@@ -1,13 +1,15 @@
+// Dependencies
 import createLogger from 'redux-logger';
 import isomorphicFetch from 'isomorphic-fetch';
 import promiseMiddleware from 'redux-promise-middleware';
 import shortid from 'shortid';
 import storageDebounce from 'redux-storage-decorator-debounce';
 import storageFilter from 'redux-storage-decorator-filter';
-
-import appReducer from './reducers/AppReducer';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createMiddleware as createStorageMiddleware } from 'redux-storage';
+
+// Reducers
+import appReducer from './reducers/AppReducer';
 
 // Config
 import { $appName } from './lib/config';

@@ -1,7 +1,9 @@
-import Component from 'react-pure-render/component';
+// Dependencies
 import React, { PropTypes } from 'react';
+import Component from 'react-pure-render/component';
 import invariant from 'invariant';
 
+// Constants
 const SERVER_ON_QUERY = 'SERVER_ON_QUERY';
 const paramsToPayload = ({ path, params, success, error }) => ({ path, params, success, error });
 const paramsToPayloadString = params => JSON.stringify(paramsToPayload(params));

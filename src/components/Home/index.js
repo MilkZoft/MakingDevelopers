@@ -1,9 +1,8 @@
+// Dependencies
+import React from 'react';
 import Component from 'react-pure-render/component';
 import Helmet from 'react-helmet';
-import React from 'react';
 import { connect } from 'react-redux';
-
-import baseComponent from '../../lib/baseComponent';
 
 class Home extends Component {
   render() {
@@ -19,6 +18,5 @@ class Home extends Component {
   }
 }
 
-Home = baseComponent(Home);
-
+// Redux state
 export default connect(state => ({}), null)(Home);

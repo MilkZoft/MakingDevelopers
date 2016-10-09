@@ -1,6 +1,7 @@
+// Dependencies
+import React, { PropTypes } from 'react';
 import Component from 'react-pure-render/component';
 import Helmet from 'react-helmet';
-import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -31,6 +32,5 @@ class App extends Component {
   }
 }
 
-App = connect(state => ({}))(App);
-
-export default App;
+// Redux state
+export default connect(state => ({}))(App);

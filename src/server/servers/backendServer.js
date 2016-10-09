@@ -44,12 +44,6 @@ export default () => {
   app.use(sessionHelper);
   app.use(userHelper);
 
-  // BodyParser
-  app.use(logger('dev'));
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(express.static(path.join(__dirname, '../../public')));
-
   const stylusDefinitions = (style) => {
     style.define('component', () => {
       const component = 'components/App';
@@ -72,6 +66,12 @@ export default () => {
       })
     );
   }
+
+  // BodyParser
+  app.use(logger('dev'));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(express.static(path.join(__dirname, '../../public')));
 
   // Handlebars setup
   app.engine($views().engine, exphbs({

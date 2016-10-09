@@ -1,7 +1,10 @@
-import * as actions from '../actions/ServerActions';
-import Component from 'react-pure-render/component';
+// Dependencies
 import React, { PropTypes } from 'react';
+import Component from 'react-pure-render/component';
 import invariant from 'invariant';
+
+// Actions
+import * as actions from '../actions/ServerActions';
 
 const paramsToPayload = ({ path, params, success, error }) => ({ path, params, success, error });
 const paramsToPayloadString = params => JSON.stringify(paramsToPayload(params));
