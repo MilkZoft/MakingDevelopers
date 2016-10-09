@@ -405,7 +405,9 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (107, 'Users.hello', 'Hello', 'en'),
 (108, 'Users.hello', 'Hola', 'es'),
 (109, 'Home.welcome', 'Welcome', 'en'),
-(110, 'Home.welcome', 'Bienvenidos', 'es');
+(110, 'Home.welcome', 'Bienvenidos', 'es'),
+(111, 'Site.errors.error404', 'Error 404: Página no encontrada', 'es'),
+(112, 'Site.errors.error404', 'Error 404: Page Not Found', 'en');
 
 -- --------------------------------------------------------
 

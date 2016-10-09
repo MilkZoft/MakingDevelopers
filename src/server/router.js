@@ -1,21 +1,27 @@
 // Local Dependencies
-import { availableLanguages, getCurrentLanguage, getLanguagePath, loadLanguage } from './lib/i18n';
-import { isMobile } from './lib/utils/device';
-import { sha1 } from './lib/utils/security';
+import {
+  availableLanguages,
+  getCurrentLanguage,
+  getLanguagePath,
+  loadLanguage
+} from '../lib/i18n';
+import { isMobile } from '../lib/utils/device';
+import { sha1 } from '../lib/utils/security';
 
 // Configuration
-import { $baseUrl } from './lib/config';
+import { $baseUrl } from '../lib/config';
 
 // Importing controllers
-import authController from './app/auth/auth.controller';
-import blogController from './app/blog/blog.controller';
-import contentController from './app/content/content.controller';
-import dashboardController from './app/dashboard/dashboard.controller';
-import homeController from './app/home/home.controller';
-import usersController from './app/users/users.controller';
+import authController from '../app/auth/auth.controller';
+import contentController from '../app/content/content.controller';
+import dashboardController from '../app/dashboard/dashboard.controller';
+import usersController from '../app/users/users.controller';
 
 // Dashboard
-import blogDashboard from './app/blog/blog.dashboard';
+import blogDashboard from '../app/blog/blog.dashboard';
+
+// React
+import render from './servers/render';
 
 export default (app) => {
   // Content machine
@@ -39,8 +45,9 @@ export default (app) => {
     return next();
   });
 
-  // basePath
+  // base Url & basePath
   app.use((req, res, next) => {
+    res.locals.baseUrl = $baseUrl();
     res.locals.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
 
     return next();
@@ -56,7 +63,7 @@ export default (app) => {
   // Default css & js
   app.use((req, res, next) => {
     res.locals.css = [
-      '/css/style.css'
+      `${$baseUrl()}/css/style.css`
     ];
 
     res.locals.topJs = [];
@@ -69,13 +76,13 @@ export default (app) => {
   app.use(blogDashboard);
 
   // Controllers dispatch
-  app.use('/', homeController);
-  app.use(`/:language(${availableLanguages()})`, homeController);
   app.use(`/:language(${availableLanguages()})/dashboard`, dashboardController);
   app.use('/auth', authController);
-  app.use('/blog', blogController);
   app.use('/dashboard', dashboardController);
   app.use('/users', usersController);
+
+  // React dispatch
+  app.get('*', render);
 
   // Disabling x-powered-by
   app.disable('x-powered-by');
@@ -90,6 +97,9 @@ export default (app) => {
   // development error handler
   if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
+      /* eslint no-console: 0 */
+      console.log(err);
+
       res.status(err.status || 500);
       res.render('error', {
         message: err.message,

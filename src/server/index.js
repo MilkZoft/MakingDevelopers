@@ -2,4 +2,4 @@
 require('babel-register');
 
 // Running the app
-require('./app');
+require('./servers');

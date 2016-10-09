@@ -87,13 +87,13 @@ gulp.task('start-dev', () => {
   gulp.watch('src/stylus/*.styl', ['stylus']);
 
   nodemon({
-    script: 'src/server.js',
+    script: 'src/server',
     ext: 'js',
     env: {
       'NODE_ENV': 'development'
     }
   }).on('restart', () => {
-    gulp.src('src/server.js')
+    gulp.src('src/server')
       .pipe(livereload())
       .pipe(notify('Reloading page, please wait...'));
   });
@@ -102,7 +102,7 @@ gulp.task('start-dev', () => {
 // Start production
 gulp.task('start', () => {
   nodemon({
-    script: 'src/server.js',
+    script: 'src/server',
     ext: 'js',
     env: {
       'NODE_ENV': 'production'
