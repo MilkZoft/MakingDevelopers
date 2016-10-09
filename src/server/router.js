@@ -47,8 +47,9 @@ export default (app) => {
     return next();
   });
 
-  // basePath
+  // base Url & basePath
   app.use((req, res, next) => {
+    res.locals.baseUrl = $baseUrl();
     res.locals.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
 
     return next();
@@ -64,7 +65,7 @@ export default (app) => {
   // Default css & js
   app.use((req, res, next) => {
     res.locals.css = [
-      '/css/style.css'
+      `${$baseUrl()}/css/style.css`
     ];
 
     res.locals.topJs = [];

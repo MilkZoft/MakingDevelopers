@@ -1,5 +1,8 @@
-import * as actions from '../actions/DeviceActions';
+// Dependencies
 import { Record } from 'immutable';
+
+// Actioms
+import * as actions from '../actions/DeviceActions';
 
 const InitialState = Record({
   isMobile: false,

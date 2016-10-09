@@ -12,7 +12,9 @@ export default function routesFactory(getState) {
   return (
     <Route component={App} path="/">
       <IndexRoute component={Home} />
-      <Route component={Blog} path="blog" />
+      <Route component={Blog} path="/blog" />
+      <Route component={Blog} path="/:language/blog" />
+      <Route component={Home} path="/:language" />
       <Route component={Page404} path="*" />
     </Route>
   );

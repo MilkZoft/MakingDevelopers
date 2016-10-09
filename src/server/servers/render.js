@@ -19,19 +19,22 @@ import routesFactory from '../../routesFactory';
 
 // Libs
 import { asyncQueryServer } from '../../lib/queryServer';
-import env from '../../lib/env';
 
 // Config
 import { $appName } from '../../lib/config';
 
-const getInitialState = req => {
+const getInitialState = (req) => {
   const protocol = req.headers['x-forwarded-proto'] || req.protocol;
   const isBrowser = userAgentIsBrowser(req.headers['user-agent']);
   const agent = userAgent.parse(req.headers['user-agent']);
+  const __ = req.res.locals.__;
 
   return {
     config: {
       appName: $appName()
+    },
+    language: {
+      __
     },
     device: {
       host: `${protocol}://${req.headers.host}`,
@@ -67,13 +70,14 @@ const renderPage = (store, renderProps, req) => {
   const appCssFilename = 'css/style.css';
   const appJsFilename = 'bundle.js';
   const scriptsHtml = getScriptHtml(state, headers, hostname, vendorJsFilename, appJsFilename);
+  const baseUrl = req.res.locals.baseUrl;
 
   const docHtml = ReactDOMServer.renderToStaticMarkup(
     <Html
       appCssFilename={appCssFilename}
+      baseUrl={baseUrl}
       bodyHtml={`<div id="app">${appHtml}</div>${scriptsHtml}`}
       helmet={helmet}
-      isProduction={env().name === 'production'}
     />
   );
 
