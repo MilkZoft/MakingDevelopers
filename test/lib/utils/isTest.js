@@ -43,7 +43,7 @@ describe('@Is', () => {
     });
 
     it('should return true if is valid day', () => {
-      const actualResult = isDay(new Date().getDay());
+      const actualResult = isDay(new Date().getDate());
 
       assert.isTrue(actualResult, 'should be a valid day');
     });
