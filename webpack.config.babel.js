@@ -5,7 +5,7 @@ import webpack from 'webpack';
 import npmInstallPlugin from 'npm-install-webpack-plugin';
 
 // Configuration
-import { $webpack } from './src/server/lib/config';
+import { $webpack } from './src/lib/config';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -26,6 +26,12 @@ let configuration = {
   output: {
     path: PATHS.build,
     filename: 'bundle.js'
+  },
+  node: {
+    console: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   },
   module: {
     loaders: [

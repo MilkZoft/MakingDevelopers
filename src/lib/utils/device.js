@@ -18,6 +18,14 @@ export function isMobile(ua) {
   return /mobile/i.test(ua);
 }
 
+export function isClient() {
+  return typeof window !== 'undefined';
+}
+
+export function isServer() {
+  return typeof window === 'undefined';
+}
+
 /**
  * Returns current device (desktop or mobile)
  *

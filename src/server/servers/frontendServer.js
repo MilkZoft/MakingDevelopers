@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-server';
 
 // Configuration
-import { $serverPort, $webpack } from './src/server/lib/config';
+import { $serverPort, $webpack } from '../../lib/config';
 import webpackConfig from '../../../webpack.config.babel.js';
 
 export default () => {
