@@ -27,7 +27,8 @@ gulp.task('vendor', () => {
 // All task
 gulp.task('all', () => {
   return gulp.src([
-    './src/public/js/dashboard/main.js'
+    './src/public/js/dashboard/main.js',
+    './src/public/js/dashboard/events.js',
     ])
     .pipe(concat('all.js'))
     .pipe(gulp.dest('./src/public/js/'));
@@ -93,7 +94,8 @@ gulp.task('start-dev', () => {
       'NODE_ENV': 'development'
     }
   }).on('restart', () => {
-    gulp.src('src/server')
+    gulp
+      .src('src/server')
       .pipe(livereload())
       .pipe(notify('Reloading page, please wait...'));
   });
@@ -111,4 +113,4 @@ gulp.task('start', () => {
 });
 
 // Default task
-gulp.task('default', ['livereload', 'start-dev']);
+gulp.task('default', ['livereload', 'vendor', 'all', 'start-dev']);

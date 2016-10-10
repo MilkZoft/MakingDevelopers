@@ -42,15 +42,31 @@ export function renderSchema(options) {
         labelOptions.hash.for = field;
         labelOptions.hash.text = pick(schema[field].label, __);
 
+        html += label(labelOptions);
+
         if (field === 'author') {
           inputOptions.hash.value = userInfo.username;
+        }
+
+        if (field === 'content') {
+          html += `
+            <div>
+              <a id="insertAd" class="pointer" title="Insert Ad">
+                <i class="fa fa-google"></i>
+              </a>
+              <a id="insertCode" class="pointer" title="Insert Code">
+                <i class="fa fa-code"></i>
+              </a>
+              <a id="insertMedia" class="pointer" title="Insert Media">
+                <i class="fa fa-picture-o"></i>
+              </a>
+            </div>
+          `;
         }
 
         if (schema[field].options) {
           selectOptions.hash.options = pick(schema[field].options, __);
         }
-
-        html += label(labelOptions);
 
         html += '<p>';
 
