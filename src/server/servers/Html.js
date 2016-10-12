@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 export default class Html extends Component {
   static propTypes = {
     appCssFilename: PropTypes.string,
-    baseUrl: PropTypes.object.isRequired,
+    baseUrl: PropTypes.string.isRequired,
     bodyHtml: PropTypes.string.isRequired,
     helmet: PropTypes.object.isRequired
   };

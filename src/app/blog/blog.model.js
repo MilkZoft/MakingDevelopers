@@ -1,30 +1,58 @@
 // Model
 import * as Blog from '../../lib/model';
 
-// Global vars
-const table = 'blog';
-const ignoreFields = [
-  'createdAt',
-  'day',
-  'month',
-  'year'
-];
-
-export function getSchema(callback) {
-  const data = {
-    table,
-    ignoreFields
+export default (req, res, next) => {
+  // Methods
+  res.BlogModel = {
+    getSchema,
+    savePost
   };
 
-  Blog.getSchemaFrom(data, callback, (schema, noRender, callback) => {
-    callback(schema);
-  });
-}
+  // Global vars
+  const table = 'blog';
 
-export function save(post, callback) {
-  const procedure = Blog.getProcedure('savePost', post, fields, false);
+  // Required fields
+  const requiredFields = {
+    title: res.__.Dashboard.forms.fields.error.title,
+    slug: res.__.Dashboard.forms.fields.error.slug,
+    excerpt: res.__.Dashboard.forms.fields.error.excerpt,
+    content: res.__.Dashboard.forms.fields.error.content,
+    author: res.__.Dashboard.forms.fields.error.author
+  };
 
-  Blog.query(procedure, callback, (result, callback) => {
-    callback(result);
-  });
-}
+  function getSchema(callback) {
+    const data = {
+      table,
+      requiredFields
+    };
+
+    Blog.getSchemaFrom(data, callback, (schema, noRender, callback) => {
+      callback(schema);
+    });
+  }
+
+  function savePost(post, callback) {
+    const fields = Object.keys(post);
+    let save = true;
+    const errorMessages = {};
+
+    fields.forEach(field => {
+      if (requiredFields[field] && post[field] === '') {
+        save = false;
+        errorMessages[field] = requiredFields[field];
+      }
+    });
+
+    if (save) {
+      const procedure = Blog.getProcedure('savePost', post, fields, false);
+
+      Blog.query(procedure, callback, (result, callback) => {
+        callback(result);
+      });
+    } else {
+      return callback(false, errorMessages);
+    }
+  }
+
+  return next();
+};

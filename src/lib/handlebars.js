@@ -5,16 +5,25 @@ import { minify } from 'html-minifier';
 import { createInput, createLabel, createSelect, createTextarea } from './form';
 import { isDefined } from './utils/is';
 import { pick, stringify } from './utils/object';
+import { year, month, day } from './utils/date';
 
 // Configuration
 import { $html } from './config';
 
 export function renderSchema(options) {
   const inputOptions = { hash: {} };
+  const hiddenOptions = { hash: {} };
   const textareaOptions = { hash: {} };
   const labelOptions = { hash: {} };
   const selectOptions = { hash: {} };
   const submitOptions = { hash: {} };
+
+  const hiddenElements = {
+    createdAt: `${year()}/${month()}/${day()}`,
+    year: year(),
+    month: month(),
+    day: day()
+  };
 
   let html = '';
 
@@ -25,61 +34,90 @@ export function renderSchema(options) {
 
     Object.keys(schema).forEach(field => {
       if (schema[field].render) {
-        html += '<div class="inputBlock">';
+        if (Object.keys(hiddenElements).indexOf(field) === -1) {
+          html += '<div class="inputBlock">';
 
-        inputOptions.hash.id = field;
-        textareaOptions.hash.id = field;
-        selectOptions.hash.id = field;
+          const errorClass = schema[field].errorMessage ? ' errorBorder' : '';
 
-        inputOptions.hash.class = schema[field].className;
-        textareaOptions.hash.class = schema[field].className;
-        selectOptions.hash.class = schema[field].className;
+          // Assigning input id
+          inputOptions.hash.id = field;
+          textareaOptions.hash.id = field;
+          selectOptions.hash.id = field;
 
-        inputOptions.hash.name = field;
-        textareaOptions.hash.name = field;
-        selectOptions.hash.name = field;
+          // Assigning class name
+          inputOptions.hash.class = schema[field].className + errorClass;
+          textareaOptions.hash.class = schema[field].className + errorClass;
+          selectOptions.hash.class = schema[field].className + errorClass;
 
-        labelOptions.hash.for = field;
-        labelOptions.hash.text = pick(schema[field].label, __);
+          // Assigning name of the input
+          inputOptions.hash.name = field;
+          textareaOptions.hash.name = field;
+          selectOptions.hash.name = field;
 
-        html += label(labelOptions);
+          // If an input is required...
+          if (schema[field].required) {
+            // inputOptions.hash.required = true;
+            // textareaOptions.hash.required = true;
+            // selectOptions.hash.required = true;
+          }
 
-        if (field === 'author') {
-          inputOptions.hash.value = userInfo.username;
+          // Creating a label
+          labelOptions.hash.for = field;
+
+          if (schema[field].errorMessage) {
+            labelOptions.hash.text = `
+              ${pick(schema[field].label, __)}|${schema[field].errorMessage}
+            `;
+          } else {
+            labelOptions.hash.text = pick(schema[field].label, __);
+          }
+
+          html += label(labelOptions);
+
+          if (field === 'author') {
+            inputOptions.hash.value = userInfo.username;
+          }
+
+          if (field === 'content') {
+            html += `
+              <div>
+                <a id="insertAd" class="pointer" title="Insert Ad">
+                  <i class="fa fa-google"></i>
+                </a>
+                <a id="insertCode" class="pointer" title="Insert Code">
+                  <i class="fa fa-code"></i>
+                </a>
+                <a id="insertMedia" class="pointer" title="Insert Media">
+                  <i class="fa fa-picture-o"></i>
+                </a>
+              </div>
+            `;
+          }
+
+          if (schema[field].options) {
+            selectOptions.hash.options = pick(schema[field].options, __);
+          }
+
+          html += '<p>';
+
+          if (schema[field].type === 'input') {
+            html += input(inputOptions);
+          } else if (schema[field].type === 'textarea') {
+            html += textarea(textareaOptions);
+          } else if (schema[field].type === 'select') {
+            html += select(selectOptions);
+          }
+
+          html += '</p>';
+          html += '</div>';
+        } else {
+          hiddenOptions.hash.id = field;
+          hiddenOptions.hash.name = field;
+
+          hiddenOptions.hash.value = hiddenElements[field];
+
+          html += hidden(hiddenOptions);
         }
-
-        if (field === 'content') {
-          html += `
-            <div>
-              <a id="insertAd" class="pointer" title="Insert Ad">
-                <i class="fa fa-google"></i>
-              </a>
-              <a id="insertCode" class="pointer" title="Insert Code">
-                <i class="fa fa-code"></i>
-              </a>
-              <a id="insertMedia" class="pointer" title="Insert Media">
-                <i class="fa fa-picture-o"></i>
-              </a>
-            </div>
-          `;
-        }
-
-        if (schema[field].options) {
-          selectOptions.hash.options = pick(schema[field].options, __);
-        }
-
-        html += '<p>';
-
-        if (schema[field].type === 'input') {
-          html += input(inputOptions);
-        } else if (schema[field].type === 'textarea') {
-          html += textarea(textareaOptions);
-        } else if (schema[field].type === 'select') {
-          html += select(selectOptions);
-        }
-
-        html += '</p>';
-        html += '</div>';
       }
     });
 
@@ -206,10 +244,6 @@ export function lt(value1, value2, options) {
 
 export function lte(value1, value2, options) {
   return value1 <= value2 ? options.fn(this) : options.inverse(this);
-}
-
-export function now() {
-  return new Date();
 }
 
 export function password(options) {

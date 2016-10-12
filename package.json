@@ -7,10 +7,6 @@
     "type": "git",
     "url": "git://github.com/MilkZoft/MakingDevelopers.git"
   },
-  "scripts": {
-    "build": "webpack",
-    "start": "nodemon src/server"
-  },
   "config": {
     "ghooks": {
       "pre-commit": "gulp analyze",

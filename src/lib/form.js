@@ -1,5 +1,3 @@
-import { md5 } from './utils/security';
-
 export function createInput(attrs) {
   let html = '<input ';
   const type = attrs.type;
@@ -15,11 +13,7 @@ export function createInput(attrs) {
   }
 
   Object.keys(attrs).forEach(attr => {
-    let value = attrs[attr];
-
-    if (attr === 'name') {
-      value = md5(value);
-    }
+    const value = attrs[attr];
 
     if (value !== '') {
       html += `${attr}="${value}" `;
@@ -47,11 +41,7 @@ export function createTextarea(attrs) {
   elements.forEach(attr => {
     i++;
 
-    let value = attrs[attr];
-
-    if (attr === 'name') {
-      value = md5(value);
-    }
+    const value = attrs[attr];
 
     if (attr === 'value' && value !== '') {
       content = value;
@@ -88,11 +78,7 @@ export function createSelect(attrs) {
   elements.forEach(attr => {
     i++;
 
-    let value = attrs[attr];
-
-    if (attr === 'name') {
-      value = md5(value);
-    }
+    const value = attrs[attr];
 
     if (attr !== 'value' && value !== '') {
       html += i === elements.length - 1 ? `${attr}="${value}" ` : `${attr}="${value}" `;
@@ -128,7 +114,13 @@ export function createLabel(attrs, text) {
     html += `${attr}="${value}" `;
   });
 
-  html += `>${text}</label>`;
+  const parts = text.split('|');
+
+  if (parts.length > 1) {
+    html += `>${parts[0]} <span class="errorMessage">${parts[1]}</label>`;
+  } else {
+    html += `>${text}</label>`;
+  }
 
   return html;
 }

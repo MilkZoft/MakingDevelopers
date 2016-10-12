@@ -26,7 +26,7 @@
     "brace-style": [2, 1tbs],
     "callback-return": 2,
     "comma-dangle": [2, never],
-    "complexity": [2, 8],
+    "complexity": [2, 15],
     "curly": 2,
     "dot-location": [2, property],
     "dot-notation": 2,
