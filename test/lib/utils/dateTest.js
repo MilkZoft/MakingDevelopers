@@ -62,7 +62,8 @@ describe('@Date', () => {
       const isValidMinute = isMinute(time[1]);
       const isValidSecond = isSecond(time[2]);
 
-      assert.isTrue(isValidYear && isValidMonth && isValidDay && isValidHour && isValidMinute && isValidSecond,
+      assert.isTrue(
+        isValidYear && isValidMonth && isValidDay && isValidHour && isValidMinute && isValidSecond,
         'should be a valid date YYYY-MM-DD HH:MM:SS'
       );
     });
