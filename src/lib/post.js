@@ -19,11 +19,13 @@ export default (req, res, next) => {
   return next();
 
   function action() {
-    return req.params.action === 'create' || req.params.action === 'edit' ? `${req.params.action}Action` : 'readAction';
+    return req.params.action === 'create' || req.params.action === 'edit'
+      ? `${req.params.action}Action`
+      : 'readAction';
   }
 
-  function debug(letiable) {
-    res.send(letiable);
+  function debug(variable) {
+    res.send(variable);
   }
 
   function getAllPost(options) {
@@ -55,8 +57,6 @@ export default (req, res, next) => {
           values[key] = postData[key];
         }
       });
-
-      refreshSecurityToken();
 
       return values;
     }

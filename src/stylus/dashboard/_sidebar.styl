@@ -2,6 +2,9 @@
     float left
     width 200px
 
+    @media Tablet
+        display none
+
     ul
         resetList()
         position relative
@@ -27,30 +30,8 @@
 
             &:hover
                 background-color #181818
-            &.dashboard
-                &::before
-                    icon('f0e4', $lightGray, 1em, 0px, 0px, -20px)
-            &.ads
-                &::before
-                    icon('f0a1', $lightGray, 1em, 0px, 0px, -20px)
-            &.blog
-                &::before
-                    icon('f02d', $lightGray, 1em, 0px, 0px, -20px)
-            &.config
-                &::before
-                    icon('f013', $lightGray, 1em, 0px, 0px, -20px)
-            &.feedback
-                &::before
-                    icon('f0e0', $lightGray, 1em, 0px, 0px, -20px)
-            &.pages
-                &::before
-                    icon('f1ea', $lightGray, 1em, 0px, 0px, -20px)
-            &.polls
-                &::before
-                    icon('f0f6', $lightGray, 1em, 0px, 0px, -20px)
-            &.users
-                &::before
-                    icon('f0c0', $lightGray, 1em, 0px, 0px, -20px)
-            &.logout
-                &::before
-                    icon('f0a5', $lightGray, 1em, 0px, 0px, -20px)
+
+    .credits
+        fontSize(12px)
+        color $white
+        text-align center

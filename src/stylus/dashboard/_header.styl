@@ -1,17 +1,64 @@
 .MainHeader
-    background-color $almostBlack
+    bg($almostBlack)
     color $white
     height 40px
     width 100%
 
     .logo
         font(Oswald)
-        float left
+        position(absolute)
         margin-left 10px
         margin-top 10px
         text-transform uppercase
 
+    .credits
+        centerAbsolute(130px, 12px)
+        fontSize(12px)
+        position(absolute)
+
+        a
+            resetLink($blue)
+            font-weight bold
+
+            &:hover
+                color $lightGray
+
     .user
-        float right
-        margin-right 10px
-        margin-top 10px
+        fontSize(14px)
+        position(absolute)
+        right 10px
+        top 12px
+
+    .menu
+        display none
+
+        ul
+            resetList()
+            center(0, 90%)
+            padding-top 20px
+
+            li
+                fontSize(16px, bold)
+                uppercase()
+                height 40px
+                line-height 40px
+                position relative
+                text-indent 100px
+                text-align center
+
+                a
+                    resetLink($white)
+                    padding 10px
+
+                    &:hover
+                        bg($white)
+                        color $black
+
+        @media Tablet
+            bg($almostBlack)
+            position(absolute)
+            display block
+            padding-bottom 20px
+            top 40px
+            width 100%
+            z-index 1000

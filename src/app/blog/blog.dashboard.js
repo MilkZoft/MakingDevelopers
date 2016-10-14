@@ -48,11 +48,16 @@ export default (req, res, next) => {
 
       if (userInfo) {
         if (res.isPost()) {
+          // Retreiving all post data
           const post = res.getAllPost();
 
+          // Trying to save the post
           res.BlogModel.savePost(post, (result, errors) => {
+            // Do we have some errors?
             if (errors) {
+              // Getting the schema to re-render the form.
               res.BlogModel.getSchema(schema => {
+                // Assigning the error messages to the schema
                 Object.keys(errors).forEach(error => {
                   if (schema[error]) {
                     schema[error].errorMessage = errors[error];
@@ -60,10 +65,13 @@ export default (req, res, next) => {
                 });
 
                 res.renderScope.set('schema', schema);
+                res.renderScope.set('flashData', post);
                 res.render(createView, res.renderScope.get());
               });
+            } else {
+              // res.send('POST GUARDADO', result, errors);
+              res.refreshSecurityToken();
             }
-            // res.send('POST GUARDADO', result, errors);
           });
         } else {
           res.BlogModel.getSchema(schema => {

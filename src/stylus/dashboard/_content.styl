@@ -3,6 +3,9 @@
     min-width 80%
     margin-bottom 40px
 
+    @media Tablet
+        position(absolute, false, false, false, 8%)
+
     .Create
         .errorBorder
             border 1px solid red
@@ -56,6 +59,12 @@
 
         .submit
             text-transform capitalize
+
+            @media Tablet
+                display block
+                margin-bottom 90px
+                margin-top: 30px
+                width 25%
 
         #codes
             font('Source Code Pro', 12px)

@@ -63,7 +63,6 @@ export function createSelect(attrs) {
   let value;
   let i = 0;
 
-
   if (attrs.hasOwnProperty('options')) {
     options = attrs.options.split('|');
     delete attrs.options;
@@ -92,7 +91,13 @@ export function createSelect(attrs) {
       value = option.substr(0, option.indexOf(':'));
       option = option.substr(option.indexOf(':') + 1);
 
-      html += `<option value="${value}">${option}</option>`;
+      let selected = '';
+
+      if (value === attrs.selectedOption) {
+        selected = ' selected';
+      }
+
+      html += `<option value="${value}"${selected}>${option}</option>`;
     } else {
       html += `<option>${option}</option>`;
     }

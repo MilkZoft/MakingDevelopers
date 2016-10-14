@@ -17,11 +17,12 @@ export default class Html extends Component {
       <html>
         <head>
           <base href={baseUrl} />
-          {helmet.title.toComponent()}
+          <link href="images/favicon.png" rel="icon" type="image/png" />
           {helmet.base.toComponent()}
-          {helmet.meta.toComponent()}
           {helmet.link.toComponent()}
+          {helmet.meta.toComponent()}
           {helmet.script.toComponent()}
+          {helmet.title.toComponent()}
           {linkStyles}
         </head>
         <body dangerouslySetInnerHTML={{ __html: bodyHtml }} />

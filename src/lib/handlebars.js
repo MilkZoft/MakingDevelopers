@@ -31,6 +31,7 @@ export function renderSchema(options) {
     const schema = options.hash.schema;
     const userInfo = options.hash.userInfo;
     const __ = options.hash.__;
+    const flashData = options.hash.flashData;
 
     Object.keys(schema).forEach(field => {
       if (schema[field].render) {
@@ -53,6 +54,12 @@ export function renderSchema(options) {
           inputOptions.hash.name = field;
           textareaOptions.hash.name = field;
           selectOptions.hash.name = field;
+
+          // Flash Data
+          if (flashData) {
+            inputOptions.hash.value = flashData[field] || '';
+            textareaOptions.hash.value = flashData[field] || '';
+          }
 
           // If an input is required...
           if (schema[field].required) {
@@ -96,6 +103,11 @@ export function renderSchema(options) {
 
           if (schema[field].options) {
             selectOptions.hash.options = pick(schema[field].options, __);
+
+            // Flash data for selected options
+            if (flashData) {
+              selectOptions.hash.selectedOption = flashData[field] || '';
+            }
           }
 
           html += '<p>';
@@ -113,7 +125,6 @@ export function renderSchema(options) {
         } else {
           hiddenOptions.hash.id = field;
           hiddenOptions.hash.name = field;
-
           hiddenOptions.hash.value = hiddenElements[field];
 
           html += hidden(hiddenOptions);

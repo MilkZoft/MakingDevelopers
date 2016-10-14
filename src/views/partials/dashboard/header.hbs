@@ -1,4 +1,37 @@
 <header class="MainHeader">
     <div class="logo">Mastodone</div>
+    <div class="credits">Powered by <a href="https://www.codejobs.biz" target="_blank">Codejobs</a></div>
     <div class="user">{{ userInfo.username }}</div>
+
+    <div class="menu">
+        <ul>
+            <li class="dashboardIcon">
+                <a href="{{ basePath }}/dashboard" class="module">{{ __.Dashboard.modules.dashboard.name }}</a>
+            </li>
+            <li class="adsIcon">
+                <a href="{{ basePath }}/dashboard/ads" class="module">{{ __.Dashboard.modules.ads.name }}</a>
+            </li>
+            <li class="blogIcon">
+                <a href="{{ basePath }}/dashboard/blog" class="module">{{ __.Dashboard.modules.blog.name }}</a>
+            </li>
+            <li class="configIcon">
+                <a href="{{ basePath }}/dashboard/config" class="module">{{ __.Dashboard.modules.config.name }}</a>
+            </li>
+            <li class="feedbackIcon">
+                <a href="{{ basePath }}/dashboard/feedback" class="module">{{ __.Dashboard.modules.feedback.name }}</a>
+            </li>
+            <li class="pagesIcon">
+                <a href="{{ basePath }}/dashboard/pages" class="module">{{ __.Dashboard.modules.pages.name }}</a>
+            </li>
+            <li class="pollsIcon">
+                <a href="{{ basePath }}/dashboard/polls" class="module">{{ __.Dashboard.modules.polls.name }}</a>
+            </li>
+            <li class="usersIcon">
+                <a href="{{ basePath }}/dashboard/users" class="module">{{ __.Dashboard.modules.users.name }}</a>
+            </li>
+            <li class="logoutIcon">
+                <a href="{{ basePath }}/users/logout" class="module">{{ __.Dashboard.modules.logout.name }}</a>
+            </li>
+        </ul>
+    </div>
 </header>
