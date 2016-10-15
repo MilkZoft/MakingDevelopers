@@ -1,7 +1,6 @@
 // NPM Dependencies
 import eslint from 'gulp-eslint';
 import gulp from 'gulp';
-import livereload from 'gulp-livereload';
 import nodemon from 'gulp-nodemon';
 import notify from 'gulp-notify';
 import stylus from 'gulp-stylus';
@@ -9,6 +8,7 @@ import mocha from 'gulp-mocha';
 import remoteSrc from 'gulp-remote-src';
 import jsonFormat from 'gulp-json-format';
 import concat from 'gulp-concat';
+import runSequence from 'run-sequence';
 
 // Configuration
 import { $baseUrl } from './src/lib/config';
@@ -72,32 +72,30 @@ gulp.task('stylus', () => {
     .pipe(stylus({
       compress: true
     }))
-    .pipe(livereload())
     .pipe(gulp.dest('src/public/css'));
-});
-
-// Livereload task
-gulp.task('livereload', () => {
-  livereload({ start: true });
 });
 
 // Start dev task
 gulp.task('start-dev', () => {
-  livereload.listen();
-
-  gulp.watch('src/stylus/*.styl', ['stylus']);
-
   nodemon({
     script: 'src/server',
     ext: 'js',
+    ignore: [
+      'src/public/js/all.js',
+      'src/public/js/vendor.js'
+    ],
     env: {
       'NODE_ENV': 'development'
     }
-  }).on('restart', () => {
+  })
+  .on('restart', () => {
     gulp
       .src('src/server')
-      .pipe(livereload())
       .pipe(notify('Reloading page, please wait...'));
+
+    setTimeout(() => {
+      runSequence('vendor', 'all', 'content');
+    }, 3000);
   });
 });
 
@@ -112,5 +110,11 @@ gulp.task('start', () => {
   });
 });
 
+gulp.task('init', () => {
+  setTimeout(() => {
+    runSequence('vendor', 'all', 'content');
+  }, 5000);
+});
+
 // Default task
-gulp.task('default', ['livereload', 'vendor', 'all', 'start-dev']);
+gulp.task('default', ['start-dev', 'init']);
