@@ -1,6 +1,6 @@
 <div class="Create">
     <form action="{{ basePath }}/dashboard/blog/create" method="post">
-        <h2>{{{ icon "fa-plus" }}} {{ section }}</h2>
+        <h2>{{{ icon "plus" }}} {{ section }}</h2>
 
         {{#if message }}
             <h3>{{{ message }}}</h3>
@@ -12,8 +12,7 @@
                 flashData = flashData
                 userInfo = userInfo
                 __ = __
+                securityToken = securityToken
         }}}
-
-        {{{ token securityToken }}}
     </form>
 </div>
