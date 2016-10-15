@@ -11,13 +11,15 @@ export default (req, res, next) => {
   // Global vars
   const table = 'blog';
 
+  res.content('Dashboard.forms.fields.error', true);
+
   // Required fields
   const requiredFields = {
-    title: res.__.Dashboard.forms.fields.error.title,
-    slug: res.__.Dashboard.forms.fields.error.slug,
-    excerpt: res.__.Dashboard.forms.fields.error.excerpt,
-    content: res.__.Dashboard.forms.fields.error.content,
-    author: res.__.Dashboard.forms.fields.error.author
+    title: res.content('title'),
+    slug: res.content('slug'),
+    excerpt: res.content('excerpt'),
+    content: res.content('content'),
+    author: res.content('author')
   };
 
   function getSchema(callback) {

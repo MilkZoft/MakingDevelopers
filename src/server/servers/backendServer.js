@@ -75,7 +75,6 @@ export default () => {
 
   // Handlebars setup
   app.engine($views().engine, exphbs({
-    defaultLayout: $views().layout,
     extname: $views().extension,
     helpers: hbsHelper,
     layoutsDir: path.join(__dirname, '/../../views/layouts'),

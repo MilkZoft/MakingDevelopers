@@ -407,7 +407,17 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (109, 'Home.welcome', 'Welcome', 'en'),
 (110, 'Home.welcome', 'Bienvenidos', 'es'),
 (111, 'Site.errors.error404', 'Error 404: Página no encontrada', 'es'),
-(112, 'Site.errors.error404', 'Error 404: Page Not Found', 'en');
+(112, 'Site.errors.error404', 'Error 404: Page Not Found', 'en'),
+(113, 'Dashboard.forms.fields.error.title', 'You need to write a title', 'en'),
+(114, 'Dashboard.forms.fields.error.title', 'Necesitas escribir un título', 'es'),
+(115, 'Dashboard.forms.fields.error.slug', 'The friendly url is missing', 'en'),
+(116, 'Dashboard.forms.fields.error.slug', 'La URL amigable es obligatoria', 'es'),
+(117, 'Dashboard.forms.fields.error.excerpt', 'The excerpt is missing', 'en'),
+(118, 'Dashboard.forms.fields.error.excerpt', 'El abstracto es obligatorio', 'es'),
+(119, 'Dashboard.forms.fields.error.content', 'Write some content for the post', 'en'),
+(120, 'Dashboard.forms.fields.error.content', 'Escribe algún contenido para la publicación', 'es'),
+(121, 'Dashboard.forms.fields.error.author', 'Who is writing this post?', 'en'),
+(122, 'Dashboard.forms.fields.error.author', '¿Quién está escribiendo esta publicación?', 'es');
 
 -- --------------------------------------------------------
 
