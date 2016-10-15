@@ -30,11 +30,14 @@
         top 12px
 
     .menu
-        display none
+        .fa-caret-down
+            cursor(pointer)
+            fontSize(80px)
+            centerAbsolute(28px, false, -45px)
+            color $almostBlack
 
         ul
             resetList()
-            center(0, 90%)
             padding-top 20px
 
             li
@@ -43,16 +46,19 @@
                 height 40px
                 line-height 40px
                 position relative
-                text-indent 100px
-                text-align center
+                text-indent 10px
 
                 a
                     resetLink($white)
                     padding 10px
 
+                    .fa
+                        display inline
+
                     &:hover
                         bg($white)
                         color $black
+
 
         @media Tablet
             bg($almostBlack)

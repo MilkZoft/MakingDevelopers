@@ -1,6 +1,14 @@
 /* eslint no-alert: 0 */
 // Events
 (function() {
+  $('#openMenu').on('click', (e) => {
+    if ($('#menu').hasClass('hidden')) {
+      $('#menu').removeClass('hidden');
+    } else {
+      $('#menu').addClass('hidden');
+    }
+  });
+
   // When user writes the post title, then we add a slug for friendlyUrl field
   $('#title').on('keyup', () => {
     $('#slug').val(slug($('#title').val()));

@@ -1,3 +1,5 @@
+$sidebarBgColorOnHover = #181818;
+
 .Sidebar
     float left
     width 200px
@@ -29,7 +31,35 @@
                     color $lightGray
 
             &:hover
-                background-color #181818
+                background-color $sidebarBgColorOnHover
+
+            &.dashboardIcon
+                &::before
+                    icon('f0e4', $lightGray, 1em, 0px, 0px, -20px)
+            &.adsIcon
+                &::before
+                    icon('f0a1', $lightGray, 1em, 0px, 0px, -20px)
+            &.blogIcon
+                &::before
+                    icon('f02d', $lightGray, 1em, 0px, 0px, -20px)
+            &.configIcon
+                &::before
+                    icon('f013', $lightGray, 1em, 0px, 0px, -20px)
+            &.feedbackIcon
+                &::before
+                    icon('f0e0', $lightGray, 1em, 0px, 0px, -20px)
+            &.pagesIcon
+                &::before
+                    icon('f1ea', $lightGray, 1em, 0px, 0px, -20px)
+            &.pollsIcon
+                &::before
+                    icon('f0f6', $lightGray, 1em, 0px, 0px, -20px)
+            &.usersIcon
+                &::before
+                    icon('f0c0', $lightGray, 1em, 0px, 0px, -20px)
+            &.logoutIcon
+                &::before
+                    icon('f0a5', $lightGray, 1em, 0px, 0px, -20px)
 
     .credits
         fontSize(12px)
