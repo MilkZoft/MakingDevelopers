@@ -3,21 +3,152 @@ import { minify } from 'html-minifier';
 
 // Local Dependencies
 import { createInput, createLabel, createSelect, createTextarea } from './form';
-import { isDefined } from './utils/is';
+import { isDefined, isUndefined } from './utils/is';
 import { pick, stringify } from './utils/object';
 import { year, month, day } from './utils/date';
 
 // Configuration
 import { $html } from './config';
 
-export function renderSchema(options) {
+function getInputOptions(schema, field, errorClass, userInfo, flashData) {
   const inputOptions = { hash: {} };
+
+  inputOptions.hash.id = field;
+  inputOptions.hash.class = schema[field].className + errorClass;
+  inputOptions.hash.name = field;
+
+  if (field === 'author') {
+    inputOptions.hash.value = userInfo.username;
+  }
+
+  if (flashData) {
+    inputOptions.hash.value = flashData[field] || '';
+  }
+
+  inputOptions.hash.required = !!schema[field].required;
+
+  return inputOptions;
+}
+
+function getHiddenOptions(field, hiddenElements) {
   const hiddenOptions = { hash: {} };
+
+  hiddenOptions.hash.id = field;
+  hiddenOptions.hash.name = field;
+  hiddenOptions.hash.value = hiddenElements[field];
+
+  return hiddenOptions;
+}
+
+function getTextareaOptions(schema, field, errorClass, flashData) {
   const textareaOptions = { hash: {} };
+
+  textareaOptions.hash.id = field;
+  textareaOptions.hash.class = schema[field].className + errorClass;
+  textareaOptions.hash.name = field;
+  textareaOptions.hash.required = !!schema[field].required;
+
+  if (flashData) {
+    textareaOptions.hash.value = flashData[field] || '';
+  }
+
+  return textareaOptions;
+}
+
+function getLabelOptions(schema, field, __) {
   const labelOptions = { hash: {} };
+
+  labelOptions.hash.for = field;
+
+  if (schema[field].errorMessage) {
+    labelOptions.hash.text = `
+      ${pick(schema[field].label, __)}|${schema[field].errorMessage}
+    `;
+  } else {
+    labelOptions.hash.text = pick(schema[field].label, __);
+  }
+
+  return labelOptions;
+}
+
+function getSelectOptions(schema, field, errorClass, flashData, __) {
   const selectOptions = { hash: {} };
+
+  selectOptions.hash.id = field;
+  selectOptions.hash.class = schema[field].className + errorClass;
+  selectOptions.hash.name = field;
+
+  if (schema[field].options) {
+    selectOptions.hash.options = pick(schema[field].options, __);
+
+    // Flash data for selected options
+    if (flashData) {
+      selectOptions.hash.selectedOption = flashData[field] || '';
+    }
+  }
+
+  selectOptions.hash.required = !!schema[field].required;
+
+  return selectOptions;
+}
+
+function getSubmitOptions(__) {
   const submitOptions = { hash: {} };
 
+  submitOptions.hash.id = 'publish';
+  submitOptions.hash.class = 'btn btn-success';
+  submitOptions.hash.name = 'publish';
+  submitOptions.hash.value = __.Dashboard.forms.fields.save;
+
+  return submitOptions;
+}
+
+function getContentInsertOptionsHTML() {
+  return `
+    <div>
+      <a id="insertAd" class="pointer" title="Insert Ad">
+        <i class="fa fa-google"></i>
+      </a>
+      <a id="insertCode" class="pointer" title="Insert Code">
+        <i class="fa fa-code"></i>
+      </a>
+      <a id="insertMedia" class="pointer" title="Insert Media">
+        <i class="fa fa-picture-o"></i>
+      </a>
+    </div>
+  `;
+}
+
+function renderFormElements(schema, __, field, errorClass, userInfo, flashData) {
+  let html = '<div class="inputBlock">';
+
+  html += label(getLabelOptions(schema, field, __));
+
+  if (field === 'content') {
+    html += getContentInsertOptionsHTML();
+  }
+
+  html += '<p>';
+
+  html += input(getInputOptions(schema, field, errorClass, userInfo, flashData), schema[field].type);
+  html += textarea(getTextareaOptions(schema, field, errorClass, flashData), schema[field].type);
+  html += select(getSelectOptions(schema, field, errorClass, flashData, __), schema[field].type);
+
+  html += '</p>';
+  html += '</div>';
+
+  return html;
+}
+
+export function renderSchema(options) {
+  let html = '';
+
+  const schema = options.hash.schema;
+  const userInfo = options.hash.userInfo;
+  const __ = options.hash.__;
+  const flashData = options.hash.flashData;
+
+  // This should come from blog model
   const hiddenElements = {
     createdAt: `${year()}/${month()}/${day()}`,
     year: year(),
@@ -25,124 +156,21 @@ export function renderSchema(options) {
     day: day()
   };
 
-  let html = '';
+  Object.keys(schema).forEach(field => {
+    if (schema[field].render) {
+      if (Object.keys(hiddenElements).indexOf(field) === -1) {
+        const errorClass = schema[field].errorMessage ? ' errorBorder' : '';
 
-  if (options.hash) {
-    const schema = options.hash.schema;
-    const userInfo = options.hash.userInfo;
-    const __ = options.hash.__;
-    const flashData = options.hash.flashData;
-
-    Object.keys(schema).forEach(field => {
-      if (schema[field].render) {
-        if (Object.keys(hiddenElements).indexOf(field) === -1) {
-          html += '<div class="inputBlock">';
-
-          const errorClass = schema[field].errorMessage ? ' errorBorder' : '';
-
-          // Assigning input id
-          inputOptions.hash.id = field;
-          textareaOptions.hash.id = field;
-          selectOptions.hash.id = field;
-
-          // Assigning class name
-          inputOptions.hash.class = schema[field].className + errorClass;
-          textareaOptions.hash.class = schema[field].className + errorClass;
-          selectOptions.hash.class = schema[field].className + errorClass;
-
-          // Assigning name of the input
-          inputOptions.hash.name = field;
-          textareaOptions.hash.name = field;
-          selectOptions.hash.name = field;
-
-          // Flash Data
-          if (flashData) {
-            inputOptions.hash.value = flashData[field] || '';
-            textareaOptions.hash.value = flashData[field] || '';
-          }
-
-          // If an input is required...
-          if (schema[field].required) {
-            // inputOptions.hash.required = true;
-            // textareaOptions.hash.required = true;
-            // selectOptions.hash.required = true;
-          }
-
-          // Creating a label
-          labelOptions.hash.for = field;
-
-          if (schema[field].errorMessage) {
-            labelOptions.hash.text = `
-              ${pick(schema[field].label, __)}|${schema[field].errorMessage}
-            `;
-          } else {
-            labelOptions.hash.text = pick(schema[field].label, __);
-          }
-
-          html += label(labelOptions);
-
-          if (field === 'author') {
-            inputOptions.hash.value = userInfo.username;
-          }
-
-          if (field === 'content') {
-            html += `
-              <div>
-                <a id="insertAd" class="pointer" title="Insert Ad">
-                  <i class="fa fa-google"></i>
-                </a>
-                <a id="insertCode" class="pointer" title="Insert Code">
-                  <i class="fa fa-code"></i>
-                </a>
-                <a id="insertMedia" class="pointer" title="Insert Media">
-                  <i class="fa fa-picture-o"></i>
-                </a>
-              </div>
-            `;
-          }
-
-          if (schema[field].options) {
-            selectOptions.hash.options = pick(schema[field].options, __);
-
-            // Flash data for selected options
-            if (flashData) {
-              selectOptions.hash.selectedOption = flashData[field] || '';
-            }
-          }
-
-          html += '<p>';
-
-          if (schema[field].type === 'input') {
-            html += input(inputOptions);
-          } else if (schema[field].type === 'textarea') {
-            html += textarea(textareaOptions);
-          } else if (schema[field].type === 'select') {
-            html += select(selectOptions);
-          }
-
-          html += '</p>';
-          html += '</div>';
-        } else {
-          hiddenOptions.hash.id = field;
-          hiddenOptions.hash.name = field;
-          hiddenOptions.hash.value = hiddenElements[field];
-
-          html += hidden(hiddenOptions);
-        }
+        html += renderFormElements(schema, __, field, errorClass, userInfo, flashData);
+      } else {
+        html += hidden(getHiddenOptions(field, hiddenElements));
       }
-    });
+    }
+  });
 
-    submitOptions.hash.id = 'publish';
-    submitOptions.hash.class = 'btn btn-success';
-    submitOptions.hash.name = 'publish';
-    submitOptions.hash.value = __.Dashboard.forms.fields.save;
+  html += submit(getSubmitOptions(__));
 
-    html += submit(submitOptions);
-
-    return html;
-  }
-
-  return false;
+  return html;
 }
 
 export function ceil(number) {
@@ -217,12 +245,14 @@ export function icon(icon) {
   return `<i class="fa ${icon}"></i>`;
 }
 
-export function input(options) {
-  if (isDefined(options.hash)) {
+export function input(options, type) {
+  if (isDefined(type) && type === 'input' && isDefined(options.hash)) {
+    return createInput(options.hash);
+  } else if (isUndefined(type) && isDefined(options.hash)) {
     return createInput(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function is(variable, value, options) {
@@ -242,7 +272,7 @@ export function label(options) {
     return createLabel(options.hash, options.hash.text ? options.hash.text : '');
   }
 
-  return false;
+  return '';
 }
 
 export function lowercase(str) {
@@ -266,7 +296,7 @@ export function password(options) {
     return createInput(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function radio(options) {
@@ -276,19 +306,21 @@ export function radio(options) {
     return createInput(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function reverse(str) {
   return str.split('').reverse().join('');
 }
 
-export function select(options) {
-  if (isDefined(options.hash)) {
+export function select(options, type) {
+  if (isDefined(type) && type === 'select' && isDefined(options.hash)) {
+    return createSelect(options.hash);
+  } else if (isUndefined(type) && isDefined(options.hash)) {
     return createSelect(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function submit(options) {
@@ -304,15 +336,17 @@ export function submit(options) {
     return createInput(options.hash);
   }
 
-  return false;
+  return '';
 }
 
-export function textarea(options) {
-  if (isDefined(options.hash)) {
+export function textarea(options, type) {
+  if (isDefined(type) && type === 'textarea' && isDefined(options.hash)) {
+    return createTextarea(options.hash);
+  } else if (isUndefined(type) && isDefined(options.hash)) {
     return createTextarea(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function token(securityToken) {
@@ -326,7 +360,7 @@ export function token(securityToken) {
     return createInput(options);
   }
 
-  return false;
+  return '';
 }
 
 export function uppercase(str) {

@@ -1,4 +1,8 @@
 export function createInput(attrs) {
+  if (!attrs) {
+    return '';
+  }
+
   let html = '<input ';
   const type = attrs.type;
   const hasType = attrs.hasOwnProperty('type');
@@ -26,6 +30,10 @@ export function createInput(attrs) {
 }
 
 export function createTextarea(attrs) {
+  if (!attrs) {
+    return '';
+  }
+
   let html = '<textarea ';
   let content = '';
   let i = 0;
@@ -56,6 +64,10 @@ export function createTextarea(attrs) {
 }
 
 export function createSelect(attrs) {
+  if (!attrs) {
+    return '';
+  }
+
   let options;
   const type = attrs.type;
   const hasClass = attrs.hasOwnProperty('class');
@@ -111,6 +123,10 @@ export function createSelect(attrs) {
 }
 
 export function createLabel(attrs, text) {
+  if (!attrs) {
+    return '';
+  }
+
   let html = '<label ';
 
   Object.keys(attrs).forEach(attr => {
