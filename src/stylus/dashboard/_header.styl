@@ -2,7 +2,12 @@
     bg($almostBlack)
     color $white
     height 40px
+    position relative
     width 100%
+    z-index 1100
+
+    @media Tablet
+        position fixed
 
     .logo
         font(Oswald)
@@ -30,12 +35,6 @@
         top 12px
 
     .menu
-        .fa-caret-down
-            cursor(pointer)
-            fontSize(80px)
-            centerAbsolute(28px, false, -45px)
-            color $almostBlack
-
         ul
             resetList()
             padding-top 20px
@@ -56,6 +55,8 @@
                         display inline
 
                     &:hover
+                    &:focus
+                    &:active
                         bg($white)
                         color $black
 
@@ -63,8 +64,25 @@
         @media Tablet
             bg($almostBlack)
             position(absolute)
-            display block
             padding-bottom 20px
             top 40px
             width 100%
             z-index 1000
+
+    #openMenu
+        .fa-caret-down
+            display none
+
+        @media Tablet
+            z-index 1000
+            &.opened
+                centerAbsolute(28px, false, -445px)
+            &.closed
+                centerAbsolute(28px, false, -45px)
+            .fa-caret-down
+                cursor(pointer)
+                fontSize(80px)
+                display block
+                color $almostBlack
+
+

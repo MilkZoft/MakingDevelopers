@@ -95,7 +95,7 @@ gulp.task('start-dev', () => {
 
     setTimeout(() => {
       runSequence('vendor', 'all', 'content');
-    }, 3000);
+    }, 4000);
   });
 });
 
@@ -113,7 +113,7 @@ gulp.task('start', () => {
 gulp.task('init', () => {
   setTimeout(() => {
     runSequence('vendor', 'all', 'content');
-  }, 5000);
+  }, 7000);
 });
 
 // Default task

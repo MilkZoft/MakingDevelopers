@@ -3,8 +3,12 @@
 (function() {
   $('#openMenu').on('click', (e) => {
     if ($('#menu').hasClass('hidden')) {
+      $('#openMenu').removeClass('closed');
+      $('#openMenu').addClass('opened');
       $('#menu').removeClass('hidden');
     } else {
+      $('#openMenu').removeClass('opened');
+      $('#openMenu').addClass('closed');
       $('#menu').addClass('hidden');
     }
   });
