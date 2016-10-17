@@ -34,14 +34,14 @@ export function ternary(condition, value1, value2) {
 }
 
 export function exists(element, obj) {
-  return objectKeys(obj).indexOf(element) !== -1;
+  return keys(obj).indexOf(element) !== -1;
 }
 
 export function forEach(obj, callback) {
-  return objectKeys(obj).forEach(callback);
+  return keys(obj).forEach(callback);
 }
 
-export function objectKeys(obj) {
+export function keys(obj) {
   return Object.keys(obj);
 }
 

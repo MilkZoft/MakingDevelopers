@@ -1,6 +1,7 @@
 // Local Dependencies
 import * as Db from './db/mysql';
-import { isDefined, isNumber } from './utils/is';
+import { isObject, isDefined, isNumber } from './utils/is';
+import { forEach, keys } from './utils/object';
 import { clean } from './utils/string';
 
 /**
@@ -175,6 +176,31 @@ export function getProcedure(procedureName, values, fields, filter) {
   procedure = procedure.replace(', )', ')');
 
   return procedure.replace(new RegExp(', ,', 'g'), ', \'\',');
+}
+
+export function getInsertQuery(table, data) {
+  if (isObject(data)) {
+    const count = keys(data).length - 1;
+    let fields = '';
+    let values = '';
+    let i = 0;
+
+    forEach(data, f => {
+      if (i === count) {
+        fields += f;
+        values += `'${data[f]}'`;
+      } else {
+        fields += `${f}, `;
+        values += `'${data[f]}', `;
+      }
+
+      i++;
+    });
+
+    return `INSERT INTO ${table} (${fields}) VALUES (${values})`;
+  }
+
+  return false;
 }
 
 /**

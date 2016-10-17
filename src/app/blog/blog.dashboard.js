@@ -65,6 +65,7 @@ export default (req, res, next) => {
                 });
 
                 res.renderScope.set('schema', schema);
+                res.renderScope.set('hiddenElements', res.BlogModel.getHiddenElements());
                 res.renderScope.set('flashData', post);
                 res.render(createView, res.renderScope.get());
               });
@@ -76,6 +77,7 @@ export default (req, res, next) => {
         } else {
           res.BlogModel.getSchema(schema => {
             res.renderScope.set('schema', schema);
+            res.renderScope.set('hiddenElements', res.BlogModel.getHiddenElements());
             res.render(createView, res.renderScope.get());
           });
         }

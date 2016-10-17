@@ -92,10 +92,6 @@ gulp.task('start-dev', () => {
     gulp
       .src('src/server')
       .pipe(notify('Reloading page, please wait...'));
-
-    setTimeout(() => {
-      runSequence('vendor', 'all', 'content');
-    }, 4000);
   });
 });
 
@@ -112,8 +108,12 @@ gulp.task('start', () => {
 
 gulp.task('init', () => {
   setTimeout(() => {
-    runSequence('vendor', 'all', 'content');
-  }, 7000);
+    try {
+      runSequence('vendor', 'all', 'content');
+    } catch (e) {
+      console.log(e);
+    }
+  }, 10000);
 });
 
 // Default task

@@ -5,7 +5,6 @@ import { minify } from 'html-minifier';
 import { createInput, createLabel, createSelect, createTextarea } from './form';
 import { isDefined, isUndefined } from './utils/is';
 import { exists, forEach, ternary, stringify } from './utils/object';
-import { year, month, day } from './utils/date';
 import {
   getContentInsertOptionsHTML,
   getHiddenOptions,
@@ -48,14 +47,7 @@ export function renderSchema(options) {
   const __ = options.hash.__;
   const flashData = options.hash.flashData;
   const securityToken = options.hash.securityToken;
-
-  // This should come from blog model
-  const hiddenElements = {
-    createdAt: `${year()}/${month()}/${day()}`,
-    year: year(),
-    month: month(),
-    day: day()
-  };
+  const hiddenElements = options.hash.hiddenElements || {};
 
   forEach(schema, field => {
     if (schema[field].render) {
