@@ -1,6 +1,14 @@
 /* eslint no-alert: 0 */
 // Events
 (function() {
+  $(window).resize(() => {
+    if ($(window).width() > 755) {
+      $('#openMenu').removeClass('opened');
+      $('#openMenu').addClass('closed');
+      $('#menu').addClass('hidden');
+    }
+  });
+
   $('#openMenu').on('click', (e) => {
     if ($('#menu').hasClass('hidden')) {
       $('#openMenu').removeClass('closed');
