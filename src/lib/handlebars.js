@@ -13,7 +13,7 @@ import {
   getSelectOptions,
   getSubmitOptions,
   getTextareaOptions
-} from './utils/formElementsOptions';
+} from './utils/options';
 
 // Configuration
 import { $html } from './config';
@@ -47,7 +47,12 @@ export function renderSchema(options) {
   const __ = options.hash.__;
   const flashData = options.hash.flashData;
   const securityToken = options.hash.securityToken;
-  const hiddenElements = options.hash.hiddenElements || {};
+  const hiddenElements = schema.hiddenElements || {};
+  const alert = schema.alert || false;
+
+  if (alert) {
+    html += `<div class="alert ${alert.type}">${icon(alert.icon)} ${alert.message}</div>`;
+  }
 
   forEach(schema, field => {
     if (schema[field].render) {

@@ -34,6 +34,20 @@ export function escapeString(str) {
   return false;
 }
 
+export function addSlashes(str, doubleQuotesAlso) {
+  if (isDefined(str)) {
+    if (doubleQuotesAlso) {
+      return str
+        .replace(/'/g, '\\\'')
+        .replace(/"/g, '\\\\"');
+    }
+
+    return str.replace(/'/g, '\\\'');
+  }
+
+  return false;
+}
+
 /**
  * Generates a random code
  *

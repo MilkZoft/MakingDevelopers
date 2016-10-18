@@ -87,7 +87,7 @@ export function getSubmitOptions(__) {
   const submitOptions = { hash: {} };
 
   submitOptions.hash.id = 'publish';
-  submitOptions.hash.class = 'btn btn-success';
+  submitOptions.hash.class = 'btn dark';
   submitOptions.hash.name = 'publish';
   submitOptions.hash.value = __.Dashboard.forms.fields.save;
 

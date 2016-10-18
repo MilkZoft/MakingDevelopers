@@ -2,7 +2,7 @@
 import dot from 'dot-object';
 
 // Local Dependencies
-import { isDefined } from './is';
+import { isArray, isDefined } from './is';
 
 /**
  * Returns a JSON from a given JSON String dot notation (Node.child.grandchild)
@@ -38,6 +38,12 @@ export function exists(element, obj) {
 }
 
 export function forEach(obj, callback) {
+  if (isDefined(obj[0]) && isDefined(obj[0].Field)) {
+    return obj.forEach(callback);
+  } else if (isArray(obj)) {
+    return obj.forEach(callback);
+  }
+
   return keys(obj).forEach(callback);
 }
 

@@ -1,6 +1,6 @@
 // Local Dependencies
 import * as Db from './db/mysql';
-import { isObject, isDefined, isNumber } from './utils/is';
+import { isDefined, isNumber } from './utils/is';
 import { forEach, keys } from './utils/object';
 import { clean } from './utils/string';
 
@@ -36,13 +36,14 @@ export function getColumns(table, callback, fn) {
  */
 export function getSchemaFrom(data, callback) {
   const ignoreFields = data.ignoreFields || [];
-  const requiredFields = Object.keys(data.requiredFields) || [];
+  const requiredFields = keys(data.requiredFields) || [];
+  const hiddenElements = data.hiddenElements || {};
 
   getColumns(data.table, callback, (columns, callback) => {
     const schema = {};
 
     if (columns) {
-      columns.forEach(column => {
+      forEach(columns, column => {
         let props = {};
         const field = column.Field;
         const primaryKey = column.Key === 'PRI';
@@ -111,6 +112,8 @@ export function getSchemaFrom(data, callback) {
       });
     }
 
+    schema.hiddenElements = hiddenElements;
+
     return callback(schema);
   });
 }
@@ -178,29 +181,12 @@ export function getProcedure(procedureName, values, fields, filter) {
   return procedure.replace(new RegExp(', ,', 'g'), ', \'\',');
 }
 
-export function getInsertQuery(table, data) {
-  if (isObject(data)) {
-    const count = keys(data).length - 1;
-    let fields = '';
-    let values = '';
-    let i = 0;
+export function insert(table, data, callback) {
+  const sql = Db.getInsertQuery(table, data);
 
-    forEach(data, f => {
-      if (i === count) {
-        fields += f;
-        values += `'${data[f]}'`;
-      } else {
-        fields += `${f}, `;
-        values += `'${data[f]}', `;
-      }
-
-      i++;
-    });
-
-    return `INSERT INTO ${table} (${fields}) VALUES (${values})`;
-  }
-
-  return false;
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
 }
 
 /**

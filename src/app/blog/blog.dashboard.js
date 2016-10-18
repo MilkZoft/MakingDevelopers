@@ -1,8 +1,9 @@
-// NPM Dependencies
+// Dependencies
 import path from 'path';
 
-// Local dependencies
+// Utils
 import { glob } from '../../lib/utils/files';
+import { forEach } from '../../lib/utils/object';
 
 // Application name
 const app = 'blog';
@@ -57,27 +58,44 @@ export default (req, res, next) => {
             if (errors) {
               // Getting the schema to re-render the form.
               res.BlogModel.getSchema(schema => {
+                schema.alert = {
+                  type: 'danger',
+                  icon: 'times',
+                  message: res.content('messages.add.fail')
+                };
+
                 // Assigning the error messages to the schema
-                Object.keys(errors).forEach(error => {
+                forEach(errors, error => {
                   if (schema[error]) {
                     schema[error].errorMessage = errors[error];
                   }
                 });
 
                 res.renderScope.set('schema', schema);
-                res.renderScope.set('hiddenElements', res.BlogModel.getHiddenElements());
                 res.renderScope.set('flashData', post);
                 res.render(createView, res.renderScope.get());
               });
-            } else {
-              // res.send('POST GUARDADO', result, errors);
-              res.refreshSecurityToken();
+            } else if (result) {
+              // Getting the schema to re-render the form.
+              res.BlogModel.getSchema(schema => {
+                // The post was added correclty
+                schema.alert = {
+                  type: 'info',
+                  icon: 'check',
+                  message: res.content('messages.add.success')
+                };
+
+                // Refreshing security token
+                res.refreshSecurityToken();
+
+                res.renderScope.set('schema', schema);
+                res.render(createView, res.renderScope.get());
+              });
             }
           });
         } else {
           res.BlogModel.getSchema(schema => {
             res.renderScope.set('schema', schema);
-            res.renderScope.set('hiddenElements', res.BlogModel.getHiddenElements());
             res.render(createView, res.renderScope.get());
           });
         }

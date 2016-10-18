@@ -1,13 +1,13 @@
 // Model
 import * as Blog from '../../lib/model';
 
-// Local Dependencies
+// Utils
 import { year, month, day } from '../../lib/utils/date';
+import { forEach, keys } from '../../lib/utils/object';
 
 export default (req, res, next) => {
   // Methods
   res.BlogModel = {
-    getHiddenElements,
     getSchema,
     savePost
   };
@@ -34,14 +34,11 @@ export default (req, res, next) => {
     day: day()
   };
 
-  function getHiddenElements() {
-    return hiddenElements;
-  }
-
   function getSchema(callback) {
     const data = {
       table,
-      requiredFields
+      requiredFields,
+      hiddenElements
     };
 
     Blog.getSchemaFrom(data, callback, (schema, noRender, callback) => {
@@ -50,11 +47,11 @@ export default (req, res, next) => {
   }
 
   function savePost(data, callback) {
-    const fields = Object.keys(data);
+    const fields = keys(data);
     let save = true;
     const errorMessages = {};
 
-    fields.forEach(field => {
+    forEach(fields, field => {
       if (requiredFields[field] && data[field] === '') {
         save = false;
         errorMessages[field] = requiredFields[field];
@@ -62,11 +59,9 @@ export default (req, res, next) => {
     });
 
     if (save) {
-      // const insertQuery = Blog.getInsertQuery(table, data);
-
-      /*Blog.query(procedure, callback, (result, callback) => {
+      Blog.insert(table, data, callback, (result, callback) => {
         callback(result);
-      });*/
+      });
     } else {
       return callback(false, errorMessages);
     }

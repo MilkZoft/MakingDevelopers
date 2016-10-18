@@ -4,6 +4,11 @@ import mysql from 'mysql';
 // Configuration
 import { $db } from '../config';
 
+// Utils
+import { addSlashes } from '../utils/string';
+import { isObject } from '../utils/is';
+import { forEach, keys } from '../utils/object';
+
 // Database connection
 const connection = mysql.createConnection({
   database: $db().mysql.database,
@@ -12,6 +17,33 @@ const connection = mysql.createConnection({
   port: $db().mysql.port,
   user: $db().mysql.user
 });
+
+export function getInsertQuery(table, data) {
+  if (isObject(data)) {
+    const count = keys(data).length - 1;
+    let fields = '';
+    let values = '';
+    let i = 0;
+
+    forEach(data, f => {
+      if (i === count) {
+        fields += f;
+        values += `'${addSlashes(data[f])}'`;
+      } else {
+        fields += `${f}, `;
+        values += `'${addSlashes(data[f])}', `;
+      }
+
+      i++;
+    });
+
+    const query = `INSERT INTO ${table} (${fields}) VALUES (${values})`;
+
+    return query;
+  }
+
+  return false;
+}
 
 /**
  * Builds the SQL Query
