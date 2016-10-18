@@ -4,6 +4,7 @@ import { $security } from './config';
 // Utils
 import { now } from './utils/date';
 import { isArray, isDefined, isObject } from './utils/is';
+import { forEach } from './utils/object';
 import { escapeString, removeHTML } from './utils/string';
 
 let postData = {};
@@ -47,7 +48,7 @@ export default (req, res, next) => {
     if (isObject(postData)) {
       const values = {};
 
-      Object.keys(postData).forEach(key => {
+      forEach(postData, key => {
         if (options.exclude.length > 0) {
           const exists = options.exclude.filter(option => {
             return option === key;
@@ -88,7 +89,7 @@ export default (req, res, next) => {
     validateSecurityToken();
 
     if (isArray(inputs)) {
-      inputs.forEach(input => {
+      forEach(inputs, input => {
         value = postData[input];
         filter = input.split(':');
         fn = input.split('|');
@@ -141,7 +142,7 @@ export default (req, res, next) => {
   function validate(inputs, validation) {
     const element = [];
 
-    inputs.forEach(input => {
+    forEach(inputs, input => {
       if (!validation || validation === 'empty') {
         if (postData[input] === '') {
           element.push(input);
