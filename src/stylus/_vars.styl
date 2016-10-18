@@ -50,3 +50,45 @@ $darkStartColor  = #45484D
 $darkEndColor    = #000000
 $darkBorderColor = #222222
 $darkShadowColor = #666666
+
+/* Media Queries */
+$s    = 'only screen and'
+$l    = 'orientation: landscape'
+$maxW = 'max-width:'
+$minW = 'min-width:'
+$maxWDevice = 'max-device-width:'
+$minWDevice = 'min-width-width:'
+
+/* General breakpoints */
+$desktopBreakpoint = 1024px;
+$tabletBreakpoint = 768px;
+$mobileBreakpoint = 640px;
+
+/* Devices breakpoints */
+$iPadW =  768px
+$iPadH = 1024px
+$iP4W  =  320px
+$iP4H  =  480px
+$iP5W  =  320px
+$iP5H  =  568px
+$iP6W  =  375px
+$iP6H  =  667px
+$iP6PW =  414px
+$iP6PH =  736px
+
+/* General Devices */
+Desktop = $s + ' (' + $minW + $desktopBreakpoint + ')'
+Tablet  = $s + ' (' + $maxW + $tabletBreakpoint + ')'
+Mobile  = $s + ' (' + $maxW + $mobileBreakpoint + ')'
+
+/* Specific Devices */
+iPad              = $s + ' (' + $minWDevice + $iPadW + ') and (' + $maxWDevice + $iPadH + ')'
+iPadLandscape     = $s + ' (' + $minWDevice + $iPadW + ') and (' + $maxWDevice + $iPadH + ') and (' + $l + ')'
+iPhone6P          = $s + ' (' + $minWDevice + $iP4W  + ') and (' + $maxWDevice + $iP4H  + ')'
+iPhone6PLandscape = $s + ' (' + $minWDevice + $iP6PW + ') and (' + $maxWDevice + $iP6PH + ') and (' + $l + ')'
+iPhone6           = $s + ' (' + $minWDevice + $iP6W  + ') and (' + $maxWDevice + $iP6H  + ')'
+iPhone6Landscape  = $s + ' (' + $minWDevice + $iP6W  + ') and (' + $maxWDevice + $iP6H  + ') and (' + $l + ')'
+iPhone5           = $s + ' (' + $minWDevice + $iP5W  + ') and (' + $maxWDevice + $iP5H  + ')'
+iPhone5Landscape  = $s + ' (' + $minWDevice + $iP5W  + ') and (' + $maxWDevice + $iP5H  + ') and (' + $l + ')'
+iPhone4           = $s + ' (' + $minWDevice + $iP4W  + ') and (' + $maxWDevice + $iP4H  + ')'
+iPhone4Landscape  = $s + ' (' + $minWDevice + $iP4W  + ') and (' + $maxWDevice + $iP4H  + ') and (' + $l + ')'

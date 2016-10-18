@@ -1,6 +1,11 @@
+$sidebarBgColorOnHover = #181818;
+
 .Sidebar
     float left
     width 200px
+
+    @media Tablet
+        display none
 
     ul
         resetList()
@@ -26,31 +31,37 @@
                     color $lightGray
 
             &:hover
-                background-color #181818
-            &.dashboard
+                background-color $sidebarBgColorOnHover
+
+            &.dashboardIcon
                 &::before
                     icon('f0e4', $lightGray, 1em, 0px, 0px, -20px)
-            &.ads
+            &.adsIcon
                 &::before
                     icon('f0a1', $lightGray, 1em, 0px, 0px, -20px)
-            &.blog
+            &.blogIcon
                 &::before
                     icon('f02d', $lightGray, 1em, 0px, 0px, -20px)
-            &.config
+            &.configIcon
                 &::before
                     icon('f013', $lightGray, 1em, 0px, 0px, -20px)
-            &.feedback
+            &.feedbackIcon
                 &::before
                     icon('f0e0', $lightGray, 1em, 0px, 0px, -20px)
-            &.pages
+            &.pagesIcon
                 &::before
                     icon('f1ea', $lightGray, 1em, 0px, 0px, -20px)
-            &.polls
+            &.pollsIcon
                 &::before
                     icon('f0f6', $lightGray, 1em, 0px, 0px, -20px)
-            &.users
+            &.usersIcon
                 &::before
                     icon('f0c0', $lightGray, 1em, 0px, 0px, -20px)
-            &.logout
+            &.logoutIcon
                 &::before
                     icon('f0a5', $lightGray, 1em, 0px, 0px, -20px)
+
+    .credits
+        fontSize(12px)
+        color $white
+        text-align center

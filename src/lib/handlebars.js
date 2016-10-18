@@ -1,83 +1,77 @@
-// NPM Dependencies
+// Dependencies
 import { minify } from 'html-minifier';
 
-// Local Dependencies
+// Helpers
 import { createInput, createLabel, createSelect, createTextarea } from './form';
-import { isDefined } from './utils/is';
-import { pick, stringify } from './utils/object';
+
+// Utils
+import { isDefined, isUndefined } from './utils/is';
+import { exists, forEach, ternary, stringify } from './utils/object';
+import {
+  getContentInsertOptionsHTML,
+  getHiddenOptions,
+  getInputOptions,
+  getLabelOptions,
+  getSelectOptions,
+  getSubmitOptions,
+  getTextareaOptions
+} from './utils/options';
 
 // Configuration
 import { $html } from './config';
 
-export function renderSchema(options) {
-  const inputOptions = { hash: {} };
-  const textareaOptions = { hash: {} };
-  const labelOptions = { hash: {} };
-  const selectOptions = { hash: {} };
-  const submitOptions = { hash: {} };
+function renderFormElements(schema, __, field, errorClass, userInfo, flashData) {
+  let html = '<div class="inputBlock">';
 
-  let html = '';
+  html += label(getLabelOptions(schema, field, __));
 
-  if (options.hash) {
-    const schema = options.hash.schema;
-    const userInfo = options.hash.userInfo;
-    const __ = options.hash.__;
-
-    Object.keys(schema).forEach(field => {
-      if (schema[field].render) {
-        html += '<div class="inputBlock">';
-
-        inputOptions.hash.id = field;
-        textareaOptions.hash.id = field;
-        selectOptions.hash.id = field;
-
-        inputOptions.hash.class = schema[field].className;
-        textareaOptions.hash.class = schema[field].className;
-        selectOptions.hash.class = schema[field].className;
-
-        inputOptions.hash.name = field;
-        textareaOptions.hash.name = field;
-        selectOptions.hash.name = field;
-
-        labelOptions.hash.for = field;
-        labelOptions.hash.text = pick(schema[field].label, __);
-
-        if (field === 'author') {
-          inputOptions.hash.value = userInfo.username;
-        }
-
-        if (schema[field].options) {
-          selectOptions.hash.options = pick(schema[field].options, __);
-        }
-
-        html += label(labelOptions);
-
-        html += '<p>';
-
-        if (schema[field].type === 'input') {
-          html += input(inputOptions);
-        } else if (schema[field].type === 'textarea') {
-          html += textarea(textareaOptions);
-        } else if (schema[field].type === 'select') {
-          html += select(selectOptions);
-        }
-
-        html += '</p>';
-        html += '</div>';
-      }
-    });
-
-    submitOptions.hash.id = 'publish';
-    submitOptions.hash.class = 'btn btn-success';
-    submitOptions.hash.name = 'publish';
-    submitOptions.hash.value = __.Dashboard.forms.fields.save;
-
-    html += submit(submitOptions);
-
-    return html;
+  if (field === 'content') {
+    html += getContentInsertOptionsHTML();
   }
 
-  return false;
+  html += '<p>';
+
+  html += input(getInputOptions(schema, field, errorClass, userInfo, flashData), schema[field].type);
+  html += textarea(getTextareaOptions(schema, field, errorClass, flashData), schema[field].type);
+  html += select(getSelectOptions(schema, field, errorClass, flashData, __), schema[field].type);
+
+  html += '</p>';
+  html += '</div>';
+
+  return html;
+}
+
+export function renderSchema(options) {
+  let html = '';
+
+  const schema = options.hash.schema;
+  const userInfo = options.hash.userInfo;
+  const __ = options.hash.__;
+  const flashData = options.hash.flashData;
+  const securityToken = options.hash.securityToken;
+  const hiddenElements = schema.hiddenElements || {};
+  const alert = schema.alert || false;
+
+  if (alert) {
+    html += `<div class="alert ${alert.type}">${icon(alert.icon)} ${alert.message}</div>`;
+  }
+
+  forEach(schema, field => {
+    if (schema[field].render) {
+      if (!exists(field, hiddenElements)) {
+        const errorClass = ternary(schema[field].errorMessage, ' errorBorder');
+
+        html += renderFormElements(schema, __, field, errorClass, userInfo, flashData);
+      } else {
+        html += hidden(getHiddenOptions(field, hiddenElements));
+      }
+    }
+  });
+
+  html += submit(getSubmitOptions(__));
+  html += token(securityToken);
+
+  return html;
 }
 
 export function ceil(number) {
@@ -131,11 +125,11 @@ export function flash(value) {
 }
 
 export function gt(value1, value2, options) {
-  return value1 > value2 ? options.fn(this) : options.inverse(this);
+  return ternary(value1 > value2, options.fn(this), options.inverse(this));
 }
 
 export function gte(value1, value2, options) {
-  return value1 >= value2 ? options.fn(this) : options.inverse(this);
+  return ternary(value1 >= value2, options.fn(this), options.inverse(this));
 }
 
 export function hidden(options) {
@@ -149,23 +143,25 @@ export function hidden(options) {
 }
 
 export function icon(icon) {
-  return `<i class="fa ${icon}"></i>`;
+  return `<i class="fa fa-${icon}"></i>`;
 }
 
-export function input(options) {
-  if (isDefined(options.hash)) {
+export function input(options, type) {
+  if (isDefined(type) && type === 'input' && isDefined(options.hash)) {
+    return createInput(options.hash);
+  } else if (isUndefined(type) && isDefined(options.hash)) {
     return createInput(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function is(variable, value, options) {
-  return variable && variable === value ? options.fn(this) : options.inverse(this);
+  return ternary(variable && variable === value, options.fn(this), options.inverse(this));
 }
 
 export function isNot(variable, value, options) {
-  return !variable || variable !== value ? options.fn(this) : options.inverse(this);
+  return ternary(!variable || variable !== value, options.fn(this), options.inverse(this));
 }
 
 export function json(content) {
@@ -177,7 +173,7 @@ export function label(options) {
     return createLabel(options.hash, options.hash.text ? options.hash.text : '');
   }
 
-  return false;
+  return '';
 }
 
 export function lowercase(str) {
@@ -185,15 +181,11 @@ export function lowercase(str) {
 }
 
 export function lt(value1, value2, options) {
-  return value1 < value2 ? options.fn(this) : options.inverse(this);
+  return ternary(value1 < value2, options.fn(this), options.inverse(this));
 }
 
 export function lte(value1, value2, options) {
-  return value1 <= value2 ? options.fn(this) : options.inverse(this);
-}
-
-export function now() {
-  return new Date();
+  return ternary(value1 <= value2, options.fn(this), options.inverse(this));
 }
 
 export function password(options) {
@@ -205,7 +197,7 @@ export function password(options) {
     return createInput(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function radio(options) {
@@ -215,19 +207,21 @@ export function radio(options) {
     return createInput(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function reverse(str) {
   return str.split('').reverse().join('');
 }
 
-export function select(options) {
-  if (isDefined(options.hash)) {
+export function select(options, type) {
+  if (isDefined(type) && type === 'select' && isDefined(options.hash)) {
+    return createSelect(options.hash);
+  } else if (isUndefined(type) && isDefined(options.hash)) {
     return createSelect(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function submit(options) {
@@ -243,15 +237,17 @@ export function submit(options) {
     return createInput(options.hash);
   }
 
-  return false;
+  return '';
 }
 
-export function textarea(options) {
-  if (isDefined(options.hash)) {
+export function textarea(options, type) {
+  if (isDefined(type) && type === 'textarea' && isDefined(options.hash)) {
+    return createTextarea(options.hash);
+  } else if (isUndefined(type) && isDefined(options.hash)) {
     return createTextarea(options.hash);
   }
 
-  return false;
+  return '';
 }
 
 export function token(securityToken) {
@@ -265,7 +261,7 @@ export function token(securityToken) {
     return createInput(options);
   }
 
-  return false;
+  return '';
 }
 
 export function uppercase(str) {

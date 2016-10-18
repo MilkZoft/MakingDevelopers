@@ -1,7 +1,7 @@
-// NPM Dependencies
+// Dependencies
 import express from 'express';
 
-// Local Dependencies
+// Utils
 import { isDefined } from '../../lib/utils/is';
 
 // Model

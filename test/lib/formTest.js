@@ -20,7 +20,7 @@ describe('@Form', () => {
       };
 
       const actualResult = createInput(attributes);
-      const expectedResult = '<input type="text" id="foo" name="62ae284823c72b9b300a413bc857cb7c" class="foo"  />';
+      const expectedResult = '<input type="text" id="foo" name="foo" class="foo"  />';
 
       assert.isTrue(actualResult === expectedResult, 'actualResult should match expectedResult');
     });
@@ -40,7 +40,7 @@ describe('@Form', () => {
       };
 
       const actualResult = createTextarea(attributes);
-      const expectedResult = '<textarea id="foo" name="62ae284823c72b9b300a413bc857cb7c" class="foo">foo</textarea>';
+      const expectedResult = '<textarea id="foo" name="foo" class="foo">foo</textarea>';
 
       assert.isTrue(actualResult === expectedResult, 'actualResult should match expectedResult');
     });
@@ -61,7 +61,7 @@ describe('@Form', () => {
       let expectedResult;
 
       const actualResult = createSelect(attributes);
-      expectedResult = '<select id="foo" name="62ae284823c72b9b300a413bc857cb7c" class="foo">';
+      expectedResult = '<select id="foo" name="foo" class="foo">';
       expectedResult += '<option>foo</option><option>bar</option><option>baz</option>';
       expectedResult += '</select>';
 

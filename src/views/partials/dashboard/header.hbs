@@ -1,4 +1,66 @@
 <header class="MainHeader">
     <div class="logo">Mastodone</div>
+    <div class="credits">Powered by <a href="https://www.codejobs.biz" target="_blank">Codejobs</a></div>
     <div class="user">{{ userInfo.username }}</div>
+
+    <div id="menu" class="menu hidden">
+        <ul>
+            <li>
+                <a href="{{ basePath }}/dashboard">
+                    {{{ icon "tachometer" }}}
+                    {{ __.Dashboard.modules.dashboard.name }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ basePath }}/dashboard/ads">
+                    {{{ icon "bullhorn" }}}
+                    {{ __.Dashboard.modules.ads.name }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ basePath }}/dashboard/blog">
+                    {{{ icon "book" }}}
+                    {{ __.Dashboard.modules.blog.name }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ basePath }}/dashboard/config">
+                    {{{ icon "cog" }}}
+                    {{ __.Dashboard.modules.config.name }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ basePath }}/dashboard/feedback">
+                    {{{ icon "envelope" }}}
+                    {{ __.Dashboard.modules.feedback.name }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ basePath }}/dashboard/pages">
+                    {{{ icon "newspaper-o" }}}
+                    {{ __.Dashboard.modules.pages.name }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ basePath }}/dashboard/polls">
+                    {{{ icon "file-text-o" }}}
+                    {{ __.Dashboard.modules.polls.name }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ basePath }}/dashboard/users">
+                    {{{ icon "users" }}}
+                    {{ __.Dashboard.modules.users.name }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ basePath }}/users/logout">
+                    {{{ icon "hand-o-left" }}}
+                    {{ __.Dashboard.modules.logout.name }}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="openMenu" class="closed">{{{ icon "caret-down" }}}</div>
 </header>

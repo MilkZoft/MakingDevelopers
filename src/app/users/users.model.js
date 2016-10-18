@@ -1,4 +1,4 @@
-// Local Dependencies
+// Helpers
 import * as Users from '../../lib/model';
 
 // Global vars

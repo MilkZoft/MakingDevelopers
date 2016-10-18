@@ -3,7 +3,13 @@
     min-width 80%
     margin-bottom 40px
 
+    @media Tablet
+        position(absolute, 7%, false, false, 8%)
+
     .Create
+        .errorBorder
+            border 1px solid red
+
         .pointer
             cursor(pointer)
 
@@ -22,6 +28,10 @@
         .inputBlock
             label
                 bold()
+
+                .errorMessage
+                    fontSize(12px)
+                    color red
 
         .input
             height 40px
@@ -49,6 +59,12 @@
 
         .submit
             text-transform capitalize
+
+            @media Tablet
+                display block
+                margin-bottom 90px
+                margin-top: 30px
+                width 25%
 
         #codes
             font('Source Code Pro', 12px)

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="{{ __.Site.language }}">
     <head>
+        <base href="{{ baseUrl }}" />
         {{> site/metas }}
 
         <title>{{ __.Site.title }}</title>
@@ -17,8 +18,6 @@
         <div class="Content">
             {{{ body }}}
         </div>
-
-        {{> dashboard/footer }}
 
         <!-- Scripts -->
         <script src="/js/vendor.js"></script>

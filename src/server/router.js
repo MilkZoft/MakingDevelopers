@@ -1,10 +1,12 @@
-// Local Dependencies
+// Helpers
 import {
   availableLanguages,
   getCurrentLanguage,
   getLanguagePath,
   loadLanguage
 } from '../lib/i18n';
+
+// Utils
 import { isMobile } from '../lib/utils/device';
 import { sha1 } from '../lib/utils/security';
 
@@ -16,6 +18,9 @@ import authController from '../app/auth/auth.controller';
 import contentController from '../app/content/content.controller';
 import dashboardController from '../app/dashboard/dashboard.controller';
 import usersController from '../app/users/users.controller';
+
+// Importing models
+import blogModel from '../app/blog/blog.model';
 
 // Dashboard
 import blogDashboard from '../app/blog/blog.dashboard';
@@ -29,10 +34,13 @@ export default (app) => {
 
   // Security token
   app.use((req, res, next) => {
+    // If securityToken session does not exist, we create a new one.
     if (!res.session('securityToken')) {
       res.session('securityToken', sha1(new Date()));
-      res.locals.securityToken = res.session('securityToken');
     }
+
+    // Sending the securityToken session to locals.
+    res.locals.securityToken = res.session('securityToken');
 
     return next();
   });
@@ -74,6 +82,9 @@ export default (app) => {
 
   // Dashboard actions
   app.use(blogDashboard);
+
+  // Models
+  app.use(blogModel);
 
   // Controllers dispatch
   app.use(`/:language(${availableLanguages()})/dashboard`, dashboardController);

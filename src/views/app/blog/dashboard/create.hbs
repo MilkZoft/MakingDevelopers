@@ -1,6 +1,6 @@
 <div class="Create">
     <form action="{{ basePath }}/dashboard/blog/create" method="post">
-        <h2>{{{ icon "fa-plus" }}} {{ section }}</h2>
+        <h2>{{{ icon "plus" }}} {{ section }}</h2>
 
         {{#if message }}
             <h3>{{{ message }}}</h3>
@@ -8,9 +8,12 @@
 
         {{{
             renderSchema
-                schema = schema
-                userInfo = userInfo
                 __ = __
+                flashData = flashData
+                hiddenElements = hiddenElements
+                schema = schema
+                securityToken = securityToken
+                userInfo = userInfo
         }}}
     </form>
 </div>

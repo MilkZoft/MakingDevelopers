@@ -1,4 +1,4 @@
-// Local dependencies
+// Utils
 import { pick } from './utils/object';
 
 export default (req, res, next) => {

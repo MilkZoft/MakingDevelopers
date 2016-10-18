@@ -1,4 +1,4 @@
-// NPM Dependencies
+// Dependencies
 import dateFormat from 'date-format';
 
 /**

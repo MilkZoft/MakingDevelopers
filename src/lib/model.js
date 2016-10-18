@@ -1,7 +1,9 @@
-// Local Dependencies
+// Helpers
 import * as Db from './db/mysql';
+
+// Utils
 import { isDefined, isNumber } from './utils/is';
-import { md5 } from './utils/security';
+import { forEach, keys } from './utils/object';
 import { clean } from './utils/string';
 
 /**
@@ -36,12 +38,14 @@ export function getColumns(table, callback, fn) {
  */
 export function getSchemaFrom(data, callback) {
   const ignoreFields = data.ignoreFields || [];
+  const requiredFields = keys(data.requiredFields) || [];
+  const hiddenElements = data.hiddenElements || {};
 
   getColumns(data.table, callback, (columns, callback) => {
     const schema = {};
 
     if (columns) {
-      columns.forEach(column => {
+      forEach(columns, column => {
         let props = {};
         const field = column.Field;
         const primaryKey = column.Key === 'PRI';
@@ -51,10 +55,11 @@ export function getSchemaFrom(data, callback) {
           let inputType = 'input';
           let className = 'input';
           let options = '';
+          const required = requiredFields.indexOf(field) !== -1 ? data.requiredFields[field] : false;
 
           if (columnType.search('tinyint') > -1) {
             inputType = 'select';
-            options = 'Dashboard.forms.fields.selects.state';
+            options = 'Dashboard.forms.fields.selects.decision';
             className = `select ${field}`;
           } else if (columnType.search('text') > -1) {
             inputType = 'textarea';
@@ -75,7 +80,8 @@ export function getSchemaFrom(data, callback) {
           return {
             inputType,
             options,
-            className
+            className,
+            required
           };
         };
 
@@ -95,6 +101,7 @@ export function getSchemaFrom(data, callback) {
             type: inputInfo.inputType,
             className: inputInfo.className,
             label: `Dashboard.forms.fields.${field}`,
+            required: inputInfo.required,
             render: !noRender
           };
         }
@@ -107,6 +114,8 @@ export function getSchemaFrom(data, callback) {
       });
     }
 
+    schema.hiddenElements = hiddenElements;
+
     return callback(schema);
   });
 }
@@ -114,27 +123,21 @@ export function getSchemaFrom(data, callback) {
 /**
  * Gets Procedure Query
  *
- * @param {string} procedure Procedure name
+ * @param {string} procedureName Procedure name
  * @param {object} values Values
  * @param {object} fields Fields
  * @param {string} filter Filter
  * @returns {callback} Callback
  */
-export function getProcedure(procedure, values, fields, filter) {
-  const keys = Object.keys(values);
+export function getProcedure(procedureName, values, fields, filter) {
   const total = fields.length - 1;
-  let encrypted = false;
   let i = 0;
   let params = '';
   let value;
 
-  if (keys[0].length === 32) {
-    encrypted = true;
-  }
-
   fields.forEach(field => {
     const getValue = () => {
-      let value = values[encrypted ? md5(field) : field];
+      let value = values[field];
 
       if (!isDefined(value)) {
         value = '';
@@ -173,11 +176,27 @@ export function getProcedure(procedure, values, fields, filter) {
     }
   });
 
-  procedure = `CALL ${procedure} (${params});`;
+  let procedure = `CALL ${procedureName} (${params});`;
 
   procedure = procedure.replace(', )', ')');
 
   return procedure.replace(new RegExp(', ,', 'g'), ', \'\',');
+}
+
+export function insert(table, data, callback) {
+  const sql = Db.getInsertQuery(table, data);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
+export function exists(table, data, callback) {
+  const sql = Db.getExistsQuery(table, data);
+
+  query(sql, callback, (result, callback) => {
+    callback(result.length === 0 ? false : result);
+  });
 }
 
 /**

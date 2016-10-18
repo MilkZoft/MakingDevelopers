@@ -29,6 +29,18 @@ center($margin = 0, $width = false, $display = false)
     if $width != false
         width $width
 
+centerAbsolute($width, $top = false, $bottom = false)
+    position absolute
+    left 0
+    right 0
+    margin-left auto
+    margin-right auto
+    width $width
+    if $top != false
+        top $top
+    if $bottom != false
+        bottom $bottom
+
 clearfix()
     *zoom 1
     &:after
@@ -50,6 +62,9 @@ font($font, $size = false, $color = false)
 fontBold()
     font-weight $fontWeightBold
 
+fontItalic()
+    font-style italic
+
 fontFace($fontFamily, $fontFile)
     @font-face
         font-family $fontFamily
@@ -68,9 +83,12 @@ fontNormal()
 fontLight()
     font-weight $fontWeightLight
 
-fontSize($size)
+fontSize($size, $weight = false)
     font-size $size
     font-size rem-calc($size)
+    if $weight != false
+        font-weight $weight
+
 
 icon($code, $color = $white, $size = 2em, $top = 14px, $right = 0px, $left = 15px, $width = 50px)
     color $color
@@ -117,7 +135,14 @@ prefix($property, $value)
     -ms-{$property} $value
     {$property} $value
 
+resetLink($color)
+    color $color
+    text-decoration none
+
 resetList()
     list-style none
     margin 0
     padding 0
+
+uppercase()
+    text-transform uppercase

@@ -1,4 +1,4 @@
-// Local Dependencies
+// Helpers
 import * as Content from '../../lib/model';
 
 /**

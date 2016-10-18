@@ -1,7 +1,10 @@
+// Configuration
 import { $security } from './config';
+
+// Utils
 import { now } from './utils/date';
-import { isArray, isDefined } from './utils/is';
-import { md5 } from './utils/security';
+import { isArray, isDefined, isObject } from './utils/is';
+import { forEach } from './utils/object';
 import { escapeString, removeHTML } from './utils/string';
 
 let postData = {};
@@ -10,7 +13,6 @@ export default (req, res, next) => {
   res.action = action;
   res.debug = debug;
   res.getAllPost = getAllPost;
-  res.getContentFromTemplate = getContentFromTemplate;
   res.isGet = isGet;
   res.isPost = isPost;
   res.post = post;
@@ -21,49 +23,49 @@ export default (req, res, next) => {
   return next();
 
   function action() {
-    return req.params.action === 'create' || req.params.action === 'edit' ? `${req.params.action}Action` : 'readAction';
+    return req.params.action === 'create' || req.params.action === 'edit'
+      ? `${req.params.action}Action`
+      : 'readAction';
   }
 
-  function debug(letiable) {
-    res.send(letiable);
+  function debug(variable) {
+    res.send(variable);
   }
 
   function getAllPost(options) {
-    const values = {};
-
     validateSecurityToken();
 
     if (!isDefined(options)) {
       options = {
         exclude: [
-          md5('register'),
-          md5('securityToken')
+          'register',
+          'publish',
+          'securityToken'
         ]
       };
     }
 
-    postData.forEach((value, key) => {
-      if (options.exclude.length > 0) {
-        const exists = options.exclude.filter(option => {
-          return option === key;
-        });
+    if (isObject(postData)) {
+      const values = {};
 
-        if (!exists) {
-          values[key] = value;
+      forEach(postData, key => {
+        if (options.exclude.length > 0) {
+          const exists = options.exclude.filter(option => {
+            return option === key;
+          });
+
+          if (exists.length === 0) {
+            values[key] = postData[key];
+          }
+        } else {
+          values[key] = postData[key];
         }
-      } else {
-        values[key] = value;
-      }
-    });
+      });
 
-    refreshSecurityToken();
+      return values;
+    }
 
-    return values;
-  }
-
-  function getContentFromTemplate(template, messageTemplate) {
-    // const interpolation = ({ template }) => `${messageTemplate)}`;
-    // return _.template(messageTemplate)(template);
+    return false;
   }
 
   function isGet() {
@@ -87,8 +89,8 @@ export default (req, res, next) => {
     validateSecurityToken();
 
     if (isArray(inputs)) {
-      inputs.forEach(input => {
-        value = postData[md5(input)];
+      forEach(inputs, input => {
+        value = postData[input];
         filter = input.split(':');
         fn = input.split('|');
 
@@ -99,7 +101,7 @@ export default (req, res, next) => {
 
         if (filter[1]) {
           input = input.replace(`:${filter[1]}`, '');
-          value = postData[md5(input)];
+          value = postData[input];
 
           if (filter[1] !== 'html') {
             value = utils[filter[1]](value);
@@ -112,8 +114,8 @@ export default (req, res, next) => {
       return posts;
     }
 
-    if (isDefined(postData[md5(input)])) {
-      value = postData[md5(input)];
+    if (isDefined(postData[input])) {
+      value = postData[input];
 
       if (filter === 'escape') {
         value = escapeString(value);
@@ -140,9 +142,9 @@ export default (req, res, next) => {
   function validate(inputs, validation) {
     const element = [];
 
-    inputs.forEach(input => {
+    forEach(inputs, input => {
       if (!validation || validation === 'empty') {
-        if (postData[md5(input)] === '') {
+        if (postData[input] === '') {
           element.push(input);
           return;
         }
@@ -154,9 +156,9 @@ export default (req, res, next) => {
 
   function validateSecurityToken() {
     if ($security().validateSecurityToken) {
-      postData = false;
+      postData = {};
 
-      if (res.session('securityToken') === req.body[md5('securityToken')]) {
+      if (res.session('securityToken') === req.body.securityToken) {
         postData = req.body;
       }
     } else {

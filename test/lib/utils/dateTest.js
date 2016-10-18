@@ -37,11 +37,11 @@ describe('@Date', () => {
     });
 
     it('should return the current month', () => {
-      const actualResult = parseInt(day());
+      const actualResult = parseInt(month());
 
       assert.isTrue(
         actualResult > 0 && actualResult <= 12,
-        'should be a valid day'
+        'should be a valid month'
       );
     });
   });
@@ -62,7 +62,8 @@ describe('@Date', () => {
       const isValidMinute = isMinute(time[1]);
       const isValidSecond = isSecond(time[2]);
 
-      assert.isTrue(isValidYear && isValidMonth && isValidDay && isValidHour && isValidMinute && isValidSecond,
+      assert.isTrue(
+        isValidYear && isValidMonth && isValidDay && isValidHour && isValidMinute && isValidSecond,
         'should be a valid date YYYY-MM-DD HH:MM:SS'
       );
     });

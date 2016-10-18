@@ -1,5 +1,8 @@
-// NPM Dependencies
+// Dependencies
 import dot from 'dot-object';
+
+// Utils
+import { isArray, isDefined } from './is';
 
 /**
  * Returns a JSON from a given JSON String dot notation (Node.child.grandchild)
@@ -20,6 +23,32 @@ export function buildContentJson(nodes, raw) {
   }
 
   return rows;
+}
+
+export function ternary(condition, value1, value2) {
+  if (!isDefined(value2)) {
+    value2 = '';
+  }
+
+  return condition ? value1 : value2;
+}
+
+export function exists(element, obj) {
+  return keys(obj).indexOf(element) !== -1;
+}
+
+export function forEach(obj, callback) {
+  if (isDefined(obj[0]) && isDefined(obj[0].Field)) {
+    return obj.forEach(callback);
+  } else if (isArray(obj)) {
+    return obj.forEach(callback);
+  }
+
+  return keys(obj).forEach(callback);
+}
+
+export function keys(obj) {
+  return Object.keys(obj);
 }
 
 /**

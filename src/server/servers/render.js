@@ -17,7 +17,7 @@ import Html from './Html';
 import storeFactory from '../../storeFactory';
 import routesFactory from '../../routesFactory';
 
-// Libs
+// Helpers
 import { asyncQueryServer } from '../../lib/queryServer';
 
 // Config

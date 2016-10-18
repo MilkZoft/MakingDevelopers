@@ -1,8 +1,8 @@
-// NPM Dependencies
+// Dependencies
 import fs from 'fs';
 import yaml from 'js-yaml';
 
-// Local Dependencies
+// Helpers
 import env from './env';
 
 /**

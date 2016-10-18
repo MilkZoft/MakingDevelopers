@@ -1,4 +1,4 @@
-// Local Dependencies
+// Utils
 import { isDefined } from './is';
 
 /**
@@ -29,6 +29,20 @@ export function escapeString(str) {
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
+  }
+
+  return false;
+}
+
+export function addSlashes(str, doubleQuotesAlso) {
+  if (isDefined(str)) {
+    if (doubleQuotesAlso) {
+      return str
+        .replace(/'/g, '\\\'')
+        .replace(/"/g, '\\\\"');
+    }
+
+    return str.replace(/'/g, '\\\'');
   }
 
   return false;

@@ -1,4 +1,4 @@
-// NPM Dependencies
+// Dependencies
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -8,7 +8,7 @@ import logger from 'morgan';
 import path from 'path';
 import stylus from 'stylus';
 
-// Local Dependencies
+// Helpers
 import * as hbsHelper from '../../lib/handlebars';
 import contentHelper from '../../lib/content';
 import postHelper from '../../lib/post';
@@ -75,7 +75,6 @@ export default () => {
 
   // Handlebars setup
   app.engine($views().engine, exphbs({
-    defaultLayout: $views().layout,
     extname: $views().extension,
     helpers: hbsHelper,
     layoutsDir: path.join(__dirname, '/../../views/layouts'),

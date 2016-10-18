@@ -24,13 +24,15 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getContent` (IN `_language` VARCHAR(2))  BEGIN
+DROP PROCEDURE IF EXISTS getContent $$
+CREATE PROCEDURE `getContent` (IN `_language` VARCHAR(2))  BEGIN
   SELECT name, value FROM content
     WHERE language = _language
     ORDER BY name;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getUser` (IN `_network` VARCHAR(25), IN `_networkId` VARCHAR(25), IN `_username` VARCHAR(20), IN `_password` VARCHAR(40))  BEGIN
+DROP PROCEDURE IF EXISTS getUser $$
+CREATE PROCEDURE `getUser` (IN `_network` VARCHAR(25), IN `_networkId` VARCHAR(25), IN `_username` VARCHAR(20), IN `_password` VARCHAR(40))  BEGIN
     IF _network = 'website' THEN
     SELECT id, username, email, avatar, privilege FROM users
     WHERE username = _username
@@ -45,7 +47,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUser` (IN `_network` VARCHAR(25)
   END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserPrivilege` (IN `_network` VARCHAR(25), IN `_networkId` VARCHAR(25), IN `_username` VARCHAR(20), IN `_password` VARCHAR(40))  BEGIN
+DROP PROCEDURE IF EXISTS getUserPrivilege $$
+CREATE PROCEDURE `getUserPrivilege` (IN `_network` VARCHAR(25), IN `_networkId` VARCHAR(25), IN `_username` VARCHAR(20), IN `_password` VARCHAR(40))  BEGIN
     IF _network = 'website' THEN
     SELECT privilege FROM users
     WHERE username = _username
@@ -57,191 +60,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserPrivilege` (IN `_network` VA
       AND networkId = _networkId
       AND network = _network
       AND state = 'active';
-  END IF;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `savePost` (IN `_title` VARCHAR(255), IN `_slug` VARCHAR(255), IN `_excerpt` TEXT, IN `_content` TEXT, IN `_codes` TEXT, IN `_tags` VARCHAR(255), IN `_author` VARCHAR(50), IN `_createdAt` DATETIME, IN `_day` VARCHAR(2), IN `_month` VARCHAR(2), IN `_year` VARCHAR(2), IN `_language` VARCHAR(2), IN `_activeComments` INT, IN `_state` VARCHAR(25))  BEGIN
-  DECLARE error VARCHAR(255);
-  DECLARE success VARCHAR(255);
-
-  IF (_title <> 'undefined' AND _title <> '') THEN
-    IF (_slug <> 'undefined' AND _slug <> '') THEN
-      IF (_excerpt <> 'undefined' AND _excerpt <> '') THEN
-        IF (_content <> 'undefined' AND _content <> '') THEN
-          IF (SELECT EXISTS (SELECT 1 FROM blog WHERE slug = _slug AND day = _day AND month = _month AND year = _year)) THEN
-            SET error = 'exists:post';
-            SELECT error;
-          ELSE
-            INSERT INTO blog (
-              title,
-              slug,
-              excerpt,
-              content,
-              codes,
-              tags,
-              author,
-              createdAt,
-              day,
-              month,
-              year,
-              language,
-              activeComments,
-              state
-            ) VALUES (
-              _title,
-              _slug,
-              _excerpt,
-              _content,
-              _codes,
-              _tags,
-              _author,
-              _createdAt,
-              _day,
-              _month,
-              _year,
-              _language,
-              _activeComments,
-              _state
-            );
-
-            SET success = 'inserted:post';
-            SELECT success;
-          END IF;
-        ELSE
-          SET error = 'undefined:content';
-          SELECT error;
-        END IF;
-      ELSE
-        SET error = 'undefined:excerpt';
-        SELECT error;
-      END IF;
-    ELSE
-      SET error = 'undefined:slug';
-      SELECT error;
-    END IF;
-  ELSE
-    SET error = 'undefined:title';
-    SELECT error;
-  END IF;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `saveUser` (IN `_network` VARCHAR(25), IN `_networkId` VARCHAR(25), IN `_username` VARCHAR(20), IN `_password` VARCHAR(40), IN `_email` VARCHAR(150), IN `_avatar` VARCHAR(255), IN `_suscribed` TINYINT(1))  BEGIN
-  DECLARE error VARCHAR(255);
-  DECLARE success VARCHAR(255);
-
-    IF _network = 'website' THEN
-    IF (_username <> 'undefined' AND _username <> '') THEN
-      IF (_password <> 'undefined' AND _password <> '') THEN
-        IF (_email <> 'undefined' AND _email <> '') THEN
-          IF (_suscribed >= 0) THEN
-            IF (SELECT EXISTS (SELECT 1 FROM users WHERE username = _username)) THEN
-              SET error = 'exists:username';
-              SELECT error;
-            ELSE
-              IF (SELECT EXISTS (SELECT 1 FROM users WHERE email = _email)) THEN
-                SET error = 'exists:email';
-                SELECT error;
-              ELSE
-                IF (SELECT EXISTS (SELECT 1 FROM users WHERE (networkId = _networkId) AND (network = _network))) THEN
-                  SET error = 'exists:social:networkId';
-                  SELECT error;
-                ELSE
-                  INSERT INTO users (
-                    network,
-                    username,
-                    password,
-                    email,
-                    avatar,
-                    subscribed
-                  ) VALUES (
-                    _network,
-                    _username,
-                    _password,
-                    _email,
-                    '/images/users/default.png',
-                    _suscribed
-                  );
-
-                  SET success = 'inserted:website:user';
-                  SELECT success;
-                END IF;
-              END IF;
-            END IF;
-          ELSE
-            SET error = 'invalid:number:suscribed';
-            SELECT error;
-          END IF;
-        ELSE
-          SET error = 'invalid:email';
-          SELECT error;
-        END IF;
-      ELSE
-        SET error = 'undefined:password';
-        SELECT error;
-      END IF;
-    ELSE
-      SET error = 'undefined:username';
-      SELECT error;
-    END IF;
-  ELSE
-    IF (_username <> 'undefined' AND _username <> '') THEN
-      IF (_networkId <> 'undefined' AND _networkId <> '') THEN
-        IF (_email <> 'undefined' AND _email <> '') THEN
-          IF (_avatar <> 'undefined' AND _avatar <> '') THEN
-            IF (_suscribed >= 0) THEN
-              IF (SELECT EXISTS (SELECT 1 FROM users WHERE username = _username)) THEN
-                SET error = 'exists:username';
-                SELECT error;
-              ELSE
-                IF (SELECT EXISTS (SELECT 1 FROM users WHERE email = _email)) THEN
-                  SET error = 'exists:email';
-                  SELECT error;
-                ELSE
-                  IF (SELECT EXISTS (SELECT 1 FROM users WHERE (networkId = _networkId) AND (network = _network))) THEN
-                    SET error = 'exists:social:networkId';
-                    SELECT error;
-                  ELSE
-                    INSERT INTO users (
-                      networkId,
-                      network,
-                      username,
-                      email,
-                      avatar,
-                      subscribed
-                    ) VALUES (
-                      _networkId,
-                      _network,
-                      _username,
-                      _email,
-                      _avatar,
-                      _suscribed
-                    );
-
-                    SET success = 'inserted:social:username';
-                    SELECT success;
-                  END IF;
-                END IF;
-              END IF;
-            ELSE
-              SET error = 'invalid:number:subscribed';
-              SELECT error;
-            END IF;
-          ELSE
-            SET error = 'undefined:avatar';
-            SELECT error;
-          END IF;
-        ELSE
-          SET error = 'invalid:email';
-          SELECT error;
-        END IF;
-      ELSE
-        SET error = 'undefined:networkId';
-        SELECT error;
-      END IF;
-    ELSE
-      SET error = 'undefined:username';
-      SELECT error;
-    END IF;
   END IF;
 END$$
 
@@ -265,7 +83,7 @@ CREATE TABLE `blog` (
   `createdAt` datetime NOT NULL,
   `day` varchar(2) NOT NULL,
   `month` varchar(2) NOT NULL,
-  `year` varchar(2) NOT NULL,
+  `year` varchar(4) NOT NULL,
   `language` varchar(2) NOT NULL DEFAULT 'en',
   `activeComments` tinyint(1) NOT NULL DEFAULT '1',
   `state` varchar(25) NOT NULL DEFAULT 'draft'
@@ -313,7 +131,7 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (15, 'Dashboard.forms.fields.excerpt', 'Excerpt', 'en'),
 (16, 'Dashboard.forms.fields.language', 'Language', 'en'),
 (17, 'Dashboard.forms.fields.save', 'Save', 'en'),
-(18, 'Dashboard.forms.fields.selects.decision', 'yes:Yes|no:No', 'en'),
+(18, 'Dashboard.forms.fields.selects.decision', '1:Yes|0:No', 'en'),
 (19, 'Dashboard.forms.fields.selects.languages', 'en:English|es:Spanish', 'en'),
 (20, 'Dashboard.forms.fields.selects.state', 'draft:Draft|published:Published', 'en'),
 (21, 'Dashboard.forms.fields.slug', 'Friendly URL', 'en'),
@@ -353,7 +171,7 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (55, 'Dashboard.forms.fields.excerpt', 'Extracto', 'es'),
 (56, 'Dashboard.forms.fields.language', 'Idioma', 'es'),
 (57, 'Dashboard.forms.fields.save', 'Guardar', 'es'),
-(58, 'Dashboard.forms.fields.selects.decision', 'yes:Si|no:No', 'es'),
+(58, 'Dashboard.forms.fields.selects.decision', '1:Si|0:No', 'es'),
 (59, 'Dashboard.forms.fields.selects.languages', 'en:Inglés|es:Español', 'es'),
 (60, 'Dashboard.forms.fields.selects.state', 'active:Activo|inactive:Inactivo', 'es'),
 (61, 'Dashboard.forms.fields.slug', 'URL Amigable', 'es'),
@@ -407,7 +225,17 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (109, 'Home.welcome', 'Welcome', 'en'),
 (110, 'Home.welcome', 'Bienvenidos', 'es'),
 (111, 'Site.errors.error404', 'Error 404: Página no encontrada', 'es'),
-(112, 'Site.errors.error404', 'Error 404: Page Not Found', 'en');
+(112, 'Site.errors.error404', 'Error 404: Page Not Found', 'en'),
+(113, 'Dashboard.forms.fields.error.title', 'You need to write a title', 'en'),
+(114, 'Dashboard.forms.fields.error.title', 'Necesitas escribir un título', 'es'),
+(115, 'Dashboard.forms.fields.error.slug', 'The friendly url is missing', 'en'),
+(116, 'Dashboard.forms.fields.error.slug', 'La URL amigable es obligatoria', 'es'),
+(117, 'Dashboard.forms.fields.error.excerpt', 'The excerpt is missing', 'en'),
+(118, 'Dashboard.forms.fields.error.excerpt', 'El abstracto es obligatorio', 'es'),
+(119, 'Dashboard.forms.fields.error.content', 'Write some content for the post', 'en'),
+(120, 'Dashboard.forms.fields.error.content', 'Escribe algún contenido para la publicación', 'es'),
+(121, 'Dashboard.forms.fields.error.author', 'Who is writing this post?', 'en'),
+(122, 'Dashboard.forms.fields.error.author', '¿Quién está escribiendo esta publicación?', 'es');
 
 -- --------------------------------------------------------
 

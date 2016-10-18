@@ -1,4 +1,4 @@
-// Local Dependencies
+// Utils
 import { getParamsFromUrl } from './utils/url';
 
 // Configuration

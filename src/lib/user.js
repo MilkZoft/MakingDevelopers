@@ -1,4 +1,4 @@
-// Local Dependencies
+// Utils
 import { isArray, isDefined } from './utils/is';
 
 // Model

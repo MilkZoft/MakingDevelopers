@@ -1,7 +1,7 @@
-// NPM Dependencies
+// Dependencies
 import fs from 'fs';
 
-// Local Dependencies
+// Utils
 import { isDefined } from './is';
 
 // Configuration

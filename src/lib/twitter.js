@@ -1,7 +1,7 @@
-// NPM Dependencies
+// Dependencies
 import { OAuth } from 'oauth';
 
-// Local Dependencies
+// Utils
 import { parseJson } from './utils/object';
 
 // Configuration
