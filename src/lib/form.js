@@ -76,7 +76,6 @@ export function createSelect(attrs) {
   let html = '<select ';
   let value;
   let i = 0;
-  const elements = keys(attrs);
 
   if (attrs.hasOwnProperty('options')) {
     options = attrs.options.split('|');
@@ -86,6 +85,8 @@ export function createSelect(attrs) {
   if (!hasClass && type !== 'hidden' && type !== 'checkbox' && type !== 'radio') {
     html += 'class="select" ';
   }
+
+  const elements = keys(attrs);
 
   forEach(elements, attr => {
     i++;
