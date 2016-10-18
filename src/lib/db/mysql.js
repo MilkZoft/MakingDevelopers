@@ -18,6 +18,28 @@ const connection = mysql.createConnection({
   user: $db().mysql.user
 });
 
+export function getExistsQuery(table, data) {
+  if (table && data) {
+    const count = keys(data).length - 1;
+    let i = 0;
+    let query = `SELECT * FROM ${table} WHERE `;
+
+    forEach(data, field => {
+      if (i === count) {
+        query += `${field} = '${data[field]}'`;
+      } else {
+        query += `${field} = '${data[field]}' AND `;
+      }
+
+      i++;
+    });
+
+    return query;
+  }
+
+  return false;
+}
+
 export function getInsertQuery(table, data) {
   if (isObject(data)) {
     const count = keys(data).length - 1;

@@ -55,7 +55,19 @@ export default (req, res, next) => {
           // Trying to save the post
           res.BlogModel.savePost(post, (result, errors) => {
             // Do we have some errors?
-            if (errors) {
+            if (errors === 'exists') {
+              res.BlogModel.getSchema(schema => {
+                // The post was added correclty
+                schema.alert = {
+                  type: 'warning',
+                  icon: 'times',
+                  message: res.content('messages.add.exists')
+                };
+
+                res.renderScope.set('schema', schema);
+                res.render(createView, res.renderScope.get());
+              });
+            } else if (errors) {
               // Getting the schema to re-render the form.
               res.BlogModel.getSchema(schema => {
                 schema.alert = {
@@ -84,9 +96,6 @@ export default (req, res, next) => {
                   icon: 'check',
                   message: res.content('messages.add.success')
                 };
-
-                // Refreshing security token
-                res.refreshSecurityToken();
 
                 res.renderScope.set('schema', schema);
                 res.render(createView, res.renderScope.get());

@@ -189,6 +189,14 @@ export function insert(table, data, callback) {
   });
 }
 
+export function exists(table, data, callback) {
+  const sql = Db.getExistsQuery(table, data);
+
+  query(sql, callback, (result, callback) => {
+    callback(result.length === 0 ? false : result);
+  });
+}
+
 /**
  * Performs a SQL Query and returns a callback
  *

@@ -50,6 +50,13 @@ export default (req, res, next) => {
     const fields = keys(data);
     let save = true;
     const errorMessages = {};
+    const validateIfExists = {
+      title: data.title,
+      slug: data.slug,
+      day: data.day,
+      month: data.month,
+      year: data.year
+    };
 
     forEach(fields, field => {
       if (requiredFields[field] && data[field] === '') {
@@ -59,8 +66,14 @@ export default (req, res, next) => {
     });
 
     if (save) {
-      Blog.insert(table, data, callback, (result, callback) => {
-        callback(result);
+      Blog.exists(table, validateIfExists, (exists) => {
+        if (!exists) {
+          Blog.insert(table, data, callback, (result, callback) => {
+            callback(result);
+          });
+        } else {
+          return callback(false, 'exists');
+        }
       });
     } else {
       return callback(false, errorMessages);

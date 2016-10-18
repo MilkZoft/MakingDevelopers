@@ -1,7 +1,7 @@
 // NPM Dependencies
 import { minify } from 'html-minifier';
 
-// Local Dependencies
+// Utils
 import { createInput, createLabel, createSelect, createTextarea } from './form';
 import { isDefined, isUndefined } from './utils/is';
 import { exists, forEach, ternary, stringify } from './utils/object';
