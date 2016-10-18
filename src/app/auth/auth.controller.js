@@ -1,7 +1,7 @@
-// NPM Dependencies
+// Dependencies
 import express from 'express';
 
-// Local Dependencies
+// Helpers
 import { getAuthenticateUrl, getOAuthAccessToken, getOAuthRequestToken } from '../../lib/twitter';
 
 // Express Router

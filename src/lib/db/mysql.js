@@ -1,4 +1,4 @@
-// NPM Dependencies
+// Dependencies
 import mysql from 'mysql';
 
 // Configuration

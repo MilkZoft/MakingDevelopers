@@ -1,4 +1,4 @@
-// Local Dependencies
+// Utils
 import { isArray, isJson, isString, isUndefined } from './utils/is';
 import { parseJson, stringify } from './utils/object';
 

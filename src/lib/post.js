@@ -1,4 +1,7 @@
+// Configuration
 import { $security } from './config';
+
+// Utils
 import { now } from './utils/date';
 import { isArray, isDefined, isObject } from './utils/is';
 import { escapeString, removeHTML } from './utils/string';

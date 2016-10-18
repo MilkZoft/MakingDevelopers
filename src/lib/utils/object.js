@@ -1,7 +1,7 @@
-// NPM Dependencies
+// Dependencies
 import dot from 'dot-object';
 
-// Local Dependencies
+// Utils
 import { isArray, isDefined } from './is';
 
 /**

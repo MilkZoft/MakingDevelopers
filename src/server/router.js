@@ -1,10 +1,12 @@
-// Local Dependencies
+// Helpers
 import {
   availableLanguages,
   getCurrentLanguage,
   getLanguagePath,
   loadLanguage
 } from '../lib/i18n';
+
+// Utils
 import { isMobile } from '../lib/utils/device';
 import { sha1 } from '../lib/utils/security';
 

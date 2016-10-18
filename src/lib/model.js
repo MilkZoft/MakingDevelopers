@@ -1,5 +1,7 @@
-// Local Dependencies
+// Helpers
 import * as Db from './db/mysql';
+
+// Utils
 import { isDefined, isNumber } from './utils/is';
 import { forEach, keys } from './utils/object';
 import { clean } from './utils/string';

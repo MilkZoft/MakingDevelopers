@@ -1,4 +1,4 @@
-// Local Dependencies
+// Utils
 import { isDefined } from './is';
 
 /**

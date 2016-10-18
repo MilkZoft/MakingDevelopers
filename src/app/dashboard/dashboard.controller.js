@@ -1,4 +1,4 @@
-// NPM Dependencies
+// Dependencies
 import express from 'express';
 
 // Express Router

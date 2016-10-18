@@ -1,4 +1,4 @@
-// Model
+// Helpers
 import * as Blog from '../../lib/model';
 
 // Utils

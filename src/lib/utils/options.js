@@ -1,4 +1,4 @@
-// Local Dependencies
+// Utils
 import { pick } from './object';
 
 export function getInputOptions(schema, field, errorClass, userInfo, flashData) {

@@ -1,7 +1,7 @@
-// NPM Dependencies
+// Dependencies
 import crypto from 'crypto';
 
-// Local Dependencies
+// Utils
 import { isDefined } from './is';
 
 // Configuration

@@ -1,8 +1,10 @@
-// NPM Dependencies
+// Dependencies
 import express from 'express';
 
-// Local Dependencies
+// Helpers
 import { availableLanguages } from '../../lib/i18n';
+
+// Utils
 import { buildContentJson } from '../../lib/utils/object';
 
 // Model
