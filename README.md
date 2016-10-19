@@ -1,6 +1,6 @@
 # MakingDevelopers
 
-[Codejobs](https://www.codejobs.biz "Codejobs") is developing Mastodone CMS with new technologies such as: Node, React, Redux, Handlebars, Gulp, HTML5, Stylus and more... and teaching how to do it.
+<a href="https://www.codejobs.biz" target="_blank" title="Codejobs">Codejobs</a> is developing Mastodone CMS with new technologies such as: Node, React, Redux, Handlebars, Gulp, HTML5, Stylus and more... and teaching how to do it.
 
 You can see the videos that we have done so far and get involve in the project!
 
@@ -18,4 +18,4 @@ You can see the videos that we have done so far and get involve in the project!
 * Video 12: https://www.youtube.com/watch?v=8WxF3CjRf5k
 * Video 13: https://www.youtube.com/watch?v=0gcqCDh0Mto
 
-Subscribe to [Codejob's Youtube Channel!](https://www.youtube.com/codejobs?sub_confirmation=1 "Codejob's Youtube Channel!")
+Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" target="_blank" title="Codejobs Youtube Channel!">Codejobs Youtube Channel!</a>
