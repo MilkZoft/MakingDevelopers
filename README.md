@@ -18,4 +18,4 @@ You can see the videos that we have done so far and get involve in the project!
 * Video 12: https://www.youtube.com/watch?v=8WxF3CjRf5k
 * Video 13: https://www.youtube.com/watch?v=0gcqCDh0Mto
 
-Subscribe to [Codejob's Youtube Channel!](youtube.com/codejobs?sub_confirmation=1 "Codejob's Youtube Channel!")
+Subscribe to [Codejob's Youtube Channel!](https://www.youtube.com/codejobs?sub_confirmation=1 "Codejob's Youtube Channel!")
