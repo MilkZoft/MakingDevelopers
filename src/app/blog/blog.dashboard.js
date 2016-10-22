@@ -116,32 +116,39 @@ export default (req, res, next) => {
    */
   function readAction() {
     res.profileAllowed(connectedUser => {
+      res.content('Dashboard.table', true);
+
       const tableData = {
+        __: res.__,
+        basePath: res.basePath,
+        currentDashboardApp: res.currentDashboardApp,
         theme: 'grey',
         fields: {
           id: {
             label: 'ID'
           },
           title: {
-            label: 'Title'
+            label: res.content('title')
           },
           author: {
             center: true,
-            label: 'Author'
+            label: res.content('author')
           },
           state: {
             center: true,
-            label: 'State'
+            label: res.content('state')
           }
         },
         data: [
           {
+            bg: 'warning',
             id: 1,
             title: 'Desarrollando un CMS desde cero con Node.js 1',
             author: 'Codejobs',
             state: 'Published'
           },
           {
+            bg: 'danger',
             id: 2,
             title: 'Desarrollando un CMS desde cero con Node.js 1',
             author: 'Codejobs',
@@ -154,12 +161,14 @@ export default (req, res, next) => {
             state: 'Published'
           },
           {
+            bg: 'success',
             id: 4,
             title: 'Desarrollando un CMS desde cero con Node.js 1',
             author: 'Codejobs',
             state: 'Published'
           },
           {
+            bg: 'info',
             id: 5,
             title: 'Desarrollando un CMS desde cero con Node.js 1',
             author: 'Codejobs',

@@ -1,3 +1,7 @@
+// Configuration
+import { $languages } from '../config';
+import { exists } from './object';
+
 /**
  * Validates if a given variable is an Array
  *
@@ -66,6 +70,10 @@ export function isJson(str) {
   }
 
   return true;
+}
+
+export function isLanguage(language) {
+  return exists(language, $languages().list);
 }
 
 /**

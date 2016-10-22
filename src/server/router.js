@@ -9,9 +9,10 @@ import {
 // Utils
 import { isMobile } from '../lib/utils/device';
 import { sha1 } from '../lib/utils/security';
+import { getCurrentApp } from '../lib/utils/url';
 
 // Configuration
-import { $baseUrl } from '../lib/config';
+import { $baseUrl, $dashboard } from '../lib/config';
 
 // Importing controllers
 import authController from '../app/auth/auth.controller';
@@ -53,10 +54,25 @@ export default (app) => {
     return next();
   });
 
-  // base Url & basePath
+  // base Url && basePath && currentUrl && currentApp
   app.use((req, res, next) => {
-    res.locals.baseUrl = $baseUrl();
-    res.locals.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
+    res.locals.currentApp = res.currentApp = getCurrentApp(req.originalUrl);
+    res.locals.currentDashboardApp = res.currentDashboardApp = getCurrentApp(req.originalUrl, true);
+    res.locals.currentUrl = res.currentUrl = $baseUrl() + req.originalUrl;
+    res.locals.baseUrl = res.baaseUrl = $baseUrl();
+    res.locals.basePath = res.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
+
+    return next();
+  });
+
+  // Dashboard
+  app.use((req, res, next) => {
+    res.locals.dashboard = $dashboard();
+
+    // Limit to 17 characters to avoid breaking mobile
+    if (res.locals.dashboard.title.length > 17) {
+      res.locals.dashboard.title = res.locals.dashboard.title.substring(0, 17);
+    }
 
     return next();
   });
@@ -87,10 +103,11 @@ export default (app) => {
   app.use(blogModel);
 
   // Controllers dispatch
-  app.use(`/:language(${availableLanguages()})/dashboard`, dashboardController);
   app.use('/auth', authController);
   app.use('/dashboard', dashboardController);
+  app.use(`/:language(${availableLanguages()})/dashboard`, dashboardController);
   app.use('/users', usersController);
+  app.use(`/:language(${availableLanguages()})/users`, usersController);
 
   // React dispatch
   app.get('*', render);

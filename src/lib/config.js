@@ -30,6 +30,10 @@ export function $appName(env) {
   return $config(env).appName;
 }
 
+export function $dashboard(env) {
+  return $config(env).dashboard;
+}
+
 /**
  * Returns baseUrl node
  *
