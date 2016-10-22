@@ -1,7 +1,7 @@
 // Utils
 import { pick } from './object';
 
-export function getInputOptions(schema, field, errorClass, userInfo, flashData) {
+export function getInputOptions(schema, field, errorClass, connectedUser, flashData) {
   const inputOptions = { hash: {} };
 
   inputOptions.hash.id = field;
@@ -9,7 +9,7 @@ export function getInputOptions(schema, field, errorClass, userInfo, flashData) 
   inputOptions.hash.name = field;
 
   if (field === 'author') {
-    inputOptions.hash.value = userInfo.username;
+    inputOptions.hash.value = connectedUser.username;
   }
 
   if (flashData) {

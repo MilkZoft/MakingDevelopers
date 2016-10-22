@@ -45,7 +45,7 @@ export function renderSchema(options) {
   let html = '';
 
   const schema = options.hash.schema;
-  const userInfo = options.hash.userInfo;
+  const connectedUser = options.hash.connectedUser;
   const __ = options.hash.__;
   const flashData = options.hash.flashData;
   const securityToken = options.hash.securityToken;
@@ -61,7 +61,7 @@ export function renderSchema(options) {
       if (!exists(field, hiddenElements)) {
         const errorClass = ternary(schema[field].errorMessage, ' errorBorder');
 
-        html += renderFormElements(schema, __, field, errorClass, userInfo, flashData);
+        html += renderFormElements(schema, __, field, errorClass, connectedUser, flashData);
       } else {
         html += hidden(getHiddenOptions(field, hiddenElements));
       }

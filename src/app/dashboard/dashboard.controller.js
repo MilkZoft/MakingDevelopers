@@ -10,13 +10,12 @@ const Router = express.Router();
 Router.get('/', (req, res) => {
   // Setting layout
   res.renderScope.default({
-    layout: 'dashboard.hbs'
+    layout: 'dashboard.hbs',
+    connectedUser: res.connectedUser
   });
 
   // If user is connected...
-  res.profileAllowed(userInfo => {
-    res.renderScope.set('userInfo', userInfo);
-
+  res.profileAllowed(connectedUser => {
     res.render('app/dashboard/index', res.renderScope.get());
   });
 });
