@@ -3,6 +3,7 @@ import { minify } from 'html-minifier';
 
 // Helpers
 import { createInput, createLabel, createSelect, createTextarea } from './form';
+import { createTable } from './table';
 
 // Utils
 import { isDefined, isUndefined } from './utils/is';
@@ -72,6 +73,16 @@ export function renderSchema(options) {
   html += token(securityToken);
 
   return html;
+}
+
+export function renderTable(options) {
+  const tableData = options.hash.tableData;
+
+  if (tableData) {
+    return createTable(tableData);
+  }
+
+  return false;
 }
 
 export function ceil(number) {

@@ -34,6 +34,10 @@ export function ternary(condition, value1, value2) {
 }
 
 export function exists(element, obj) {
+  if (isArray(obj)) {
+    return obj.indexOf(element) !== -1;
+  }
+
   return keys(obj).indexOf(element) !== -1;
 }
 

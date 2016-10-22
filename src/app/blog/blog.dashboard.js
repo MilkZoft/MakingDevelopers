@@ -116,6 +116,60 @@ export default (req, res, next) => {
    */
   function readAction() {
     res.profileAllowed(connectedUser => {
+      const tableData = {
+        theme: 'grey',
+        fields: {
+          id: {
+            label: 'ID'
+          },
+          title: {
+            label: 'Title'
+          },
+          author: {
+            center: true,
+            label: 'Author'
+          },
+          state: {
+            center: true,
+            label: 'State'
+          }
+        },
+        data: [
+          {
+            id: 1,
+            title: 'Desarrollando un CMS desde cero con Node.js 1',
+            author: 'Codejobs',
+            state: 'Published'
+          },
+          {
+            id: 2,
+            title: 'Desarrollando un CMS desde cero con Node.js 1',
+            author: 'Codejobs',
+            state: 'Published'
+          },
+          {
+            id: 3,
+            title: 'Desarrollando un CMS desde cero con Node.js 1',
+            author: 'Codejobs',
+            state: 'Published'
+          },
+          {
+            id: 4,
+            title: 'Desarrollando un CMS desde cero con Node.js 1',
+            author: 'Codejobs',
+            state: 'Published'
+          },
+          {
+            id: 5,
+            title: 'Desarrollando un CMS desde cero con Node.js 1',
+            author: 'Codejobs',
+            state: 'Published'
+          }
+        ]
+      };
+
+      res.renderScope.set('tableData', tableData);
+
       res.render(readView, res.renderScope.get());
     });
   }
