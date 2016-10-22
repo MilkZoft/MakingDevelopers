@@ -23,9 +23,16 @@ export default (req, res, next) => {
   return next();
 
   function action() {
-    return req.params.action === 'create' || req.params.action === 'edit'
-      ? `${req.params.action}Action`
-      : 'readAction';
+    let action = 'readAction';
+
+    if (req.params.action === 'create' || req.params.action === 'edit') {
+      action = `${req.params.action}Action`;
+    }
+
+    // Sending the action to the templates
+    res.locals.action = action;
+
+    return action;
   }
 
   function debug(variable) {

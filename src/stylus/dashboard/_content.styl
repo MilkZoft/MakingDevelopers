@@ -4,7 +4,18 @@
     margin-bottom 40px
 
     @media Tablet
-        position(absolute, 7%, false, false, 8%)
+        position(absolute, 10%, false, false, 8%)
+        min-width 95%
+
+        h1
+            text-align center
+
+    &.readAction
+        @media Tablet
+            position(absolute, 9%, false, false, 3%)
+
+        @media iPhone5S
+            position(absolute, 9%, false, false, 0.5%)
 
     .Create
         .errorBorder

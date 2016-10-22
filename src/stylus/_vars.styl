@@ -1,16 +1,42 @@
 /* General Colors */
-$bg          = #FEFEF4
-$darkGray    = #313233
-$gray        = #666
-$lightGray   = #E8E8E8
-$white       = #FFF
-$almostWhite = #F5F5F5
-$black       = #000
-$almostBlack = #111
-$yellow      = #F6D42A
-$red         = #FC1C49
-$blue        = #00A2D9
-$green       = #1D9A90
+$bg           = #FEFEF4
+$darkGray     = #313233
+$gray         = #666
+$lightGray    = #E8E8E8
+$lightestGray = #F5F5F5
+$white        = #FFF
+$almostWhite  = #F5F5F5
+$black        = #000
+$almostBlack  = #111
+$yellow       = #F6D42A
+$red          = #FC1C49
+$blue         = #00A2D9
+$green        = #1D9A90
+
+/* States colors (alerts & tables) */
+$successColor     = #3C763D
+$successBg        = #DFF0D8
+$successBc        = #D6E9C6
+$successTopBorder = #C9E2B3
+$successLink      = #2B542C
+
+$infoColor     = #31708F
+$infoBg        = #D9EDF7
+$infoBc        = #BCE8F1
+$infoTopBorder = #A6E1EC
+$infoLink      = #245269
+
+$warningColor     = #8A6D3B
+$warningBg        = #FCF8E3
+$warningBc        = #FAEBCC
+$warningTopBorder = #F7E1B5
+$warningLink      = #665121
+
+$dangerColor     = #BF0000
+$dangerBg        = #FCDCDC
+$dangerBc        = #EBCCD1
+$dangerTopBorder = #E4B9C0
+$dangerLink      = #843534
 
 /* Font weights */
 $fontWeightLighter = 100
@@ -63,14 +89,13 @@ $minWDevice = 'min-width-width:'
 $desktopBreakpoint = 1024px;
 $tabletBreakpoint = 768px;
 $mobileBreakpoint = 640px;
+$mobileLandscapeBreakpoint = 736px;
 
 /* Devices breakpoints */
 $iPadW =  768px
 $iPadH = 1024px
-$iP4W  =  320px
-$iP4H  =  480px
-$iP5W  =  320px
-$iP5H  =  568px
+$iP5SW =  320px
+$iP5SH =  568px
 $iP6W  =  375px
 $iP6H  =  667px
 $iP6PW =  414px
@@ -79,16 +104,16 @@ $iP6PH =  736px
 /* General Devices */
 Desktop = $s + ' (' + $minW + $desktopBreakpoint + ')'
 Tablet  = $s + ' (' + $maxW + $tabletBreakpoint + ')'
+TabletLandscape = $s + ' (' + $maxW + $tabletBreakpoint + ') and (' + $l + ')'
 Mobile  = $s + ' (' + $maxW + $mobileBreakpoint + ')'
+MobileLandscape  = $s + ' (' + $maxW + $mobileLandscapeBreakpoint + ') and (' + $l + ')'
 
 /* Specific Devices */
-iPad              = $s + ' (' + $minWDevice + $iPadW + ') and (' + $maxWDevice + $iPadH + ')'
-iPadLandscape     = $s + ' (' + $minWDevice + $iPadW + ') and (' + $maxWDevice + $iPadH + ') and (' + $l + ')'
-iPhone6P          = $s + ' (' + $minWDevice + $iP4W  + ') and (' + $maxWDevice + $iP4H  + ')'
-iPhone6PLandscape = $s + ' (' + $minWDevice + $iP6PW + ') and (' + $maxWDevice + $iP6PH + ') and (' + $l + ')'
-iPhone6           = $s + ' (' + $minWDevice + $iP6W  + ') and (' + $maxWDevice + $iP6H  + ')'
-iPhone6Landscape  = $s + ' (' + $minWDevice + $iP6W  + ') and (' + $maxWDevice + $iP6H  + ') and (' + $l + ')'
-iPhone5           = $s + ' (' + $minWDevice + $iP5W  + ') and (' + $maxWDevice + $iP5H  + ')'
-iPhone5Landscape  = $s + ' (' + $minWDevice + $iP5W  + ') and (' + $maxWDevice + $iP5H  + ') and (' + $l + ')'
-iPhone4           = $s + ' (' + $minWDevice + $iP4W  + ') and (' + $maxWDevice + $iP4H  + ')'
-iPhone4Landscape  = $s + ' (' + $minWDevice + $iP4W  + ') and (' + $maxWDevice + $iP4H  + ') and (' + $l + ')'
+iPad               = $s + ' (' + $maxWDevice + $iPadW + ')'
+iPadLandscape      = $s + ' (' + $maxWDevice + $iPadH + ') and (' + $l + ')'
+iPhone6P           = $s + ' (' + $maxWDevice + $iP6W  + ')'
+iPhone6PLandscape  = $s + ' (' + $maxWDevice + $iP6PH + ') and (' + $l + ')'
+iPhone6            = $s + ' (' + $maxWDevice + $iP6W  + ')'
+iPhone6Landscape   = $s + ' (' + $maxWDevice + $iP6H  + ') and (' + $l + ')'
+iPhone5S           = $s + ' (' + $maxWDevice + $iP5SW  + ')'
+iPhone5SLandscape  = $s + ' (' + $maxWDevice + $iP5SH  + ') and (' + $l + ')'

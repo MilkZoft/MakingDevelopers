@@ -1,0 +1,84 @@
+table
+    border-collapse collapse
+    border-spacing 0
+
+.table
+    background $white
+    width 95%
+
+    @media Tablet
+        width 100%
+
+    @media Mobile
+        width 97%
+
+    thead
+        th
+            fontSize(15px, bold)
+            padding 10px 8px
+            text-transform none
+
+            @media Tablet
+                fontSize(13px, bold)
+
+            @media Mobile
+                fontSize(12px, bold)
+
+             @media iPhone5S
+                fontSize(10px, bold)
+
+    tbody
+        tr
+            td
+                fontSize(14px)
+                padding 14px
+
+                @media Tablet
+                    fontSize(12px)
+
+                @media Mobile
+                    fontSize(10.5px)
+                    padding 9px
+
+                @media iPhone5S
+                    fontSize(9px, bold)
+                    padding 6px
+
+                @media iPhone5SLandscape
+                    fontSize(10px, bold)
+                    padding 10px
+
+    .center
+        text-align center
+
+    /* Custom colors for rows */
+    .success
+        background $successBg !important
+        color $successColor
+
+    .info
+        background $infoBg !important
+        color $infoColor
+
+    .danger
+        background $dangerBg !important
+        color $dangerColor
+
+    .warning
+        background $warningBg !important
+        color $warningColor
+
+    /* Table colors */
+    &.grey
+        border 1px solid $lightGray
+        color $darkGray
+
+        thead
+            th
+                background $lightestGray
+                border-bottom 1px solid $lightGray
+                color $darkGray
+
+        & > tr:nth-child(2n),
+        & tbody tr:nth-child(2n)
+            background-color $lightestGray
