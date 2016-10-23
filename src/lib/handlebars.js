@@ -76,10 +76,10 @@ export function renderSchema(options) {
 }
 
 export function renderTable(options) {
-  const tableData = options.hash.tableData;
+  const tableSchema = options.hash.tableSchema;
 
-  if (tableData) {
-    return createTable(tableData);
+  if (tableSchema) {
+    return createTable(tableSchema);
   }
 
   return false;

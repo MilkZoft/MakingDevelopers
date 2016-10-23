@@ -11,7 +11,9 @@
         By <a href="https://www.codejobs.biz" target="_blank" title="Codejobs">Codejobs</a>
     </div>
 
-    <div class="user">{{ connectedUser.username }}</div>
+    <div class="user">
+        <a href="{{ basePath }}/users/profile" title="{{ connectedUser.username }}">{{ connectedUser.username }}</a>
+    </div>
 
     <div id="menu" class="menu hidden">
         <ul>

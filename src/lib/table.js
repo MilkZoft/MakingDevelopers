@@ -3,7 +3,7 @@ import { isDefined } from './utils/is';
 import { forEach } from './utils/object';
 import { icon } from './handlebars';
 
-export function createTable(tableData) {
+export function createTable(tableSchema) {
   const {
     __,
     currentDashboardApp,
@@ -11,13 +11,13 @@ export function createTable(tableData) {
     theme = 'grey',
     fields,
     data
-  } = tableData;
+  } = tableSchema;
 
   let html;
 
   html = `<table class="table ${theme}">`;
   html += getTHead(fields, __);
-  html += getTBody(data, fields, basePath, currentDashboardApp);
+  html += getTBody(data, fields, basePath, currentDashboardApp, __);
   html += '</table>';
 
   return html;
@@ -26,7 +26,7 @@ export function createTable(tableData) {
 function getTHead(fields, __) {
   let html;
 
-  html = '<thead><tr><th></th>';
+  html = '<thead><tr><th><input class="tableCheckboxAll" type="checkbox" /></th>';
 
   forEach(fields, field => {
     let className = 'row';
@@ -43,14 +43,20 @@ function getTHead(fields, __) {
   return html;
 }
 
-function getTBody(data, fields, basePath, currentDashboardApp) {
+function getTBody(data, fields, basePath, currentDashboardApp, __) {
+  const dashboardUrl = `${basePath}/dashboard/${currentDashboardApp}`;
+  let deleteAction;
   let html;
   let id;
+  let remove;
+  let restore;
+  let update;
 
   html = '<tbody>';
 
   forEach(data, row => {
     let bg = '';
+
 
     // If has a specific background...
     if (isDefined(row.bg)) {
@@ -77,13 +83,34 @@ function getTBody(data, fields, basePath, currentDashboardApp) {
         id = row[field];
       }
 
+      if (field === 'state' && row[field] === 'Deleted') {
+        restore = icon('undo');
+        remove = icon('times');
+        deleteAction = 'remove';
+        update = '';
+      } else {
+        restore = '';
+        remove = icon('trash');
+        deleteAction = 'delete';
+        update = icon('pencil');
+      }
+
       html += `<td class="${className}">${row[field]}</td>`;
     });
 
     html += `
       <td class="center">
-        <a title="Edit" href="${basePath}/dashboard/${currentDashboardApp}/update/${id}">${icon('pencil')}</a> &nbsp;
-        <a title="Delete" href="${basePath}/dashboard/${currentDashboardApp}/delete/${id}">${icon('trash')}</a>
+        <a title="${__.Dashboard.table.edit}" href="${dashboardUrl}/update/${id}">
+          ${update}
+        </a>
+        ${!restore ? '&nbsp;' : ''}
+        <a class="${deleteAction}" title="${__.Dashboard.table.delete}" href="${dashboardUrl}/${deleteAction}/${id}">
+          ${remove}
+        </a>
+        ${restore ? '&nbsp;' : ''}
+        <a title="${__.Dashboard.table.restore}" href="${dashboardUrl}/restore/${id}">
+          ${restore}
+        </a>
       </td>
       </tr></tr>
     `;

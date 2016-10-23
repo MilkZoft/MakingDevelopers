@@ -67,6 +67,12 @@ export function getInsertQuery(table, data) {
   return false;
 }
 
+export function getDeleteQuery(table, id) {
+  const query = `UPDATE ${table} SET state = 'deleted' WHERE id = ${id}`;
+
+  return query;
+}
+
 /**
  * Builds the SQL Query
  *
@@ -135,7 +141,8 @@ export function find(obj, callback) {
  * @returns {string} SQL Query
  */
 export function findAll(obj, callback) {
-  return connection.query(getQuery(obj), callback);
+  const sql = getQuery(obj);
+  return connection.query(sql, callback);
 }
 
 /**

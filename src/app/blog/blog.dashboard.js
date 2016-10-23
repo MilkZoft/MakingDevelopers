@@ -12,7 +12,6 @@ const app = 'blog';
 const createView = `app/${app}/dashboard/create`;
 const readView = `app/${app}/dashboard/read`;
 const updateView = `app/${app}/dashboard/update`;
-const deleteView = `app/${app}/dashboard/delete`;
 
 export default (req, res, next) => {
   // Setting layout
@@ -118,68 +117,11 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       res.content('Dashboard.table', true);
 
-      const tableData = {
-        __: res.__,
-        basePath: res.basePath,
-        currentDashboardApp: res.currentDashboardApp,
-        theme: 'grey',
-        fields: {
-          id: {
-            label: 'ID'
-          },
-          title: {
-            label: res.content('title')
-          },
-          author: {
-            center: true,
-            label: res.content('author')
-          },
-          state: {
-            center: true,
-            label: res.content('state')
-          }
-        },
-        data: [
-          {
-            bg: 'warning',
-            id: 1,
-            title: 'Desarrollando un CMS desde cero con Node.js 1',
-            author: 'Codejobs',
-            state: 'Published'
-          },
-          {
-            bg: 'danger',
-            id: 2,
-            title: 'Desarrollando un CMS desde cero con Node.js 1',
-            author: 'Codejobs',
-            state: 'Published'
-          },
-          {
-            id: 3,
-            title: 'Desarrollando un CMS desde cero con Node.js 1',
-            author: 'Codejobs',
-            state: 'Published'
-          },
-          {
-            bg: 'success',
-            id: 4,
-            title: 'Desarrollando un CMS desde cero con Node.js 1',
-            author: 'Codejobs',
-            state: 'Published'
-          },
-          {
-            bg: 'info',
-            id: 5,
-            title: 'Desarrollando un CMS desde cero con Node.js 1',
-            author: 'Codejobs',
-            state: 'Published'
-          }
-        ]
-      };
+      res.BlogModel.getAllPosts(tableSchema => {
+        res.renderScope.set('tableSchema', tableSchema);
 
-      res.renderScope.set('tableData', tableData);
-
-      res.render(readView, res.renderScope.get());
+        res.render(readView, res.renderScope.get());
+      });
     });
   }
 
@@ -201,7 +143,11 @@ export default (req, res, next) => {
    */
   function deleteAction() {
     res.profileAllowed(connectedUser => {
-      res.render(deleteView, res.renderScope.get());
+      const id = res.currentId;
+
+      res.BlogModel.deletePost(id, () => {
+        res.redirect(`${res.basePath}/dashboard/blog`);
+      });
     });
   }
 };

@@ -8,6 +8,8 @@ import { forEach, keys } from '../../lib/utils/object';
 export default (req, res, next) => {
   // Methods
   res.BlogModel = {
+    deletePost,
+    getAllPosts,
     getSchema,
     savePost
   };
@@ -46,6 +48,31 @@ export default (req, res, next) => {
     });
   }
 
+  function deletePost(id, callback) {
+    Blog.deleteRow(table, id, () => {
+      callback();
+    });
+  }
+
+  function getAllPosts(callback) {
+    const data = {
+      table,
+      fields: 'id, title, author, state',
+      order: 'id desc'
+      // limit
+    };
+
+    Blog.findAll(data, (error, result) => {
+      const tableSchema = Blog.getTableSchema(result, res.__);
+
+      tableSchema.__ = res.__;
+      tableSchema.basePath = res.basePath;
+      tableSchema.currentDashboardApp = res.currentDashboardApp;
+
+      callback(tableSchema);
+    });
+  }
+
   function savePost(data, callback) {
     const fields = keys(data);
     let save = true;
@@ -66,9 +93,9 @@ export default (req, res, next) => {
     });
 
     if (save) {
-      Blog.exists(table, validateIfExists, (exists) => {
+      Blog.existsRow(table, validateIfExists, (exists) => {
         if (!exists) {
-          Blog.insert(table, data, callback, (result, callback) => {
+          Blog.insertRow(table, data, callback, (result, callback) => {
             callback(result);
           });
         } else {

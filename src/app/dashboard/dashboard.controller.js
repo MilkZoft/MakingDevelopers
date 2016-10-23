@@ -10,8 +10,7 @@ const Router = express.Router();
 Router.get('/', (req, res) => {
   // Setting layout
   res.renderScope.default({
-    layout: 'dashboard.hbs',
-    connectedUser: res.connectedUser
+    layout: 'dashboard.hbs'
   });
 
   // If user is connected...
@@ -21,7 +20,7 @@ Router.get('/', (req, res) => {
 });
 
 /**
- * Dashboard: Blog || Add Post
+ * Dashboard: Blog Actions
  */
 Router.use('/blog/:action*?', (req, res) => {
   res.blogDashboard[res.action()]();
