@@ -40,6 +40,32 @@ export function getExistsQuery(table, data) {
   return false;
 }
 
+export function getUpdateQuery(table, data, id) {
+  if (isObject(data)) {
+    const count = keys(data).length - 1;
+    let values = '';
+    let i = 0;
+
+    forEach(data, f => {
+      if (i === count) {
+        values += `${f} = '${addSlashes(data[f])}'`;
+      } else {
+        values += `${f} = '${addSlashes(data[f])}', `;
+      }
+
+      i++;
+    });
+
+    if (id > 0) {
+      const query = `UPDATE ${table} SET ${values} WHERE id = ${id}`;
+
+      return query;
+    }
+  }
+
+  return false;
+}
+
 export function getInsertQuery(table, data) {
   if (isObject(data)) {
     const count = keys(data).length - 1;
@@ -73,6 +99,18 @@ export function getDeleteQuery(table, id) {
   return query;
 }
 
+export function getRemoveQuery(table, id) {
+  const query = `DELETE FROM ${table} WHERE id = ${id}`;
+
+  return query;
+}
+
+export function getRestoreQuery(table, state, id) {
+  const query = `UPDATE ${table} SET state = '${state}' WHERE id = ${id}`;
+
+  return query;
+}
+
 /**
  * Builds the SQL Query
  *
@@ -92,8 +130,8 @@ export function getQuery(obj, find) {
   let where = '';
 
   // Find by id
-  if (obj.key && obj.id) {
-    where = `WHERE ${obj.key} = ${obj.id}`;
+  if (obj.id) {
+    where = `WHERE id = ${obj.id}`;
   }
 
   // Find by field

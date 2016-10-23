@@ -4,7 +4,7 @@ import { $security } from './config';
 // Utils
 import { now } from './utils/date';
 import { isArray, isDefined, isObject } from './utils/is';
-import { forEach } from './utils/object';
+import { exists, forEach } from './utils/object';
 import { escapeString, getIdFromParam, removeHTML } from './utils/string';
 
 let postData = {};
@@ -23,9 +23,10 @@ export default (req, res, next) => {
   return next();
 
   function action() {
+    const actions = ['create', 'update', 'delete', 'remove', 'restore'];
     let action = 'readAction';
 
-    if (req.params.action === 'create' || req.params.action === 'update' || req.params.action === 'delete') {
+    if (exists(req.params.action, actions)) {
       if (isDefined(req.params[0])) {
         res.currentId = getIdFromParam(req.params[0]);
       }

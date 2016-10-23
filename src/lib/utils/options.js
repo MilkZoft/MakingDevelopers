@@ -83,13 +83,15 @@ export function getSelectOptions(schema, field, errorClass, flashData, __) {
   return selectOptions;
 }
 
-export function getSubmitOptions(__) {
+export function getSubmitOptions(__, action) {
   const submitOptions = { hash: {} };
 
   submitOptions.hash.id = 'publish';
   submitOptions.hash.class = 'btn dark';
   submitOptions.hash.name = 'publish';
-  submitOptions.hash.value = __.Dashboard.forms.fields.save;
+  submitOptions.hash.value = action === 'updateAction'
+    ? __.Dashboard.forms.fields.edit
+    : __.Dashboard.forms.fields.save;
 
   return submitOptions;
 }

@@ -3,15 +3,19 @@ import * as Blog from '../../lib/model';
 
 // Utils
 import { year, month, day } from '../../lib/utils/date';
-import { forEach, keys } from '../../lib/utils/object';
+import { forEach, keys, parseObject } from '../../lib/utils/object';
 
 export default (req, res, next) => {
   // Methods
   res.BlogModel = {
     deletePost,
     getAllPosts,
+    getPost,
     getSchema,
-    savePost
+    removePost,
+    restorePost,
+    savePost,
+    updatePost
   };
 
   // Global vars
@@ -48,8 +52,31 @@ export default (req, res, next) => {
     });
   }
 
+  function getPost(id, callback) {
+    const data = {
+      table,
+      id
+    };
+
+    Blog.find(data, (error, result) => {
+      callback(parseObject(result[0]));
+    });
+  }
+
   function deletePost(id, callback) {
     Blog.deleteRow(table, id, () => {
+      callback();
+    });
+  }
+
+  function removePost(id, callback) {
+    Blog.removeRow(table, id, () => {
+      callback();
+    });
+  }
+
+  function restorePost(id, callback) {
+    Blog.restoreRow(table, 'draft', id, () => {
       callback();
     });
   }
@@ -71,6 +98,45 @@ export default (req, res, next) => {
 
       callback(tableSchema);
     });
+  }
+
+  function updatePost(data, callback) {
+    const fields = keys(data);
+    let edit = true;
+    const errorMessages = {};
+    const validateIfExists = {
+      id: res.currentId
+    };
+
+    // Removing createdAt, year, month and day
+    if (data.createdAt && data.year && data.month && data.day) {
+      delete data.createdAt;
+      delete data.year;
+      delete data.month;
+      delete data.day;
+    }
+
+    // Looking for errors
+    forEach(fields, field => {
+      if (requiredFields[field] && data[field] === '') {
+        edit = false;
+        errorMessages[field] = requiredFields[field];
+      }
+    });
+
+    if (edit) {
+      Blog.existsRow(table, validateIfExists, (exists) => {
+        if (exists) {
+          Blog.updateRow(table, data, res.currentId, callback, (result, callback) => {
+            callback(result);
+          });
+        } else {
+          return callback(false, 'no exists');
+        }
+      });
+    } else {
+      return callback(false, errorMessages);
+    }
   }
 
   function savePost(data, callback) {

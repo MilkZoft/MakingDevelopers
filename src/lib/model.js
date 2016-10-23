@@ -3,8 +3,12 @@ import * as Db from './db/mysql';
 
 // Utils
 import { isDefined, isNumber } from './utils/is';
-import { exists, forEach, keys, parseJson, stringify } from './utils/object';
+import { exists, forEach, keys, parseObject } from './utils/object';
 import { clean } from './utils/string';
+
+export function find(data, callback) {
+  return Db.find(data, callback);
+}
 
 export function findAll(data, callback) {
   return Db.findAll(data, callback);
@@ -146,8 +150,7 @@ export function getTableSchema(data, __) {
       }
     });
 
-    const obj = parseJson(stringify(row));
-
+    const obj = parseObject(row);
 
     if (isDefined(obj.state)) {
       switch (obj.state) {
@@ -246,8 +249,32 @@ export function insertRow(table, data, callback) {
   });
 }
 
+export function updateRow(table, data, id, callback) {
+  const sql = Db.getUpdateQuery(table, data, id);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
 export function deleteRow(table, id, callback) {
   const sql = Db.getDeleteQuery(table, id);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
+export function removeRow(table, id, callback) {
+  const sql = Db.getRemoveQuery(table, id);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
+export function restoreRow(table, state, id, callback) {
+  const sql = Db.getRestoreQuery(table, state, id);
 
   query(sql, callback, (result, callback) => {
     callback(result);
