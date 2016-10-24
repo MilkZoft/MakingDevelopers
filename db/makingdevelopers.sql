@@ -1,21 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.6.0
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Aug 01, 2016 at 03:34 AM
--- Server version: 5.7.12
--- PHP Version: 5.5.34
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `makingdevelopers`
 --
@@ -94,7 +76,7 @@ CREATE TABLE `blog` (
 --
 
 INSERT INTO `blog` (`id`, `title`, `slug`, `excerpt`, `content`, `codes`, `tags`, `author`, `createdAt`, `day`, `month`, `year`, `language`, `activeComments`, `state`) VALUES
-(1, 'Tet', 'tet', '<p>sdadad</p>\r\n', '<p>asdadad</p>\r\n', '', 'Hola', 'codejobs', '2016-02-27 00:52:58', '27', '2', '20', 'en', 0, 'draft');
+(1, 'Teteeeeeeeee', 'teteeeeeeeee', '<p>sdadad</p>\r\n\r\n<p>asdsadasd</p>\r\n', '<p>asdadad</p>\r\n\r\n<p>[Ad:336x280]</p>\r\n\r\n<p>{{script.js}}</p>\r\n', '---js:script.js\r\nalert(1);\r\n\r\n---\r\n\r\n', 'Hola2', 'codejobs', '2016-02-27 00:52:58', '27', '2', '20', 'es', 1, 'published');
 
 -- --------------------------------------------------------
 
@@ -235,7 +217,41 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (119, 'Dashboard.forms.fields.error.content', 'Write some content for the post', 'en'),
 (120, 'Dashboard.forms.fields.error.content', 'Escribe algún contenido para la publicación', 'es'),
 (121, 'Dashboard.forms.fields.error.author', 'Who is writing this post?', 'en'),
-(122, 'Dashboard.forms.fields.error.author', '¿Quién está escribiendo esta publicación?', 'es');
+(122, 'Dashboard.forms.fields.error.author', '¿Quién está escribiendo esta publicación?', 'es'),
+(123, 'Dashboard.table.action', 'Action', 'en'),
+(124, 'Dashboard.table.action', 'Acción', 'es'),
+(125, 'Dashboard.table.title', 'Title', 'en'),
+(126, 'Dashboard.table.title', 'Título', 'es'),
+(127, 'Dashboard.table.author', 'Author', 'en'),
+(128, 'Dashboard.table.author', 'Autor', 'es'),
+(129, 'Dashboard.table.state', 'State', 'en'),
+(130, 'Dashboard.table.state', 'Estado', 'es'),
+(131, 'Dashboard.table.id', 'ID', 'en'),
+(132, 'Dashboard.table.id', 'ID', 'es'),
+(133, 'Dashboard.table.pending', 'Pending', 'en'),
+(134, 'Dashboard.table.pending', 'Pendiente', 'es'),
+(135, 'Dashboard.table.deleted', 'Deleted', 'en'),
+(136, 'Dashboard.table.deleted', 'Eliminado', 'es'),
+(137, 'Dashboard.table.draft', 'Draft', 'en'),
+(138, 'Dashboard.table.draft', 'Borrador', 'es'),
+(139, 'Dashboard.table.published', 'Published', 'en'),
+(140, 'Dashboard.table.published', 'Publicado', 'es'),
+(141, 'Dashboard.modules.blog.list', 'List of Posts', 'en'),
+(142, 'Dashboard.modules.blog.list', 'Lista de Publicaciones', 'es'),
+(143, 'Dashboard.modules.blog.createNewPost', 'Create New Post', 'en'),
+(144, 'Dashboard.modules.blog.createNewPost', 'Crear Nueva Publicación', 'es'),
+(145, 'Dashboard.table.edit', 'Edit', 'en'),
+(146, 'Dashboard.table.edit', 'Editar', 'es'),
+(147, 'Dashboard.table.delete', 'Delete', 'en'),
+(148, 'Dashboard.table.delete', 'Eliminar', 'es'),
+(149, 'Dashboard.table.restore', 'Restore', 'en'),
+(150, 'Dashboard.table.restore', 'Restaurar', 'es'),
+(151, 'Dashboard.modules.blog.messages.update.fail', 'There was a problem trying to update the post', 'en'),
+(152, 'Dashboard.modules.blog.messages.update.fail', 'Hubo un problema al intentar actualizar la publicación', 'es'),
+(153, 'Dashboard.modules.blog.messages.update.success', 'The post was updated correctly', 'en'),
+(154, 'Dashboard.modules.blog.messages.update.success', 'La publicación fue actualizada correctamente', 'es'),
+(155, 'Dashboard.forms.fields.edit', 'Edit', 'en'),
+(156, 'Dashboard.forms.fields.edit', 'Editar', 'es');
 
 -- --------------------------------------------------------
 
@@ -298,12 +314,9 @@ ALTER TABLE `blog`
 -- AUTO_INCREMENT for table `content`
 --
 ALTER TABLE `content`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
