@@ -1,3 +1,14 @@
-<div class="read">
-    <h1>Read</h1>
+<div class="readAction">
+    <h1>{{ __.Dashboard.modules.blog.list }}</h1>
+
+    <p>
+        <a href="{{ basePath }}/dashboard/blog/create" title="{{ __.Dashboard.modules.blog.createNewPost }}">
+            {{{ icon "plus" }}} {{ __.Dashboard.modules.blog.createNewPost }}
+        </a>
+    </p>
+
+    {{{
+        renderTable
+            tableSchema = tableSchema
+    }}}
 </div>

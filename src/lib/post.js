@@ -4,8 +4,8 @@ import { $security } from './config';
 // Utils
 import { now } from './utils/date';
 import { isArray, isDefined, isObject } from './utils/is';
-import { forEach } from './utils/object';
-import { escapeString, removeHTML } from './utils/string';
+import { exists, forEach } from './utils/object';
+import { escapeString, getIdFromParam, removeHTML } from './utils/string';
 
 let postData = {};
 
@@ -23,9 +23,21 @@ export default (req, res, next) => {
   return next();
 
   function action() {
-    return req.params.action === 'create' || req.params.action === 'edit'
-      ? `${req.params.action}Action`
-      : 'readAction';
+    const actions = ['create', 'update', 'delete', 'remove', 'restore'];
+    let action = 'readAction';
+
+    if (exists(req.params.action, actions)) {
+      if (isDefined(req.params[0])) {
+        res.currentId = getIdFromParam(req.params[0]);
+      }
+
+      action = `${req.params.action}Action`;
+    }
+
+    // Sending the action to the templates
+    res.locals.action = action;
+
+    return action;
   }
 
   function debug(variable) {

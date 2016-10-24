@@ -3,8 +3,16 @@ import * as Db from './db/mysql';
 
 // Utils
 import { isDefined, isNumber } from './utils/is';
-import { forEach, keys } from './utils/object';
+import { exists, forEach, keys, parseObject } from './utils/object';
 import { clean } from './utils/string';
+
+export function find(data, callback) {
+  return Db.find(data, callback);
+}
+
+export function findAll(data, callback) {
+  return Db.findAll(data, callback);
+}
 
 /**
  * Performs a SQL Query
@@ -120,6 +128,56 @@ export function getSchemaFrom(data, callback) {
   });
 }
 
+export function getTableSchema(data, __) {
+  const tableSchema = {
+    fields: {},
+    data: []
+  };
+
+  const centeredFields = ['id', 'author', 'state'];
+  let firstTime = true;
+  let center = false;
+
+  forEach(data, row => {
+    forEach(row, field => {
+      if (firstTime) {
+        center = exists(field, centeredFields);
+
+        tableSchema.fields[field] = {
+          center,
+          label: __.Dashboard.table[field] || `__.Dashboard.table.${field}`
+        };
+      }
+    });
+
+    const obj = parseObject(row);
+
+    if (isDefined(obj.state)) {
+      switch (obj.state) {
+        case 'deleted':
+          obj.bg = 'danger';
+          break;
+        case 'pending':
+          obj.bg = 'info';
+          break;
+        case 'draft':
+          obj.bg = 'warning';
+          break;
+        default:
+          // Do nothing
+      }
+
+      obj.state = __.Dashboard.table[obj.state] || `__.Dashboard.table.${obj.state}`;
+    }
+
+    tableSchema.data.push(obj);
+
+    firstTime = false;
+  });
+
+  return tableSchema;
+}
+
 /**
  * Gets Procedure Query
  *
@@ -183,7 +241,7 @@ export function getProcedure(procedureName, values, fields, filter) {
   return procedure.replace(new RegExp(', ,', 'g'), ', \'\',');
 }
 
-export function insert(table, data, callback) {
+export function insertRow(table, data, callback) {
   const sql = Db.getInsertQuery(table, data);
 
   query(sql, callback, (result, callback) => {
@@ -191,7 +249,39 @@ export function insert(table, data, callback) {
   });
 }
 
-export function exists(table, data, callback) {
+export function updateRow(table, data, id, callback) {
+  const sql = Db.getUpdateQuery(table, data, id);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
+export function deleteRow(table, id, callback) {
+  const sql = Db.getDeleteQuery(table, id);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
+export function removeRow(table, id, callback) {
+  const sql = Db.getRemoveQuery(table, id);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
+export function restoreRow(table, state, id, callback) {
+  const sql = Db.getRestoreQuery(table, state, id);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
+export function existsRow(table, data, callback) {
   const sql = Db.getExistsQuery(table, data);
 
   query(sql, callback, (result, callback) => {

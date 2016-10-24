@@ -25,8 +25,8 @@ Router.get('/validation', (req, res, next) => {
       networkId: connectedUser.networkId,
       username: connectedUser.username,
       password: false
-    }, (userInfo) => {
-      if (userInfo) {
+    }, (connectedUser) => {
+      if (connectedUser) {
         return res.redirect('/');
       } else {
         return res.redirect('/users/register');

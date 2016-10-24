@@ -3,6 +3,7 @@ import { minify } from 'html-minifier';
 
 // Helpers
 import { createInput, createLabel, createSelect, createTextarea } from './form';
+import { createTable } from './table';
 
 // Utils
 import { isDefined, isUndefined } from './utils/is';
@@ -44,13 +45,14 @@ function renderFormElements(schema, __, field, errorClass, userInfo, flashData) 
 export function renderSchema(options) {
   let html = '';
 
+  const action = options.hash.action || 'create';
   const schema = options.hash.schema;
-  const userInfo = options.hash.userInfo;
+  const connectedUser = options.hash.connectedUser;
   const __ = options.hash.__;
   const flashData = options.hash.flashData;
   const securityToken = options.hash.securityToken;
-  const hiddenElements = schema.hiddenElements || {};
-  const alert = schema.alert || false;
+  const hiddenElements = schema && schema.hiddenElements || {};
+  const alert = schema && schema.alert || false;
 
   if (alert) {
     html += `<div class="alert ${alert.type}">${icon(alert.icon)} ${alert.message}</div>`;
@@ -61,17 +63,27 @@ export function renderSchema(options) {
       if (!exists(field, hiddenElements)) {
         const errorClass = ternary(schema[field].errorMessage, ' errorBorder');
 
-        html += renderFormElements(schema, __, field, errorClass, userInfo, flashData);
+        html += renderFormElements(schema, __, field, errorClass, connectedUser, flashData);
       } else {
         html += hidden(getHiddenOptions(field, hiddenElements));
       }
     }
   });
 
-  html += submit(getSubmitOptions(__));
+  html += submit(getSubmitOptions(__, action));
   html += token(securityToken);
 
   return html;
+}
+
+export function renderTable(options) {
+  const tableSchema = options.hash.tableSchema;
+
+  if (tableSchema) {
+    return createTable(tableSchema);
+  }
+
+  return false;
 }
 
 export function ceil(number) {

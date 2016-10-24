@@ -2,7 +2,7 @@
 import dot from 'dot-object';
 
 // Utils
-import { isArray, isDefined } from './is';
+import { isArray, isDefined, isObject } from './is';
 
 /**
  * Returns a JSON from a given JSON String dot notation (Node.child.grandchild)
@@ -34,11 +34,15 @@ export function ternary(condition, value1, value2) {
 }
 
 export function exists(element, obj) {
+  if (isArray(obj)) {
+    return obj.indexOf(element) !== -1;
+  }
+
   return keys(obj).indexOf(element) !== -1;
 }
 
 export function forEach(obj, callback) {
-  if (isDefined(obj[0]) && isDefined(obj[0].Field)) {
+  if (isDefined(obj) && isDefined(obj[0]) && isDefined(obj[0].Field)) {
     return obj.forEach(callback);
   } else if (isArray(obj)) {
     return obj.forEach(callback);
@@ -48,7 +52,7 @@ export function forEach(obj, callback) {
 }
 
 export function keys(obj) {
-  return Object.keys(obj);
+  return isObject(obj) ? Object.keys(obj) : false;
 }
 
 /**
@@ -59,6 +63,10 @@ export function keys(obj) {
  */
 export function parseJson(str) {
   return JSON.parse(str);
+}
+
+export function parseObject(obj) {
+  return parseJson(stringify(obj));
 }
 
 /**

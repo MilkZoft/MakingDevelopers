@@ -1,5 +1,7 @@
 .MainHeader
     bg($almostBlack)
+    font(Oswald)
+    uppercase()
     color $white
     height 40px
     position relative
@@ -10,16 +12,23 @@
         position fixed
 
     .logo
-        font(Oswald)
         position(absolute)
         margin-left 10px
         margin-top 10px
         text-transform uppercase
 
+        a
+            resetLink($almostWhite)
+
+            &:hover
+                color $blue
+
     .credits
         centerAbsolute(130px, 12px)
         fontSize(12px)
-        position(absolute)
+
+        @media Mobile
+            left 40px
 
         a
             resetLink($blue)
@@ -28,11 +37,41 @@
             &:hover
                 color $lightGray
 
+        @media Mobile
+            display none
+
+    .creditsMobile
+        centerAbsolute(130px, 12px)
+        fontSize(12px)
+        display none
+
+        @media Mobile
+            left 110px
+
+        @media MobileLandscape
+            left 80px
+
+        a
+            resetLink($blue)
+            font-weight bold
+
+            &:hover
+                color $lightGray
+
+        @media Mobile
+            display block
+
     .user
         fontSize(14px)
         position(absolute)
         right 10px
         top 12px
+
+        a
+            resetLink($almostWhite)
+
+            &:hover
+                color $blue
 
     .menu
         ul

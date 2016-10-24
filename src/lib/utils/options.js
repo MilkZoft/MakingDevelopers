@@ -1,7 +1,7 @@
 // Utils
 import { pick } from './object';
 
-export function getInputOptions(schema, field, errorClass, userInfo, flashData) {
+export function getInputOptions(schema, field, errorClass, connectedUser, flashData) {
   const inputOptions = { hash: {} };
 
   inputOptions.hash.id = field;
@@ -9,7 +9,7 @@ export function getInputOptions(schema, field, errorClass, userInfo, flashData) 
   inputOptions.hash.name = field;
 
   if (field === 'author') {
-    inputOptions.hash.value = userInfo.username;
+    inputOptions.hash.value = connectedUser.username;
   }
 
   if (flashData) {
@@ -83,13 +83,15 @@ export function getSelectOptions(schema, field, errorClass, flashData, __) {
   return selectOptions;
 }
 
-export function getSubmitOptions(__) {
+export function getSubmitOptions(__, action) {
   const submitOptions = { hash: {} };
 
   submitOptions.hash.id = 'publish';
   submitOptions.hash.class = 'btn dark';
   submitOptions.hash.name = 'publish';
-  submitOptions.hash.value = __.Dashboard.forms.fields.save;
+  submitOptions.hash.value = action === 'updateAction'
+    ? __.Dashboard.forms.fields.edit
+    : __.Dashboard.forms.fields.save;
 
   return submitOptions;
 }

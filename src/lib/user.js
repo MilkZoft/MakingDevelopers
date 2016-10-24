@@ -29,6 +29,8 @@ export default (req, res, next) => {
         const privilege = isArray(userInfo) ? userInfo[0].privilege : false;
 
         if (privilege === 'god' || privilege === 'admin') {
+          res.renderScope.set('connectedUser', connectedUser);
+
           return callback(connectedUser);
         } else {
           return res.redirect('/');

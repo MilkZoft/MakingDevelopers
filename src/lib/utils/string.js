@@ -48,6 +48,12 @@ export function addSlashes(str, doubleQuotesAlso) {
   return false;
 }
 
+export function getIdFromParam(param) {
+  const id = param.replace('/', '');
+
+  return parseInt(id);
+}
+
 /**
  * Generates a random code
  *

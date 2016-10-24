@@ -14,15 +14,13 @@ Router.get('/', (req, res) => {
   });
 
   // If user is connected...
-  res.profileAllowed(userInfo => {
-    res.renderScope.set('userInfo', userInfo);
-
+  res.profileAllowed(connectedUser => {
     res.render('app/dashboard/index', res.renderScope.get());
   });
 });
 
 /**
- * Dashboard: Blog || Add Post
+ * Dashboard: Blog Actions
  */
 Router.use('/blog/:action*?', (req, res) => {
   res.blogDashboard[res.action()]();

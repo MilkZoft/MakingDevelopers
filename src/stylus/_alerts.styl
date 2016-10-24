@@ -18,49 +18,18 @@
             margin-top 5px
 
     &.success
-        color #3c763d
-        background-color #dff0d8
-        border-color #d6e9c6
-
-        hr
-            border-top-color #c9e2b3
-
-        .link
-            color #2b542c
+        alert($successColor, $successBg, $successBc, $successTopBorder, $successLink)
 
     &.info
-        color #31708f
-        background-color #d9edf7
-        border-color #bce8f1
-
-        hr
-            border-top-color #a6e1ec
-
-        .link
-            color #245269
+        alert($infoColor, $infoBg, $infoBc, $infoTopBorder, $infoLink)
 
     &.warning
-        color #8a6d3b
-        background-color #fcf8e3
-        border-color #faebcc
-
-        hr
-            border-top-color #f7e1b5
-
-        .link
-            color #66512
+        alert($warningColor, $warningBg, $warningBc, $warningTopBorder, $warningLink)
 
     &.danger
-        color #BF0000
-        background-color #FCDCDC
-        border-color #ebccd1
+        alert($dangerColor, $dangerBg, $dangerBc, $dangerTopBorder, $dangerLink)
 
-        hr
-            border-top-color #e4b9c0
-
-    .link
-        color #843534
-
-.alert > p
-.alert > ul
-    margin-bottom 0
+.alert
+    & > p
+    & > ul
+        margin-bottom 0

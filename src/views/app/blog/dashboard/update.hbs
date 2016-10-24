@@ -1,6 +1,6 @@
-<div class="Create">
-    <form action="{{ basePath }}/dashboard/blog/create" method="post">
-        <h2>{{{ icon "plus" }}} {{ section }}</h2>
+<div class="Update">
+    <form action="{{ basePath }}/dashboard/blog/update/{{ currentId }}" method="post">
+        <h2>{{{ icon "pencil" }}} {{ section }}</h2>
 
         {{#if message }}
             <h3>{{{ message }}}</h3>

@@ -3,10 +3,38 @@
     min-width 80%
     margin-bottom 40px
 
+    h1
+        font(Oswald)
+        uppercase()
+
     @media Tablet
-        position(absolute, 7%, false, false, 8%)
+        position(absolute, 10%, false, false, 8%)
+        min-width 95%
+
+        h1
+            text-align center
+
+    &.readAction
+        @media Tablet
+            position(absolute, 9%, false, false, 3%)
+
+        @media iPhone5S
+            position(absolute, 9%, false, false, 2%)
+
+        a
+            font(Oswald)
+            resetLink($darkGray)
+            uppercase()
+
+            &:hover
+                color $blue
 
     .Create
+    .Update
+        h2
+            font(Oswald)
+            uppercase()
+
         .errorBorder
             border 1px solid red
 

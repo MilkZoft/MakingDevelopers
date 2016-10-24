@@ -40,6 +40,32 @@ export function getExistsQuery(table, data) {
   return false;
 }
 
+export function getUpdateQuery(table, data, id) {
+  if (isObject(data)) {
+    const count = keys(data).length - 1;
+    let values = '';
+    let i = 0;
+
+    forEach(data, f => {
+      if (i === count) {
+        values += `${f} = '${addSlashes(data[f])}'`;
+      } else {
+        values += `${f} = '${addSlashes(data[f])}', `;
+      }
+
+      i++;
+    });
+
+    if (id > 0) {
+      const query = `UPDATE ${table} SET ${values} WHERE id = ${id}`;
+
+      return query;
+    }
+  }
+
+  return false;
+}
+
 export function getInsertQuery(table, data) {
   if (isObject(data)) {
     const count = keys(data).length - 1;
@@ -67,6 +93,24 @@ export function getInsertQuery(table, data) {
   return false;
 }
 
+export function getDeleteQuery(table, id) {
+  const query = `UPDATE ${table} SET state = 'deleted' WHERE id = ${id}`;
+
+  return query;
+}
+
+export function getRemoveQuery(table, id) {
+  const query = `DELETE FROM ${table} WHERE id = ${id}`;
+
+  return query;
+}
+
+export function getRestoreQuery(table, state, id) {
+  const query = `UPDATE ${table} SET state = '${state}' WHERE id = ${id}`;
+
+  return query;
+}
+
 /**
  * Builds the SQL Query
  *
@@ -77,39 +121,39 @@ export function getInsertQuery(table, data) {
 export function getQuery(obj, find) {
   const getFields = () => obj.fields || '*';
   const getTable = () => obj.table;
-  const getGroup = () => obj.group && ` GROUP BY ${obj.group} ` || '';
-  const getOrder = () => obj.order && ` ORDER BY ${obj.order} ` || '';
-  const getLimit = () => obj.limit && ` LIMIT ${obj.limit} ` || '';
+  const getGroup = () => obj.group && `GROUP BY ${obj.group}` || '';
+  const getOrder = () => obj.order && `ORDER BY ${obj.order}` || '';
+  const getLimit = () => obj.limit && `LIMIT ${obj.limit}` || '';
 
   let limit = getLimit();
   let order = getOrder();
   let where = '';
 
   // Find by id
-  if (obj.key && obj.id) {
-    where = ` WHERE ${obj.key} = ${obj.id} `;
+  if (obj.id) {
+    where = `WHERE id = ${obj.id}`;
   }
 
   // Find by field
   if (obj.field && obj.value) {
-    where = ` WHERE ${obj.field} = '${obj.value}' `;
+    where = `WHERE ${obj.field} = '${obj.value}'`;
   }
 
   // Find by SQL
   if (obj.query) {
-    where = ` WHERE ${obj.query} `;
+    where = `WHERE ${obj.query}`;
   }
 
   // Find first
   if (find) {
-    limit = ' LIMIT 1 ';
+    limit = 'LIMIT 1';
   }
 
   if (find === 'last') {
-    order = ` ORDER BY ${obj.key} DESC `;
+    order = `ORDER BY ${obj.key} DESC `;
   }
 
-  return `SELECT ${getFields()} FROM ${getTable()}${where}${getGroup()}${order}${limit}`;
+  return `SELECT ${getFields()} FROM ${getTable()} ${where} ${getGroup()} ${order} ${limit}`;
 }
 
 /**
@@ -135,7 +179,8 @@ export function find(obj, callback) {
  * @returns {string} SQL Query
  */
 export function findAll(obj, callback) {
-  return connection.query(getQuery(obj), callback);
+  const sql = getQuery(obj);
+  return connection.query(sql, callback);
 }
 
 /**
