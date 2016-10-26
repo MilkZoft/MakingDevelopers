@@ -166,8 +166,6 @@ export function getTableSchema(data, __) {
         default:
           // Do nothing
       }
-
-      obj.state = __.Dashboard.table[obj.state] || `__.Dashboard.table.${obj.state}`;
     }
 
     tableSchema.data.push(obj);

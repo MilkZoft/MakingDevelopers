@@ -75,6 +75,12 @@ function getTBody(data, fields, basePath, currentDashboardApp, __) {
     forEach(row, field => {
       let className = 'row';
 
+      // Icons for state
+      restore = '';
+      remove = icon('trash');
+      deleteAction = 'delete';
+      update = icon('pencil');
+
       if (isDefined(fields[field]) && fields[field].center) {
         className = 'center';
       }
@@ -83,16 +89,14 @@ function getTBody(data, fields, basePath, currentDashboardApp, __) {
         id = row[field];
       }
 
-      if (field === 'state' && row[field] === 'Deleted') {
+      if (field === 'state' && row[field] === 'deleted') {
         restore = icon('undo');
         remove = icon('times');
         deleteAction = 'remove';
         update = '';
-      } else {
-        restore = '';
-        remove = icon('trash');
-        deleteAction = 'delete';
-        update = icon('pencil');
+
+        // Translating the state...
+        row[field] = __.Dashboard.table[row[field]] || `__.Dashboard.table.${row[field]}`;
       }
 
       html += `<td class="${className}">${row[field]}</td>`;

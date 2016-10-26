@@ -59,7 +59,7 @@ export default (app) => {
     res.locals.currentApp = res.currentApp = getCurrentApp(req.originalUrl);
     res.locals.currentDashboardApp = res.currentDashboardApp = getCurrentApp(req.originalUrl, true);
     res.locals.currentUrl = res.currentUrl = $baseUrl() + req.originalUrl;
-    res.locals.baseUrl = res.baaseUrl = $baseUrl();
+    res.locals.baseUrl = res.baseUrl = $baseUrl();
     res.locals.basePath = res.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
 
     return next();
