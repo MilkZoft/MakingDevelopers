@@ -84,7 +84,7 @@ export default (req, res, next) => {
   function getAllPosts(callback) {
     const data = {
       table,
-      fields: 'id, title, author, state',
+      fields: 'id, title, language, author, state',
       order: 'id desc'
       // limit
     };

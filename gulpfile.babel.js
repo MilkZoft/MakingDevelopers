@@ -113,7 +113,7 @@ gulp.task('init', () => {
     } catch (e) {
       console.log(e);
     }
-  }, 10000);
+  }, 11000);
 });
 
 // Default task

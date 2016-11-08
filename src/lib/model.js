@@ -3,7 +3,7 @@ import * as Db from './db/mysql';
 
 // Utils
 import { isDefined, isNumber } from './utils/is';
-import { exists, forEach, keys, parseObject } from './utils/object';
+import { exists, forEach, content, keys, parseObject } from './utils/object';
 import { clean } from './utils/string';
 
 export function find(data, callback) {
@@ -145,7 +145,7 @@ export function getTableSchema(data, __) {
 
         tableSchema.fields[field] = {
           center,
-          label: __.Dashboard.table[field] || `__.Dashboard.table.${field}`
+          label: content(`Dashboard.table.${field}`, __)
         };
       }
     });

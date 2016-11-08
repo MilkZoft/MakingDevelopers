@@ -4,6 +4,10 @@ import dot from 'dot-object';
 // Utils
 import { isArray, isDefined, isObject } from './is';
 
+export function content(contentKey, __) {
+  return pick(contentKey, __);
+}
+
 /**
  * Returns a JSON from a given JSON String dot notation (Node.child.grandchild)
  *

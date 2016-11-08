@@ -1,7 +1,9 @@
 // Utils
 import { isDefined } from './utils/is';
-import { forEach } from './utils/object';
+import { exists, forEach, content } from './utils/object';
 import { icon } from './handlebars';
+
+const ignoredFields = ['language'];
 
 export function createTable(tableSchema) {
   const {
@@ -35,10 +37,12 @@ function getTHead(fields, __) {
       className = 'center';
     }
 
-    html += `<th class="${className}">${fields[field].label}</th>`;
+    if (!exists(field, ignoredFields)) {
+      html += `<th class="${className}">${fields[field].label}</th>`;
+    }
   });
 
-  html += `<th class="center">${__.Dashboard.table.action}</th></tr></thead>`;
+  html += `<th class="center">${content('Dashboard.table.action', __)}</th></tr></thead>`;
 
   return html;
 }
@@ -56,7 +60,6 @@ function getTBody(data, fields, basePath, currentDashboardApp, __) {
 
   forEach(data, row => {
     let bg = '';
-
 
     // If has a specific background...
     if (isDefined(row.bg)) {
@@ -96,23 +99,33 @@ function getTBody(data, fields, basePath, currentDashboardApp, __) {
         update = '';
 
         // Translating the state...
-        row[field] = __.Dashboard.table[row[field]] || `__.Dashboard.table.${row[field]}`;
+        row[field] = content(`Dashboard.table.${row[field]}`, __);
       }
 
-      html += `<td class="${className}">${row[field]}</td>`;
+      if (field === 'title' && isDefined(row.language)) {
+        row[field] = `<span class="flag ${row.language}"></span> &nbsp;&nbsp; ${row[field]}`;
+      }
+
+      if (!exists(field, ignoredFields)) {
+        html += `<td class="${className}">${row[field]}</td>`;
+      }
     });
 
     html += `
       <td class="center">
-        <a title="${__.Dashboard.table.edit}" href="${dashboardUrl}/update/${id}">
+        <a title="${content('Dashboard.table.edit', __)}" href="${dashboardUrl}/update/${id}">
           ${update}
         </a>
         ${!restore ? '&nbsp;' : ''}
-        <a class="${deleteAction}" title="${__.Dashboard.table.delete}" href="${dashboardUrl}/${deleteAction}/${id}">
+        <a
+          class="${deleteAction}"
+          title="${content('Dashboard.table.delete', __)}"
+          href="${dashboardUrl}/${deleteAction}/${id}"
+        >
           ${remove}
         </a>
         ${restore ? '&nbsp;' : ''}
-        <a title="${__.Dashboard.table.restore}" href="${dashboardUrl}/restore/${id}">
+        <a title="${content('Dashboard.table.restore', __)}" href="${dashboardUrl}/restore/${id}">
           ${restore}
         </a>
       </td>
