@@ -37,6 +37,12 @@ export function getColumns(table, callback, fn) {
   return query(`SHOW COLUMNS FROM ${table}`, callback, fn);
 }
 
+export function getLimit(data, callback) {
+  Blog.findAll(data, (error, result) => {
+    return callback(result.length || 0);
+  });
+}
+
 /**
  * Gets Schema from a given table
  *
