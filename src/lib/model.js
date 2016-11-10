@@ -293,6 +293,14 @@ export function existsRow(table, data, callback) {
   });
 }
 
+export function countAllRowsFrom(table, callback) {
+  const sql = Db.getCountAllRowsQuery(table);
+
+  query(sql, callback, (result, callback) => {
+    callback(isDefined(result[0]) ? result[0].Total : 0);
+  });
+}
+
 /**
  * Performs a SQL Query and returns a callback
  *

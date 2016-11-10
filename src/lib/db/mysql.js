@@ -40,6 +40,12 @@ export function getExistsQuery(table, data) {
   return false;
 }
 
+export function getCountAllRowsQuery(table) {
+  const query = `SELECT COUNT(1) AS Total FROM ${table}`;
+
+  return query;
+}
+
 export function getUpdateQuery(table, data, id) {
   if (isObject(data)) {
     const count = keys(data).length - 1;

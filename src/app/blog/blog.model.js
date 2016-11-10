@@ -8,6 +8,7 @@ import { forEach, keys, parseObject } from '../../lib/utils/object';
 export default (req, res, next) => {
   // Methods
   res.BlogModel = {
+    countAllPosts,
     deletePost,
     getAllPosts,
     getPost,
@@ -81,24 +82,28 @@ export default (req, res, next) => {
     });
   }
 
-  function getAllPosts(callback) {
-    Blog.getLimit({table}, limit => {
-      const data = {
-        table,
-        fields: 'id, title, language, author, state',
-        order: 'id desc'
-        //limit
-      };
+  function countAllPosts(callback) {
+    Blog.countAllRowsFrom(table, (total) => {
+      callback(total);
+    });
+  }
 
-      Blog.findAll(data, (error, result) => {
-        const tableSchema = Blog.getTableSchema(result, res.__);
+  function getAllPosts(limit, callback) {
+    const data = {
+      table,
+      fields: 'id, title, language, author, state',
+      order: 'id desc',
+      limit
+    };
 
-        tableSchema.__ = res.__;
-        tableSchema.basePath = res.basePath;
-        tableSchema.currentDashboardApp = res.currentDashboardApp;
+    Blog.findAll(data, (error, result) => {
+      const tableSchema = Blog.getTableSchema(result, res.__);
 
-        callback(tableSchema);
-      });
+      tableSchema.__ = res.__;
+      tableSchema.basePath = res.basePath;
+      tableSchema.currentDashboardApp = res.currentDashboardApp;
+
+      callback(tableSchema);
     });
   }
 

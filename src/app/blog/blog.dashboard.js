@@ -4,16 +4,21 @@ import path from 'path';
 // Utils
 import { glob } from '../../lib/utils/files';
 import { forEach } from '../../lib/utils/object';
-
-// Application name
-const app = 'blog';
-
-// CRUD Views
-const createView = `app/${app}/dashboard/create`;
-const readView = `app/${app}/dashboard/read`;
-const updateView = `app/${app}/dashboard/update`;
+import { getPagination, getPaginationLimit, setPaginationMaxLimit } from '../../lib/utils/pagination';
+import { getCurrentApp } from '../../lib/utils/url';
 
 export default (req, res, next) => {
+  // Application name
+  const app = 'blog';
+
+  // CRUD Views
+  const createView = `app/${app}/dashboard/create`;
+  const readView = `app/${app}/dashboard/read`;
+  const updateView = `app/${app}/dashboard/update`;
+
+  // Pagination
+  const paginationUrl = `${res.basePath}/dashboard/${getCurrentApp(req.originalUrl, true)}/page/`;
+
   // Setting layout
   res.renderScope.default({
     layout: 'dashboard.hbs'
@@ -116,10 +121,15 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       res.content('Dashboard.table', true);
 
-      res.BlogModel.getAllPosts(tableSchema => {
-        res.renderScope.set('tableSchema', tableSchema);
+      setPaginationMaxLimit(5);
 
-        res.render(readView, res.renderScope.get());
+      res.BlogModel.countAllPosts(total => {
+        res.BlogModel.getAllPosts(getPaginationLimit(req.params, total), tableSchema => {
+          res.renderScope.set('tableSchema', tableSchema);
+          res.renderScope.set('pagination', getPagination(req.params, total, paginationUrl));
+
+          res.render(readView, res.renderScope.get());
+        });
       });
     });
   }

@@ -1,20 +1,24 @@
-import { isDefined, isLanguage } from './is';
+import { isDefined, isLanguage, isString } from './is';
 
 /**
  * Return all the params from the url (splits slashes)
  *
- * @param {string} params Url Params with slashes (/es/blog/post-title)
+ * @param {string} url Url Params with slashes (/es/blog/post-title)
  * @returns {array} Params as array
  */
-export function getParamsFromUrl(params) {
-  params = params.split('/');
-  params.shift();
+export function getParamsFromUrl(url) {
+  if (isString(url)) {
+    const params = url.split('/');
+    params.shift();
 
-  return params;
+    return params;
+  }
+
+  return false;
 }
 
-export function getCurrentApp(params, dashboard) {
-  const urlParams = getParamsFromUrl(params);
+export function getCurrentApp(url, dashboard) {
+  const urlParams = getParamsFromUrl(url);
 
   if (dashboard) {
     return isLanguage(urlParams[0]) && isDefined(urlParams[2]) ? urlParams[2] : urlParams[1];
