@@ -22,3 +22,15 @@ export function getCurrentApp(params, dashboard) {
 
   return isLanguage(urlParams[0]) ? urlParams[1] : urlParams[0];
 }
+
+export function getValueFromParam(param) {
+  const value = param.replace('/', '');
+
+  return value;
+}
+
+export function getPaginationPageFromParam(params) {
+  return isDefined(params.action) && params.action === 'page' && isDefined(params[0])
+    ? getValueFromParam(params[0])
+    : 0;
+}

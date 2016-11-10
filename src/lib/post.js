@@ -5,7 +5,8 @@ import { $security } from './config';
 import { now } from './utils/date';
 import { isArray, isDefined, isObject } from './utils/is';
 import { exists, forEach } from './utils/object';
-import { escapeString, getIdFromParam, removeHTML } from './utils/string';
+import { escapeString, removeHTML } from './utils/string';
+import { getValueFromParam } from './utils/url';
 
 let postData = {};
 
@@ -28,7 +29,7 @@ export default (req, res, next) => {
 
     if (exists(req.params.action, actions)) {
       if (isDefined(req.params[0])) {
-        res.currentId = getIdFromParam(req.params[0]);
+        res.currentId = getValueFromParam(req.params[0]);
       }
 
       action = `${req.params.action}Action`;

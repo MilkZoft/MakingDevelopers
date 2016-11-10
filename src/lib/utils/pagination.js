@@ -1,3 +1,13 @@
+import { getPaginationPageFromParam } from './url';
+
+export function getPaginationStart() {
+  const maxLimit = 10;
+  const paginationPage = getPaginationPageFromParam(req.params);
+  const start = paginationPage > 0 ? paginationPage * maxLimit - maxLimit : 0;
+
+  return start;
+}
+
 export function pagination(count, end, start, url, elementsPerPage) {
   /* const increment = 5;
   const limit = elementsPerPage || 10;

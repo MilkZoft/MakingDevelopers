@@ -8,7 +8,6 @@ import { forEach, keys, parseObject } from '../../lib/utils/object';
 export default (req, res, next) => {
   // Methods
   res.BlogModel = {
-    countPosts,
     deletePost,
     getAllPosts,
     getPost,
@@ -87,8 +86,8 @@ export default (req, res, next) => {
       const data = {
         table,
         fields: 'id, title, language, author, state',
-        order: 'id desc',
-        limit
+        order: 'id desc'
+        //limit
       };
 
       Blog.findAll(data, (error, result) => {
