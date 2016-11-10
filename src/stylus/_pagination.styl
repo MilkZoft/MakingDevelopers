@@ -1,40 +1,30 @@
 .pagination
-    font(Verdana, 13px)
-    box-sizing border-box
+    resetList()
     color $darkGrayPagination
-    margin-bottom 20px
-    padding 4px 6px 4px 0
-    position relative
+    margin-top 20px
     text-align center
-    width 100%
+    width 95%
 
-    a
-        bg($white)
-        border($bluePagination)
-        border-radius 3px
-        color $bluePagination
+    li
         display inline-block
-        margin 5px 2px 5px 2px
-        padding 10px
+        padding 4px 6px 4px 0
         text-align center
-        text-decoration none
 
-        &:hover
-        &:active
-            bg($bluePagination)
-            border($bluePagination)
-            color $white
+        a
+            border-radius 5px
+            color $black
+            float left
+            padding 8px 16px
+            text-decoration none
 
-    span
-        &.current
-            bg($bluePagination)
-            border($bluePagination)
-            border-radius 3px
-            color $white
-            font-weight $fontWeightBold
-            margin 5px 2px 5px 2px
-            padding 10px
-            text-align center
+            &:hover
+                color $black !important
+                background-color $lightGray
 
-        &.disabled
-            display none
+            &.active
+                background-color $blue
+                border-radius 5px
+                color $white
+
+                &:hover
+                    color $white !important

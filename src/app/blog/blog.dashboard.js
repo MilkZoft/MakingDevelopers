@@ -4,7 +4,7 @@ import path from 'path';
 // Utils
 import { glob } from '../../lib/utils/files';
 import { forEach } from '../../lib/utils/object';
-import { getPagination, getPaginationLimit, setPaginationMaxLimit } from '../../lib/utils/pagination';
+import { getPagination } from '../../lib/utils/pagination';
 import { getCurrentApp } from '../../lib/utils/url';
 
 export default (req, res, next) => {
@@ -121,10 +121,8 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       res.content('Dashboard.table', true);
 
-      setPaginationMaxLimit(5);
-
       res.BlogModel.countAllPosts(total => {
-        res.BlogModel.getAllPosts(getPaginationLimit(req.params, total), tableSchema => {
+        res.BlogModel.getAllPosts(total, tableSchema => {
           res.renderScope.set('tableSchema', tableSchema);
           res.renderScope.set('pagination', getPagination(req.params, total, paginationUrl));
 

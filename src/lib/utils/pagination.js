@@ -60,7 +60,7 @@ export function pagination(count, end, start, url, elementsPerPage) {
         firstPage = 0;
         lastPage = currentPage + increment + (increment - currentPage);
       } else {
-        firstPage = currentPage - increment - currentPage + increment - pages;
+        firstPage = currentPage - increment - (currentPage + increment - pages);
         lastPage = pages;
       }
     } else {
@@ -74,7 +74,7 @@ export function pagination(count, end, start, url, elementsPerPage) {
     pagePrevious = getPagePrevious(start, currentPage, url);
   }
 
-  return `<div class="pagination">${pagePrevious} ${pageNav} ${pageNext}</div>`;
+  return `<ul class="pagination">${pagePrevious} ${pageNav} ${pageNext}</ul>`;
 }
 
 function getPageNav(firstPage, lastPage, start, end, next, url, limit) {
@@ -86,8 +86,8 @@ function getPageNav(firstPage, lastPage, start, end, next, url, limit) {
     const next = i * end;
 
     pageNav += start === next
-      ? `<span class="current">${pge}</span> `
-      : `<span class="bold"><a href="${url}${pge}/" title="${pge}">${pge}</a></span> `;
+      ? `<li><a href="#" class="active">${pge}</a></li> `
+      : `<li><a href="${url}${pge}/" title="${pge}">${pge}</a></li> `;
 
     if (j === limit) {
       j = 1;
@@ -105,12 +105,12 @@ function getCurrentPage(start, end) {
 
 function getPageNext(currentPage, pages, url) {
   return currentPage < pages
-    ? `<a href="${url}${currentPage + 1}/"><i class="fa fa-chevron-right"></i></a> `
+    ? `<li><a href="${url}${currentPage + 1}/"><i class="fa fa-chevron-right"></i></a></li>`
     : '';
 }
 
 function getPagePrevious(start, currentPage, url) {
   return start > 0
-    ? `<a href="${url}${currentPage - 1}/"><i class="fa fa-chevron-left"></i></a> `
+    ? `<li><a href="${url}${currentPage - 1}/"><i class="fa fa-chevron-left"></i></a></li>`
     : '';
 }

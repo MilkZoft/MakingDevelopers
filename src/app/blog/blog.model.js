@@ -4,6 +4,7 @@ import * as Blog from '../../lib/model';
 // Utils
 import { year, month, day } from '../../lib/utils/date';
 import { forEach, keys, parseObject } from '../../lib/utils/object';
+import { getPaginationLimit } from '../../lib/utils/pagination';
 
 export default (req, res, next) => {
   // Methods
@@ -88,7 +89,9 @@ export default (req, res, next) => {
     });
   }
 
-  function getAllPosts(limit, callback) {
+  function getAllPosts(total, callback) {
+    const limit = getPaginationLimit(req.params, total);
+
     const data = {
       table,
       fields: 'id, title, language, author, state',
