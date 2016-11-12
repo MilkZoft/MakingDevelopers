@@ -2,7 +2,7 @@
 import { minify } from 'html-minifier';
 
 // Helpers
-import { createInput, createLabel, createSelect, createTextarea } from './form';
+import { openForm, closeForm, createInput, createLabel, createSelect, createTextarea } from './form';
 import { createTable } from './table';
 
 // Utils
@@ -84,6 +84,37 @@ export function renderTable(options) {
   }
 
   return false;
+}
+
+export function renderSearch(options) {
+  // const __ = options.hash.__;
+  const currentDashboardApp = options.hash.currentDashboardApp;
+  const basePath = options.hash.basePath;
+
+  const inputOptions = {
+    id: 'search',
+    name: 'search'
+  };
+
+  const submitOptions = {
+    hash: {
+      id: 'submitSearch',
+      name: 'searchSubmit',
+      value: 'Search'
+    }
+  };
+
+  const formOptions = {
+    action: `${basePath}/dashboard/${currentDashboardApp}`,
+    method: 'post'
+  };
+
+  let form = openForm(formOptions);
+  form += createInput(inputOptions);
+  form += submit(submitOptions);
+  form += closeForm();
+
+  return form;
 }
 
 export function ceil(number) {
