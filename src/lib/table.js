@@ -18,14 +18,16 @@ export function createTable(tableSchema) {
   let html;
 
   html = `<table class="table ${theme}">`;
-  html += getTHead(fields, __);
-  html += getTBody(data, fields, basePath, currentDashboardApp, __);
+  html += _getTHead(fields, __);
+  html += _getTBody(data, fields, basePath, currentDashboardApp, __);
   html += '</table>';
 
   return html;
 }
 
-function getTHead(fields, __) {
+/* Private functions */
+
+function _getTHead(fields, __) {
   let html;
 
   html = '<thead><tr><th><input class="tableCheckboxAll" type="checkbox" /></th>';
@@ -47,7 +49,7 @@ function getTHead(fields, __) {
   return html;
 }
 
-function getTBody(data, fields, basePath, currentDashboardApp, __) {
+function _getTBody(data, fields, basePath, currentDashboardApp, __) {
   const dashboardUrl = `${basePath}/dashboard/${currentDashboardApp}`;
   let deleteAction;
   let html;

@@ -21,27 +21,6 @@ import {
 // Configuration
 import { $html } from './config';
 
-function renderFormElements(schema, __, field, errorClass, userInfo, flashData) {
-  let html = '<div class="inputBlock">';
-
-  html += label(getLabelOptions(schema, field, __));
-
-  if (field === 'content') {
-    html += getContentInsertOptionsHTML();
-  }
-
-  html += '<p>';
-
-  html += input(getInputOptions(schema, field, errorClass, userInfo, flashData), schema[field].type);
-  html += textarea(getTextareaOptions(schema, field, errorClass, flashData), schema[field].type);
-  html += select(getSelectOptions(schema, field, errorClass, flashData, __), schema[field].type);
-
-  html += '</p>';
-  html += '</div>';
-
-  return html;
-}
-
 export function renderSchema(options) {
   let html = '';
 
@@ -63,7 +42,7 @@ export function renderSchema(options) {
       if (!exists(field, hiddenElements)) {
         const errorClass = ternary(schema[field].errorMessage, ' errorBorder');
 
-        html += renderFormElements(schema, __, field, errorClass, connectedUser, flashData);
+        html += _renderFormElements(schema, __, field, errorClass, connectedUser, flashData);
       } else {
         html += hidden(getHiddenOptions(field, hiddenElements));
       }
@@ -93,20 +72,24 @@ export function renderSearch(options) {
 
   const inputOptions = {
     id: 'search',
-    name: 'search'
+    name: 'search',
+    placeholder: 'Type your Search...',
+    maxlength: 35
   };
 
   const submitOptions = {
     hash: {
       id: 'submitSearch',
       name: 'searchSubmit',
-      value: 'Search'
+      value: 'Search',
+      class: 'btn dark'
     }
   };
 
   const formOptions = {
     action: `${basePath}/dashboard/${currentDashboardApp}`,
-    method: 'post'
+    method: 'post',
+    class: 'search'
   };
 
   let form = openForm(formOptions);
@@ -309,4 +292,27 @@ export function token(securityToken) {
 
 export function uppercase(str) {
   return str.toUpperCase();
+}
+
+/* Private functions */
+
+function _renderFormElements(schema, __, field, errorClass, userInfo, flashData) {
+  let html = '<div class="inputBlock">';
+
+  html += label(getLabelOptions(schema, field, __));
+
+  if (field === 'content') {
+    html += getContentInsertOptionsHTML();
+  }
+
+  html += '<p>';
+
+  html += input(getInputOptions(schema, field, errorClass, userInfo, flashData), schema[field].type);
+  html += textarea(getTextareaOptions(schema, field, errorClass, flashData), schema[field].type);
+  html += select(getSelectOptions(schema, field, errorClass, flashData, __), schema[field].type);
+
+  html += '</p>';
+  html += '</div>';
+
+  return html;
 }

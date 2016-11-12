@@ -105,6 +105,8 @@ export function createLabel(attrs, text) {
   return html;
 }
 
+/* Private functions */
+
 function _getAttrs(attrs, type) {
   const elements = keys(attrs);
   let html = '';
