@@ -1,5 +1,5 @@
 // Utils
-import { pick } from './object';
+import { content } from './object';
 
 export function getInputOptions(schema, field, errorClass, connectedUser, flashData) {
   const inputOptions = { hash: {} };
@@ -53,10 +53,10 @@ export function getLabelOptions(schema, field, __) {
 
   if (schema[field].errorMessage) {
     labelOptions.hash.text = `
-      ${pick(schema[field].label, __)}|${schema[field].errorMessage}
+      ${content(schema[field].label, __)}|${schema[field].errorMessage}
     `;
   } else {
-    labelOptions.hash.text = pick(schema[field].label, __);
+    labelOptions.hash.text = content(schema[field].label, __);
   }
 
   return labelOptions;
@@ -70,7 +70,7 @@ export function getSelectOptions(schema, field, errorClass, flashData, __) {
   selectOptions.hash.name = field;
 
   if (schema[field].options) {
-    selectOptions.hash.options = pick(schema[field].options, __);
+    selectOptions.hash.options = content(schema[field].options, __);
 
     // Flash data for selected options
     if (flashData) {
@@ -90,8 +90,8 @@ export function getSubmitOptions(__, action) {
   submitOptions.hash.class = 'btn dark';
   submitOptions.hash.name = 'publish';
   submitOptions.hash.value = action === 'updateAction'
-    ? __.Dashboard.forms.fields.edit
-    : __.Dashboard.forms.fields.save;
+    ? content('Dashboard.forms.fields.edit', __)
+    : content('Dashboard.forms.fields.save', __);
 
   return submitOptions;
 }

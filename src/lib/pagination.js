@@ -1,4 +1,4 @@
-import { getPaginationPageFromParam } from './url';
+import { getPaginationPageFromParam } from './utils/url';
 
 let maxElementsPerPage = 10;
 

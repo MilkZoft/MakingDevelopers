@@ -1,7 +1,10 @@
 // Utils
 import { isDefined } from './utils/is';
-import { exists, forEach, content } from './utils/object';
-import { icon } from './handlebars';
+import { content, exists, forEach } from './utils/object';
+
+// Helpers
+import { openForm, closeForm } from './form';
+import { icon, submit } from './handlebars';
 
 const ignoredFields = ['language'];
 
@@ -15,12 +18,60 @@ export function createTable(tableSchema) {
     data
   } = tableSchema;
 
-  let html;
+  const deleteOptions = {
+    hash: {
+      id: 'deleteAction',
+      name: 'deleteAction',
+      value: content('Dashboard.table.delete', __),
+      class: 'btn dark',
+      onclick: `return confirm('${content('Dashboard.table.actions.delete.question', __)}')`
+    }
+  };
 
-  html = `<table class="table ${theme}">`;
-  html += _getTHead(fields, __);
-  html += _getTBody(data, fields, basePath, currentDashboardApp, __);
-  html += '</table>';
+  const removeOptions = {
+    hash: {
+      id: 'removeAction',
+      name: 'removeAction',
+      value: content('Dashboard.table.remove', __),
+      class: 'btn danger',
+      onclick: `return confirm('${content('Dashboard.table.actions.remove.question', __)}')`
+    }
+  };
+
+  const restoreOptions = {
+    hash: {
+      id: 'restoreAction',
+      name: 'restoreAction',
+      value: content('Dashboard.table.restore', __),
+      class: 'btn success',
+      onclick: `return confirm('${content('Dashboard.table.actions.restore.question', __)}')`
+    }
+  };
+
+  let html = openForm({
+    action: `${basePath}/dashboard/${currentDashboardApp}`,
+    method: 'post',
+    class: 'results'
+  });
+
+  if (data.length > 0) {
+    html += `<table class="table ${theme}">`;
+    html += _getTHead(fields, __);
+    html += _getTBody(data, fields, basePath, currentDashboardApp, __);
+    html += '</table>';
+  } else {
+    html += `<div class="noData">${content('Dashboard.table.noData', __)}</div>`;
+  }
+
+  html += `
+    <div class="actions">
+      ${submit(deleteOptions)}
+      ${submit(removeOptions)}
+      ${submit(restoreOptions)}
+    </div>
+  `;
+
+  html += closeForm();
 
   return html;
 }
@@ -62,6 +113,7 @@ function _getTBody(data, fields, basePath, currentDashboardApp, __) {
 
   forEach(data, row => {
     let bg = '';
+    let firstField = true;
 
     // If has a specific background...
     if (isDefined(row.bg)) {
@@ -70,15 +122,24 @@ function _getTBody(data, fields, basePath, currentDashboardApp, __) {
       delete row.bg;
     }
 
-    html += `
-      <tr class="${bg}">
-        <td class="center">
-          <input class="tableCheckbox" type="checkbox" />
-        </td>
-    `;
+    html += `<tr class="${bg}">`;
 
     forEach(row, field => {
       let className = 'row';
+
+      if (field === 'id') {
+        id = row[field];
+      }
+
+      if (firstField) {
+        html += `
+          <td class="center">
+            <input class="tableCheckbox" type="checkbox" name="rows" value="${id}" />
+          </td>
+        `;
+
+        firstField = false;
+      }
 
       // Icons for state
       restore = '';
@@ -88,10 +149,6 @@ function _getTBody(data, fields, basePath, currentDashboardApp, __) {
 
       if (isDefined(fields[field]) && fields[field].center) {
         className = 'center';
-      }
-
-      if (field === 'id') {
-        id = row[field];
       }
 
       if (field === 'state' && row[field] === 'deleted') {

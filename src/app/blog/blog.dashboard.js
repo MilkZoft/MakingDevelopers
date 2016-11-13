@@ -1,10 +1,12 @@
 // Dependencies
 import path from 'path';
 
+// Helpers
+import { getPagination } from '../../lib/pagination';
+
 // Utils
 import { glob } from '../../lib/utils/files';
 import { forEach } from '../../lib/utils/object';
-import { getPagination } from '../../lib/utils/pagination';
 import { getCurrentApp } from '../../lib/utils/url';
 
 export default (req, res, next) => {
@@ -16,8 +18,9 @@ export default (req, res, next) => {
   const readView = `app/${app}/dashboard/read`;
   const updateView = `app/${app}/dashboard/update`;
 
-  // Pagination
-  const paginationUrl = `${res.basePath}/dashboard/${getCurrentApp(req.originalUrl, true)}/page/`;
+  // Urls
+  const dashboardAppUrl = `${res.basePath}/dashboard/${getCurrentApp(req.originalUrl, true)}`;
+  const paginationUrl = `${dashboardAppUrl}/page/`;
 
   // Setting layout
   res.renderScope.default({
@@ -121,14 +124,40 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       res.content('Dashboard.table', true);
 
-      res.BlogModel.countAllPosts(total => {
-        res.BlogModel.getAllPosts(total, tableSchema => {
-          res.renderScope.set('tableSchema', tableSchema);
-          res.renderScope.set('pagination', getPagination(req.params, total, paginationUrl));
+      if (res.isPost()) {
+        const searchTerm = res.post('search', false, true);
+        const deleteAction = res.post('deleteAction', false, true);
+        const removeAction = res.post('removeAction', false, true);
+        const restoreAction = res.post('restoreAction', false, true);
+        const rows = res.post('rows', false, true);
+        const action = deleteAction
+          ? 'deleteAction'
+          : removeAction
+            ? 'removeAction'
+            : 'restoreAction';
 
-          res.render(readView, res.renderScope.get());
+        if (rows && deleteAction || removeAction || restoreAction) {
+          res.BlogModel[action](rows, () => {
+            res.redirect(dashboardAppUrl);
+          });
+        } else {
+          res.BlogModel.search(searchTerm, tableSchema => {
+            res.renderScope.set('tableSchema', tableSchema);
+            res.renderScope.set('searching', searchTerm);
+
+            res.render(readView, res.renderScope.get());
+          });
+        }
+      } else {
+        res.BlogModel.countAllPosts(total => {
+          res.BlogModel.getAllPosts(total, tableSchema => {
+            res.renderScope.set('tableSchema', tableSchema);
+            res.renderScope.set('pagination', getPagination(req.params, total, paginationUrl));
+
+            res.render(readView, res.renderScope.get());
+          });
         });
-      });
+      }
     });
   }
 

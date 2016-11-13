@@ -1,10 +1,10 @@
 // Helpers
 import * as Blog from '../../lib/model';
+import { getPaginationLimit } from '../../lib/pagination';
 
 // Utils
 import { year, month, day } from '../../lib/utils/date';
 import { forEach, keys, parseObject } from '../../lib/utils/object';
-import { getPaginationLimit } from '../../lib/utils/pagination';
 
 export default (req, res, next) => {
   // Methods
@@ -17,11 +17,22 @@ export default (req, res, next) => {
     removePost,
     restorePost,
     savePost,
-    updatePost
+    search,
+    updatePost,
+    deleteAction,
+    removeAction,
+    restoreAction
   };
 
   // Global vars
   const table = 'blog';
+
+  // Response data for table schema
+  const resData = {
+    __: res.__,
+    basePath: res.basePath,
+    currentDashboardApp: res.currentDashboardApp
+  };
 
   // Required fields
   res.content('Dashboard.forms.fields.error', true);
@@ -41,6 +52,39 @@ export default (req, res, next) => {
     month: month(),
     day: day()
   };
+
+  function deleteAction(rows, callback) {
+    Blog.deleteRows(table, rows, () => {
+      callback();
+    });
+  }
+
+  function removeAction(rows, callback) {
+    Blog.removeRows(table, rows, () => {
+      callback();
+    });
+  }
+
+  function restoreAction(rows, callback) {
+    Blog.restoreRows(table, 'draft', rows, () => {
+      callback();
+    });
+  }
+
+  function search(searchTerm, callback) {
+    const data = {
+      table,
+      fields: 'id, title, language, author, state',
+      searchBy: 'title',
+      searchTerm
+    };
+
+    Blog.search(data, (result) => {
+      const tableSchema = Blog.getTableSchema(result, resData);
+
+      callback(tableSchema);
+    });
+  }
 
   function getSchema(callback) {
     const data = {
@@ -100,7 +144,7 @@ export default (req, res, next) => {
     };
 
     Blog.findAll(data, (error, result) => {
-      const tableSchema = Blog.getTableSchema(result, res.__);
+      const tableSchema = Blog.getTableSchema(result, resData);
 
       tableSchema.__ = res.__;
       tableSchema.basePath = res.basePath;

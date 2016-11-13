@@ -3,7 +3,7 @@ import * as Db from './db/mysql';
 
 // Utils
 import { isDefined, isNumber } from './utils/is';
-import { exists, forEach, content, keys, parseObject } from './utils/object';
+import { content, exists, forEach, keys, parseObject } from './utils/object';
 import { clean } from './utils/string';
 
 export function find(data, callback) {
@@ -12,6 +12,14 @@ export function find(data, callback) {
 
 export function findAll(data, callback) {
   return Db.findAll(data, callback);
+}
+
+export function search(data, callback) {
+  const sql = Db.getSearchQuery(data);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
 }
 
 /**
@@ -134,10 +142,19 @@ export function getSchemaFrom(data, callback) {
   });
 }
 
-export function getTableSchema(data, __) {
+export function getTableSchema(data, resData) {
+  const {
+    __,
+    basePath,
+    currentDashboardApp
+  } = resData;
+
   const tableSchema = {
     fields: {},
-    data: []
+    data: [],
+    __,
+    basePath,
+    currentDashboardApp
   };
 
   const centeredFields = ['id', 'author', 'state'];
@@ -269,6 +286,14 @@ export function deleteRow(table, id, callback) {
   });
 }
 
+export function deleteRows(table, rows, callback) {
+  const sql = Db.getDeleteRowsQuery(table, rows);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
 export function removeRow(table, id, callback) {
   const sql = Db.getRemoveQuery(table, id);
 
@@ -277,8 +302,24 @@ export function removeRow(table, id, callback) {
   });
 }
 
+export function removeRows(table, rows, callback) {
+  const sql = Db.getRemoveRowsQuery(table, rows);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
 export function restoreRow(table, state, id, callback) {
   const sql = Db.getRestoreQuery(table, state, id);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
+export function restoreRows(table, state, rows, callback) {
+  const sql = Db.getRestoreRowsQuery(table, state, rows);
 
   query(sql, callback, (result, callback) => {
     callback(result);

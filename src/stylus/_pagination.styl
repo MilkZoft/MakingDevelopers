@@ -1,14 +1,24 @@
 .pagination
     resetList()
     color $darkGrayPagination
-    margin-top 20px
+    margin 0 auto
+    margin-top 40px
     text-align center
-    width 95%
+    width 100%
+
+    @media Tablet
+        fontSize(13px)
+
+    @media Mobile
+        margin-left 0
 
     li
         display inline-block
         padding 4px 6px 4px 0
         text-align center
+
+        @media Mobile
+            padding 2px 3px 2px 0
 
         a
             border-radius 5px
@@ -16,6 +26,9 @@
             float left
             padding 8px 16px
             text-decoration none
+
+            @media Mobile
+                padding 4px 8px
 
             &:hover
                 color $black !important

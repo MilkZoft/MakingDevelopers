@@ -2,12 +2,19 @@
 import { minify } from 'html-minifier';
 
 // Helpers
-import { openForm, closeForm, createInput, createLabel, createSelect, createTextarea } from './form';
+import {
+  openForm,
+  closeForm,
+  createInput,
+  createLabel,
+  createSelect,
+  createTextarea
+} from './form';
 import { createTable } from './table';
 
 // Utils
 import { isDefined, isUndefined } from './utils/is';
-import { exists, forEach, ternary, stringify } from './utils/object';
+import { content, exists, forEach, ternary, stringify } from './utils/object';
 import {
   getContentInsertOptionsHTML,
   getHiddenOptions,
@@ -24,14 +31,14 @@ import { $html } from './config';
 export function renderSchema(options) {
   let html = '';
 
-  const action = options.hash.action || 'create';
-  const schema = options.hash.schema;
-  const connectedUser = options.hash.connectedUser;
   const __ = options.hash.__;
-  const flashData = options.hash.flashData;
-  const securityToken = options.hash.securityToken;
-  const hiddenElements = schema && schema.hiddenElements || {};
+  const action = options.hash.action || 'create';
   const alert = schema && schema.alert || false;
+  const connectedUser = options.hash.connectedUser;
+  const flashData = options.hash.flashData;
+  const hiddenElements = schema && schema.hiddenElements || {};
+  const schema = options.hash.schema;
+  const securityToken = options.hash.securityToken;
 
   if (alert) {
     html += `<div class="alert ${alert.type}">${icon(alert.icon)} ${alert.message}</div>`;
@@ -66,14 +73,15 @@ export function renderTable(options) {
 }
 
 export function renderSearch(options) {
-  // const __ = options.hash.__;
+  const __ = options.hash.__;
   const currentDashboardApp = options.hash.currentDashboardApp;
   const basePath = options.hash.basePath;
+  const searching = options.hash.searching;
 
   const inputOptions = {
     id: 'search',
     name: 'search',
-    placeholder: 'Type your Search...',
+    placeholder: content('Dashboard.search.placeholder', __),
     maxlength: 35
   };
 
@@ -81,7 +89,7 @@ export function renderSearch(options) {
     hash: {
       id: 'submitSearch',
       name: 'searchSubmit',
-      value: 'Search',
+      value: content('Dashboard.search.label', __),
       class: 'btn dark'
     }
   };
@@ -95,6 +103,16 @@ export function renderSearch(options) {
   let form = openForm(formOptions);
   form += createInput(inputOptions);
   form += submit(submitOptions);
+
+  if (searching) {
+    form += `
+      <div class="searching">
+        <strong>${content('Dashboard.search.searching', __)}:</strong> ${searching}
+        <a href="${formOptions.action}">${icon('times')}</a>
+      </div>
+    `;
+  }
+
   form += closeForm();
 
   return form;
