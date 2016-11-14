@@ -76,7 +76,7 @@ CREATE TABLE `blog` (
 --
 
 INSERT INTO `blog` (`id`, `title`, `slug`, `excerpt`, `content`, `codes`, `tags`, `author`, `createdAt`, `day`, `month`, `year`, `language`, `activeComments`, `state`) VALUES
-(1, 'Teteeeeeeeee', 'teteeeeeeeee', '<p>sdadad</p>\r\n\r\n<p>asdsadasd</p>\r\n', '<p>asdadad</p>\r\n\r\n<p>[Ad:336x280]</p>\r\n\r\n<p>{{script.js}}</p>\r\n', '---js:script.js\r\nalert(1);\r\n\r\n---\r\n\r\n', 'Hola2', 'codejobs', '2016-02-27 00:52:58', '27', '2', '20', 'es', 1, 'published');
+(1, 'Test1', 'test1', '<p>Test1</p>\r\n', '<p>asdadad</p>\r\n\r\n<p>[Ad:336x280]</p>\r\n\r\n<p>{{script.js}}</p>\r\n', '---js:script.js\r\nalert(1);\r\n\r\n---\r\n\r\n', 'Hola2', 'codejobs', '2016-02-27 00:52:58', '27', '2', '20', 'es', 1, 'published');
 
 -- --------------------------------------------------------
 
@@ -251,7 +251,23 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (153, 'Dashboard.modules.blog.messages.update.success', 'The post was updated correctly', 'en'),
 (154, 'Dashboard.modules.blog.messages.update.success', 'La publicación fue actualizada correctamente', 'es'),
 (155, 'Dashboard.forms.fields.edit', 'Edit', 'en'),
-(156, 'Dashboard.forms.fields.edit', 'Editar', 'es');
+(156, 'Dashboard.forms.fields.edit', 'Editar', 'es'),
+(157, 'Dashboard.table.noData', 'No Data Found', 'en'),
+(158, 'Dashboard.table.noData', 'No hay elementos para mostrar', 'es'),
+(159, 'Dashboard.search.searching', 'Searching', 'en'),
+(160, 'Dashboard.search.searching', 'Buscando', 'es'),
+(161, 'Dashboard.search.label', 'Search', 'en'),
+(162, 'Dashboard.search.label', 'Buscar', 'es'),
+(163, 'Dashboard.search.placeholder', 'Type your search...', 'en'),
+(164, 'Dashboard.search.placeholder', 'Escribe tu búsqueda...', 'es'),
+(165, 'Dashboard.table.remove', 'Remove', 'en'),
+(166, 'Dashboard.table.remove', 'Remover', 'es'),
+(167, 'Dashboard.table.actions.delete.question', 'Do you want to send these records to the trash?', 'en'),
+(168, 'Dashboard.table.actions.delete.question', '¿Deseas enviar estos registros a la papelera?', 'es'),
+(169, 'Dashboard.table.actions.remove.question', 'Do you want to remove permanently these records?', 'en'),
+(170, 'Dashboard.table.actions.remove.question', '¿Deseas eliminar permanentemente estos registros?', 'es'),
+(171, 'Dashboard.table.actions.restore.question', 'Do you want to restore these records?', 'en'),
+(172, 'Dashboard.table.actions.restore.question', '¿Deseas recuperar estos registros?', 'es');
 
 -- --------------------------------------------------------
 

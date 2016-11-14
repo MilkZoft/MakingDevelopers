@@ -6,7 +6,7 @@ import { $db } from '../config';
 
 // Utils
 import { addSlashes } from '../utils/string';
-import { isObject } from '../utils/is';
+import { isArray, isObject } from '../utils/is';
 import { forEach, keys } from '../utils/object';
 
 // Database connection
@@ -38,6 +38,24 @@ export function getExistsQuery(table, data) {
   }
 
   return false;
+}
+
+export function getSearchQuery(data) {
+  const query = `
+    SELECT ${data.fields || '*'}
+      FROM ${data.table}
+      WHERE ${data.searchBy}
+      LIKE '%${data.searchTerm}%'
+      ORDER BY id DESC
+    `;
+
+  return query;
+}
+
+export function getCountAllRowsQuery(table) {
+  const query = `SELECT COUNT(1) AS Total FROM ${table}`;
+
+  return query;
 }
 
 export function getUpdateQuery(table, data, id) {
@@ -107,6 +125,27 @@ export function getRemoveQuery(table, id) {
 
 export function getRestoreQuery(table, state, id) {
   const query = `UPDATE ${table} SET state = '${state}' WHERE id = ${id}`;
+
+  return query;
+}
+
+export function getDeleteRowsQuery(table, rows) {
+  const ids = isArray(rows) ? rows.join(', ') : rows;
+  const query = `UPDATE ${table} SET state = 'deleted' WHERE id IN (${ids})`;
+
+  return query;
+}
+
+export function getRemoveRowsQuery(table, rows) {
+  const ids = isArray(rows) ? rows.join(', ') : rows;
+  const query = `DELETE FROM ${table} WHERE id IN (${ids})`;
+
+  return query;
+}
+
+export function getRestoreRowsQuery(table, state, rows) {
+  const ids = isArray(rows) ? rows.join(', ') : rows;
+  const query = `UPDATE ${table} SET state = '${state}' WHERE id IN (${ids})`;
 
   return query;
 }

@@ -5,7 +5,8 @@ import { $security } from './config';
 import { now } from './utils/date';
 import { isArray, isDefined, isObject } from './utils/is';
 import { exists, forEach } from './utils/object';
-import { escapeString, getIdFromParam, removeHTML } from './utils/string';
+import { escapeString, removeHTML } from './utils/string';
+import { getValueFromParam } from './utils/url';
 
 let postData = {};
 
@@ -28,7 +29,7 @@ export default (req, res, next) => {
 
     if (exists(req.params.action, actions)) {
       if (isDefined(req.params[0])) {
-        res.currentId = getIdFromParam(req.params[0]);
+        res.currentId = getValueFromParam(req.params[0]);
       }
 
       action = `${req.params.action}Action`;
@@ -44,8 +45,8 @@ export default (req, res, next) => {
     res.send(variable);
   }
 
-  function getAllPost(options) {
-    validateSecurityToken();
+  function getAllPost(options, disableSecurityToken) {
+    validateSecurityToken(disableSecurityToken);
 
     if (!isDefined(options)) {
       options = {
@@ -88,50 +89,28 @@ export default (req, res, next) => {
     return req.method === 'POST';
   }
 
-  function post(input, filter) {
+  function post(input, filter, disableSecurityToken) {
     const inputs = input;
-    const posts = {};
-    let fn;
     let value;
 
     if (!filter) {
       filter = 'clean';
     }
 
-    validateSecurityToken();
+    validateSecurityToken(disableSecurityToken);
 
     if (isArray(inputs)) {
-      forEach(inputs, input => {
-        value = postData[input];
-        filter = input.split(':');
-        fn = input.split('|');
-
-        if (fn[1] === 'now') {
-          input = input.replace('|now', '');
-          value = now();
-        }
-
-        if (filter[1]) {
-          input = input.replace(`:${filter[1]}`, '');
-          value = postData[input];
-
-          if (filter[1] !== 'html') {
-            value = utils[filter[1]](value);
-          }
-        }
-
-        posts[input] = value;
-      });
-
-      return posts;
+      return _getPostsFromArray(inputs);
     }
 
     if (isDefined(postData[input])) {
       value = postData[input];
 
-      if (filter === 'escape') {
+      const disableFilter = isArray(value) && isObject(value);
+
+      if (!disableFilter && filter === 'escape') {
         value = escapeString(value);
-      } else if (filter === 'clean') {
+      } else if (!disableFilter && filter === 'clean') {
         value = escapeString(removeHTML(value));
       }
 
@@ -166,8 +145,8 @@ export default (req, res, next) => {
     return element.length > 0 ? element[0] : false;
   }
 
-  function validateSecurityToken() {
-    if ($security().validateSecurityToken) {
+  function validateSecurityToken(disable) {
+    if ($security().validateSecurityToken && !disable) {
       postData = {};
 
       if (res.session('securityToken') === req.body.securityToken) {
@@ -176,5 +155,37 @@ export default (req, res, next) => {
     } else {
       postData = req.body;
     }
+  }
+
+  /* Private functions */
+  function _getPostsFromArray(inputs) {
+    const posts = {};
+    let filter;
+    let fn;
+    let value;
+
+    forEach(inputs, input => {
+      value = postData[input];
+      filter = input.split(':');
+      fn = input.split('|');
+
+      if (fn[1] === 'now') {
+        input = input.replace('|now', '');
+        value = now();
+      }
+
+      if (filter[1]) {
+        input = input.replace(`:${filter[1]}`, '');
+        value = postData[input];
+
+        if (filter[1] !== 'html') {
+          value = utils[filter[1]](value);
+        }
+      }
+
+      posts[input] = value;
+    });
+
+    return posts;
   }
 };

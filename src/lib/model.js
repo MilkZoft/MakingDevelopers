@@ -3,7 +3,7 @@ import * as Db from './db/mysql';
 
 // Utils
 import { isDefined, isNumber } from './utils/is';
-import { exists, forEach, keys, parseObject } from './utils/object';
+import { content, exists, forEach, keys, parseObject } from './utils/object';
 import { clean } from './utils/string';
 
 export function find(data, callback) {
@@ -12,6 +12,14 @@ export function find(data, callback) {
 
 export function findAll(data, callback) {
   return Db.findAll(data, callback);
+}
+
+export function search(data, callback) {
+  const sql = Db.getSearchQuery(data);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
 }
 
 /**
@@ -35,6 +43,12 @@ export function executeQuery(sql, callback) {
  */
 export function getColumns(table, callback, fn) {
   return query(`SHOW COLUMNS FROM ${table}`, callback, fn);
+}
+
+export function getLimit(data, callback) {
+  Blog.findAll(data, (error, result) => {
+    return callback(result.length || 0);
+  });
 }
 
 /**
@@ -128,10 +142,19 @@ export function getSchemaFrom(data, callback) {
   });
 }
 
-export function getTableSchema(data, __) {
+export function getTableSchema(data, resData) {
+  const {
+    __,
+    basePath,
+    currentDashboardApp
+  } = resData;
+
   const tableSchema = {
     fields: {},
-    data: []
+    data: [],
+    __,
+    basePath,
+    currentDashboardApp
   };
 
   const centeredFields = ['id', 'author', 'state'];
@@ -145,7 +168,7 @@ export function getTableSchema(data, __) {
 
         tableSchema.fields[field] = {
           center,
-          label: __.Dashboard.table[field] || `__.Dashboard.table.${field}`
+          label: content(`Dashboard.table.${field}`, __)
         };
       }
     });
@@ -263,8 +286,24 @@ export function deleteRow(table, id, callback) {
   });
 }
 
+export function deleteRows(table, rows, callback) {
+  const sql = Db.getDeleteRowsQuery(table, rows);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
 export function removeRow(table, id, callback) {
   const sql = Db.getRemoveQuery(table, id);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
+export function removeRows(table, rows, callback) {
+  const sql = Db.getRemoveRowsQuery(table, rows);
 
   query(sql, callback, (result, callback) => {
     callback(result);
@@ -279,11 +318,27 @@ export function restoreRow(table, state, id, callback) {
   });
 }
 
+export function restoreRows(table, state, rows, callback) {
+  const sql = Db.getRestoreRowsQuery(table, state, rows);
+
+  query(sql, callback, (result, callback) => {
+    callback(result);
+  });
+}
+
 export function existsRow(table, data, callback) {
   const sql = Db.getExistsQuery(table, data);
 
   query(sql, callback, (result, callback) => {
     callback(result.length === 0 ? false : result);
+  });
+}
+
+export function countAllRowsFrom(table, callback) {
+  const sql = Db.getCountAllRowsQuery(table);
+
+  query(sql, callback, (result, callback) => {
+    callback(isDefined(result[0]) ? result[0].Total : 0);
   });
 }
 
