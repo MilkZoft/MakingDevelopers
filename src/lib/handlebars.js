@@ -33,12 +33,12 @@ export function renderSchema(options) {
 
   const __ = options.hash.__;
   const action = options.hash.action || 'create';
-  const alert = schema && schema.alert || false;
   const connectedUser = options.hash.connectedUser;
   const flashData = options.hash.flashData;
-  const hiddenElements = schema && schema.hiddenElements || {};
-  const schema = options.hash.schema;
   const securityToken = options.hash.securityToken;
+  const schema = options.hash.schema;
+  const alert = schema && schema.alert || false;
+  const hiddenElements = schema && schema.hiddenElements || {};
 
   if (alert) {
     html += `<div class="alert ${alert.type}">${icon(alert.icon)} ${alert.message}</div>`;
