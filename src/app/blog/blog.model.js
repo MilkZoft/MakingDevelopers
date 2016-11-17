@@ -146,10 +146,6 @@ export default (req, res, next) => {
     Blog.findAll(data, (error, result) => {
       const tableSchema = Blog.getTableSchema(result, resData);
 
-      tableSchema.__ = res.__;
-      tableSchema.basePath = res.basePath;
-      tableSchema.currentDashboardApp = res.currentDashboardApp;
-
       callback(tableSchema);
     });
   }

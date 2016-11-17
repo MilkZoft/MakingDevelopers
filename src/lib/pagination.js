@@ -23,13 +23,13 @@ export function getPagination(params, total, url) {
   const start = getPaginationLimit(params, total, true);
 
   if (total > maxElementsPerPage) {
-    return pagination(total, maxElementsPerPage, start, url);
+    return _pagination(total, maxElementsPerPage, start, url);
   }
 
   return '';
 }
 
-export function pagination(count, end, start, url, elementsPerPage) {
+function _pagination(count, end, start, url, elementsPerPage) {
   const increment = 5;
   const limit = elementsPerPage || 10;
 
@@ -68,16 +68,16 @@ export function pagination(count, end, start, url, elementsPerPage) {
       lastPage = pages;
     }
 
-    pageNav = getPageNav(firstPage, lastPage, start, end, next, url, limit);
-    currentPage = getCurrentPage(start, end);
-    pageNext = getPageNext(currentPage, pages, url);
-    pagePrevious = getPagePrevious(start, currentPage, url);
+    pageNav = _getPageNav(firstPage, lastPage, start, end, next, url, limit);
+    currentPage = _getCurrentPage(start, end);
+    pageNext = _getPageNext(currentPage, pages, url);
+    pagePrevious = _getPagePrevious(start, currentPage, url);
   }
 
   return `<ul class="pagination">${pagePrevious} ${pageNav} ${pageNext}</ul>`;
 }
 
-function getPageNav(firstPage, lastPage, start, end, next, url, limit) {
+function _getPageNav(firstPage, lastPage, start, end, next, url, limit) {
   let j = 1;
   let pageNav = '';
 
@@ -99,17 +99,17 @@ function getPageNav(firstPage, lastPage, start, end, next, url, limit) {
   return pageNav;
 }
 
-function getCurrentPage(start, end) {
+function _getCurrentPage(start, end) {
   return start === 0 ? 1 : start / end + 1;
 }
 
-function getPageNext(currentPage, pages, url) {
+function _getPageNext(currentPage, pages, url) {
   return currentPage < pages
     ? `<li><a href="${url}${currentPage + 1}/"><i class="fa fa-chevron-right"></i></a></li>`
     : '';
 }
 
-function getPagePrevious(start, currentPage, url) {
+function _getPagePrevious(start, currentPage, url) {
   return start > 0
     ? `<li><a href="${url}${currentPage - 1}/"><i class="fa fa-chevron-left"></i></a></li>`
     : '';
