@@ -46,11 +46,21 @@ yarn
 
 * Import the database to your MySQL ([http://localhost/phpmyadmin](http://localhost/phpmyadmin))
 
+* Configure your MySQL Database connection parameters on `src/config/config.yml`
+
 * Add to your hosts:
 
 ```
 127.0.0.1 local.makingdevelopers.com
 ```
+
+* Start the application server
+
+```
+gulp
+```
+
+* Run the application at [http://local.makingdevelopers.com](http://local.makingdevelopers.com)
 
 ### Tasks
 
