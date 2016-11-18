@@ -28,7 +28,7 @@ Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" targe
 
 * Gulp (`npm install -g gulp`)
 * MySQL/MariaDB (https://www.mysql.com/downloads/)
-* Node.js 5.5+
+* Node.js 6.0+ (https://nodejs.org)
 * Webpack (`npm install -g webpack webpack-dev-server`)
 * Yarn (`npm install -g yarn`)
 
