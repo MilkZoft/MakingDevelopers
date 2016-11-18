@@ -20,9 +20,9 @@ You can see the videos that we have done so far and get involve in the project!
 
 Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" target="_blank" title="Codejobs Youtube Channel!">Codejobs Youtube Channel!</a>
 
-# Setup Instructions
+## Setup Instructions
 
-## Requirements
+### Requirements
 
 * Node.js 5.5+
 * Gulp (npm install -g gulp)
@@ -30,7 +30,7 @@ Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" targe
 * MySQL/MariaDB (https://www.mysql.com/downloads/)
 * Yarn (npm install -g yarn)
 
-## Installation
+### Installation
 
 * Clone the repository:
 
@@ -51,3 +51,13 @@ yarn
 ```
 127.0.0.1 local.makingdevelopers.com
 ```
+
+### Tasks
+
+- `gulp` Start server in development mode (executes `start-dev` task)
+- `gulp start` Start server in production mode
+- `gulp analyze` Eslint validator
+- `gulp content` Retrieves all the content translations
+- `gulp test` Run unit tests
+- `gulp vendor` Compiles and compress vendor js files (jquery, ckeditor, etc.) into vendor.js
+- `gulp all` Compiles and compress js files into all.js
