@@ -56,6 +56,12 @@ yarn
 127.0.0.1 local.makingdevelopers.com
 ```
 
+* Includes the proxy file to our vhost file (/private/etc/apache2/extra/httpd-vhosts.conf):
+
+```
+Include /Users/<Your Mac User>/projects/MakingDevelopers/001-MakingDevelopers-proxy.conf
+```
+
 * Start the application server
 
 ```
