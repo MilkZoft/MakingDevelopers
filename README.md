@@ -19,3 +19,35 @@ You can see the videos that we have done so far and get involve in the project!
 * Video 13: https://www.youtube.com/watch?v=0gcqCDh0Mto
 
 Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" target="_blank" title="Codejobs Youtube Channel!">Codejobs Youtube Channel!</a>
+
+# Setup Instructions
+
+## Requirements
+
+* Node.js 5.5+
+* Gulp (npm install -g gulp)
+* Webpack (npm install -g webpack webpack-dev-server)
+* MySQL/MariaDB (https://www.mysql.com/downloads/)
+* Yarn (npm install -g yarn)
+
+## Installation
+
+1. Clone the repository:
+
+```
+ git clone git@github.com:MilkZoft/MakingDevelopers.git
+```
+
+2. Install the dependencies with yarn.
+
+```
+yarn
+```
+
+3. Import the database to your MySQL (http://localhost/phpmyadmin)
+
+4. Add to your hosts:
+
+```
+127.0.0.1 local.makingdevelopers.com
+```
