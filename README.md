@@ -44,7 +44,7 @@ Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" targe
 yarn
 ```
 
-* Import the database to your MySQL (http://localhost/phpmyadmin)
+* Import the database to your MySQL ([http://localhost/phpmyadmin](http://localhost/phpmyadmin))
 
 * Add to your hosts:
 
