@@ -62,6 +62,12 @@ yarn
 Include /Users/<Your Mac User>/<Your Path to the Project>/MakingDevelopers/001-MakingDevelopers-proxy.conf
 ```
 
+* Restart Apache
+
+```
+sudo apachectl restart
+```
+
 * Start the application server
 
 ```
