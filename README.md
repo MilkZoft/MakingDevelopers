@@ -59,7 +59,7 @@ yarn
 * Includes the proxy file to our vhost file (/private/etc/apache2/extra/httpd-vhosts.conf):
 
 ```
-Include /Users/<Your Mac User>/projects/MakingDevelopers/001-MakingDevelopers-proxy.conf
+Include /Users/<Your Mac User>/<Your Path to the Project>/MakingDevelopers/001-MakingDevelopers-proxy.conf
 ```
 
 * Start the application server
