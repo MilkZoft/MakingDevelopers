@@ -61,3 +61,27 @@ yarn
 - `gulp test` Run unit tests
 - `gulp vendor` Compiles and compress vendor js files (jquery, ckeditor, etc.) into vendor.js
 - `gulp all` Compiles and compress js files into all.js
+
+### Libraries Used
+
+- [babeljs](https://babeljs.io/)
+- [bluebird](https://github.com/petkaantonov/bluebird)
+- [eslint](http://eslint.org/)
+- [express-js](http://expressjs.com/)
+- [handlebars](handlebarsjs.com)
+- [immutable-js](http://facebook.github.io/immutable-js)
+- [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch)
+- [jest](https://github.com/facebook/jest) 
+- [mocha](https://mochajs.org) 
+- [mysql](http://mysql.com)
+- [nodemon](http://nodemon.io)
+- [react-helmet](https://github.com/nfl/react-helmet)
+- [react-router-redux](https://github.com/reactjs/react-router-redux)
+- [react-router](https://github.com/rackt/react-router)
+- [react](http://facebook.github.io/react/)
+- [redux](http://rackt.github.io/redux/)
+- [stylus](http://stylus-lang.com)
+- [user-agent-is-browser](https://github.com/stuartpb/user-agent-is-browser)
+- [useragent](https://github.com/3rd-Eden/useragent)
+- [webpack-isomorphic-tools](https://github.com/halt-hammerzeit/webpack-isomorphic-tools)
+- [webpack](http://webpack.github.io/)
