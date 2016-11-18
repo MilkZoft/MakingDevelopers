@@ -32,21 +32,21 @@ Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" targe
 
 ## Installation
 
-1. Clone the repository:
+* Clone the repository:
 
 ```
  git clone git@github.com:MilkZoft/MakingDevelopers.git
 ```
 
-2. Install the dependencies with yarn.
+* Install the dependencies with yarn.
 
 ```
 yarn
 ```
 
-3. Import the database to your MySQL (http://localhost/phpmyadmin)
+* Import the database to your MySQL (http://localhost/phpmyadmin)
 
-4. Add to your hosts:
+* Add to your hosts:
 
 ```
 127.0.0.1 local.makingdevelopers.com
