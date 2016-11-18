@@ -17,6 +17,8 @@ You can see the videos that we have done so far and get involve in the project!
 * Video 11: https://www.youtube.com/watch?v=d0k49CseyfA
 * Video 12: https://www.youtube.com/watch?v=8WxF3CjRf5k
 * Video 13: https://www.youtube.com/watch?v=0gcqCDh0Mto
+* Video 14: https://www.youtube.com/watch?v=XdITZWwxkt8
+* Video 15: https://www.youtube.com/watch?v=jDDT9KBKy3A
 
 Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" target="_blank" title="Codejobs Youtube Channel!">Codejobs Youtube Channel!</a>
 
@@ -24,11 +26,11 @@ Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" targe
 
 ### Requirements
 
-* Node.js 5.5+
-* Gulp (npm install -g gulp)
-* Webpack (npm install -g webpack webpack-dev-server)
+* Gulp (`npm install -g gulp`)
 * MySQL/MariaDB (https://www.mysql.com/downloads/)
-* Yarn (npm install -g yarn)
+* Node.js 5.5+
+* Webpack (`npm install -g webpack webpack-dev-server`)
+* Yarn (`npm install -g yarn`)
 
 ### Installation
 
