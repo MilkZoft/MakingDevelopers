@@ -1,27 +1,42 @@
 import '../globalTest';
 import {
-  $config,
+  $appName,
   $baseUrl,
+  $config,
+  $dashboard,
   $db,
   $html,
   $languages,
   $security,
   $serverPort,
   $session,
+  $social,
   $views,
-  $social
+  $webpack
 } from '../../src/lib/config';
 
 describe('@Config', () => {
-  describe('#$config', () => {
+  describe('#$appName', () => {
     it('should be a function', () => {
-      assert.typeOf($config, 'function', '$config should be a function');
+      assert.typeOf($appName, 'function', '$appName should be a function');
     });
   });
 
   describe('#$baseUrl', () => {
     it('should be a function', () => {
       assert.typeOf($baseUrl, 'function', '$baseUrl should be a function');
+    });
+  });
+
+  describe('#$config', () => {
+    it('should be a function', () => {
+      assert.typeOf($config, 'function', '$config should be a function');
+    });
+  });
+
+  describe('#$dashboard', () => {
+    it('should be a function', () => {
+      assert.typeOf($dashboard, 'function', '$dashboard should be a function');
     });
   });
 
@@ -61,15 +76,21 @@ describe('@Config', () => {
     });
   });
 
+  describe('#$social', () => {
+    it('should be a function', () => {
+      assert.typeOf($social, 'function', '$social should be a function');
+    });
+  });
+
   describe('#$views', () => {
     it('should be a function', () => {
       assert.typeOf($views, 'function', '$views should be a function');
     });
   });
 
-  describe('#$social', () => {
+  describe('#$webpack', () => {
     it('should be a function', () => {
-      assert.typeOf($social, 'function', '$social should be a function');
+      assert.typeOf($webpack, 'function', '$webpack should be a function');
     });
   });
 });

@@ -11,6 +11,26 @@ import env from './env';
 let config;
 
 /**
+ * Returns appName node
+ *
+ * @param {string} env Forcing environment
+ * @returns {string} appName
+ */
+export function $appName(env) {
+  return $config(env).appName;
+}
+
+/**
+ * Returns baseUrl node
+ *
+ * @param {string} env Forcing environment
+ * @returns {string} baseUrl
+ */
+export function $baseUrl(env) {
+  return $config(env).baseUrl;
+}
+
+/**
  * Returns the selected environment configuration
  *
  * @param {string} environment Forcing environment
@@ -26,22 +46,14 @@ export function $config(environment) {
   return environment && config[environment] || config[env().name] || {};
 }
 
-export function $appName(env) {
-  return $config(env).appName;
-}
-
-export function $dashboard(env) {
-  return $config(env).dashboard;
-}
-
 /**
- * Returns baseUrl node
+ * Returns dashboard node
  *
  * @param {string} env Forcing environment
- * @returns {string} baseUrl
+ * @returns {string} dashboard
  */
-export function $baseUrl(env) {
-  return $config(env).baseUrl;
+export function $dashboard(env) {
+  return $config(env).dashboard;
 }
 
 /**
@@ -105,6 +117,16 @@ export function $session(env) {
 }
 
 /**
+ * Returns social node
+ *
+ * @param {string} env Forcing environment
+ * @returns {object} social
+ */
+export function $social(env) {
+  return $config(env).social;
+}
+
+/**
  * Returns views node
  *
  * @param {string} env Forcing environment
@@ -115,15 +137,11 @@ export function $views(env) {
 }
 
 /**
- * Returns social node
+ * Returns webpack node
  *
  * @param {string} env Forcing environment
- * @returns {object} social
+ * @returns {object} webpack
  */
-export function $social(env) {
-  return $config(env).social;
-}
-
 export function $webpack(env) {
   return $config(env).webpack;
 }
