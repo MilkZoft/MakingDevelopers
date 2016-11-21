@@ -15,16 +15,11 @@ import { getCurrentApp } from '../lib/utils/url';
 import { $baseUrl, $dashboard } from '../lib/config';
 
 // Importing controllers
+import apiController from '../app/api/api.controller';
 import authController from '../app/auth/auth.controller';
 import contentController from '../app/content/content.controller';
 import dashboardController from '../app/dashboard/dashboard.controller';
 import usersController from '../app/users/users.controller';
-
-// Importing models
-import blogModel from '../app/blog/blog.model';
-
-// Dashboard
-import blogDashboard from '../app/blog/blog.dashboard';
 
 // React
 import render from './servers/render';
@@ -61,7 +56,7 @@ export default (app) => {
     res.locals.currentUrl = res.currentUrl = $baseUrl() + req.originalUrl;
     res.locals.baseUrl = res.baseUrl = $baseUrl();
     res.locals.basePath = res.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
-
+    console.log('BASEPATH', res.basePath);
     return next();
   });
 
@@ -96,13 +91,8 @@ export default (app) => {
     return next();
   });
 
-  // Dashboard actions
-  app.use(blogDashboard);
-
-  // Models
-  app.use(blogModel);
-
   // Controllers dispatch
+  app.use('/api', apiController);
   app.use('/auth', authController);
   app.use('/dashboard', dashboardController);
   app.use(`/:language(${availableLanguages()})/dashboard`, dashboardController);

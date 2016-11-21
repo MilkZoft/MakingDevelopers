@@ -22,6 +22,9 @@ import { $html, $views, $serverPort } from '../../lib/config';
 // Router
 import router from '../router';
 
+// Imports
+import imports from '../imports';
+
 // Exporting the server
 export default () => {
   // Starting express application
@@ -84,6 +87,9 @@ export default () => {
   // view engine setup
   app.set('views', path.join(__dirname, '/../../views'));
   app.set('view engine', $views().engine);
+
+  // Imports
+  imports(app);
 
   // Router
   router(app);

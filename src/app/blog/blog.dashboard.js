@@ -141,7 +141,7 @@ export default (req, res, next) => {
             res.redirect(dashboardAppUrl);
           });
         } else {
-          res.BlogModel.search(searchTerm, tableSchema => {
+          res.BlogModel.dashboard().search(searchTerm, tableSchema => {
             res.renderScope.set('tableSchema', tableSchema);
             res.renderScope.set('searching', searchTerm);
 
@@ -149,8 +149,8 @@ export default (req, res, next) => {
           });
         }
       } else {
-        res.BlogModel.countAllPosts(total => {
-          res.BlogModel.getAllPosts(total, tableSchema => {
+        res.BlogModel.dashboard().countAllPosts(total => {
+          res.BlogModel.dashboard().getAllPosts(total, tableSchema => {
             res.renderScope.set('tableSchema', tableSchema);
             res.renderScope.set('pagination', getPagination(req.params, total, paginationUrl));
 
@@ -179,10 +179,10 @@ export default (req, res, next) => {
         const post = res.getAllPost();
 
         // Trying to update the post
-        res.BlogModel.updatePost(post, (result, errors) => {
+        res.BlogModel.dashboard().updatePost(post, (result, errors) => {
           if (errors) {
             // Getting the schema to re-render the form.
-            res.BlogModel.getSchema(schema => {
+            res.BlogModel.dashboard().getSchema(schema => {
               schema.alert = {
                 type: 'danger',
                 icon: 'times',
@@ -204,7 +204,7 @@ export default (req, res, next) => {
             });
           } else if (result) {
             // Getting the schema to re-render the form.
-            res.BlogModel.getSchema(schema => {
+            res.BlogModel.dashboard().getSchema(schema => {
               // The post was added correclty
               schema.alert = {
                 type: 'info',
@@ -221,8 +221,8 @@ export default (req, res, next) => {
           }
         });
       } else {
-        res.BlogModel.getPost(res.currentId, post => {
-          res.BlogModel.getSchema(schema => {
+        res.BlogModel.dashboard().getPost(res.currentId, post => {
+          res.BlogModel.dashboard().getSchema(schema => {
             res.renderScope.set('currentId', res.currentId);
             res.renderScope.set('flashData', post);
             res.renderScope.set('schema', schema);
@@ -243,7 +243,7 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       const id = res.currentId;
 
-      res.BlogModel.deletePost(id, () => {
+      res.BlogModel.dashboard().deletePost(id, () => {
         res.redirect(`${res.basePath}/dashboard/blog`);
       });
     });
@@ -253,7 +253,7 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       const id = res.currentId;
 
-      res.BlogModel.removePost(id, () => {
+      res.BlogModel.dashboard().removePost(id, () => {
         res.redirect(`${res.basePath}/dashboard/blog`);
       });
     });
@@ -263,7 +263,7 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       const id = res.currentId;
 
-      res.BlogModel.restorePost(id, () => {
+      res.BlogModel.dashboard().restorePost(id, () => {
         res.redirect(`${res.basePath}/dashboard/blog`);
       });
     });
