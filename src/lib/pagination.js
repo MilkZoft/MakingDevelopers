@@ -7,7 +7,10 @@ export function setPaginationMaxLimit(elements) {
 }
 
 export function getPaginationLimit(params, total, returnStart) {
-  const paginationPage = getPaginationPageFromParam(params);
+  const paginationPage = params > 0
+    ? params
+    : getPaginationPageFromParam(params);
+
   const start = paginationPage > 0
     ? paginationPage * maxElementsPerPage - maxElementsPerPage
     : 0;

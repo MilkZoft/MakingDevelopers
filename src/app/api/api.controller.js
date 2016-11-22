@@ -2,17 +2,31 @@
 import express from 'express';
 
 // Utils
-import { camelCase } from '../../lib/utils/string';
+import { isFunction } from '../../lib/utils/is';
+import { camelCase, sanitize } from '../../lib/utils/string';
 
 // Express Router
 const Router = express.Router();
 
 Router.get('/blog/:endpoint*?', (req, res, next) => {
-  const endpoint = camelCase(req.params.endpoint);
+  const endpointMethod = camelCase(req.params.endpoint);
+  const data = sanitize(req.query);
 
-  return res.blogAPI[endpoint]((response) => {
-    res.json(response);
-  });
+  if (isFunction(res.blogAPI[endpointMethod])) {
+    return res.blogAPI[endpointMethod](data, response => {
+      res.json({
+        information: {
+          total: response.length,
+          params: data
+        },
+        response
+      });
+    });
+  } else {
+    res.json({
+      error: 'No data found'
+    });
+  }
 });
 
 export default Router;

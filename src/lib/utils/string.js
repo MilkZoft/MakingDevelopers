@@ -1,5 +1,6 @@
 // Utils
-import { isDefined } from './is';
+import { isDefined, isString, isObject } from './is';
+import { forEach } from './object';
 
 /**
  * Cleans a string from special characters
@@ -13,6 +14,20 @@ export function clean(str) {
   }
 
   return false;
+}
+
+export function sanitize(data) {
+  const sanitizedData = {};
+
+  if (isString(data)) {
+    return clean(data);
+  } else if (isObject(data)) {
+    forEach(data, (key) => {
+      sanitizedData[key] = clean(data[key]);
+    });
+  }
+
+  return sanitizedData;
 }
 
 /**
