@@ -9,6 +9,7 @@ import { forEach, keys, parseObject } from '../../lib/utils/object';
 export default (req, res, next) => {
   // Methods
   res.BlogModel = {
+    cms,
     dashboard
   };
 
@@ -40,6 +41,54 @@ export default (req, res, next) => {
     month: month(),
     day: day()
   };
+
+  function cms() {
+    return {
+      countPosts,
+      posts,
+      post
+    };
+
+    function countPosts(callback) {
+      Blog.countAllRowsFrom(table, (total) => {
+        callback(total);
+      });
+    }
+
+    function post(requestQuery, callback) {
+      const data = {
+        table,
+        query: requestQuery.query
+      };
+
+      Blog.findByQuery(data, (error, result) => {
+        callback(result);
+      });
+    }
+
+    function posts(requestQuery, callback) {
+      const {
+        page,
+        total,
+        language
+      } = requestQuery;
+
+      const limit = getPaginationLimit(page, total);
+
+      const data = {
+        table,
+        fields: '*',
+        order: 'id desc',
+        limit,
+        field: 'language',
+        value: language
+      };
+
+      Blog.findAll(data, (error, result) => {
+        callback(result);
+      });
+    }
+  }
 
   function dashboard() {
     return {

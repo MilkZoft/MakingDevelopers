@@ -3,7 +3,6 @@ import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import nodemon from 'gulp-nodemon';
 import notify from 'gulp-notify';
-import stylus from 'gulp-stylus';
 import mocha from 'gulp-mocha';
 import remoteSrc from 'gulp-remote-src';
 import jsonFormat from 'gulp-json-format';
@@ -64,15 +63,6 @@ gulp.task('analyze', () => {
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
-});
-
-// Stylus task
-gulp.task('stylus', () => {
-  return gulp.src('src/stylus/style.styl')
-    .pipe(stylus({
-      compress: true
-    }))
-    .pipe(gulp.dest('src/public/css'));
 });
 
 // Start dev task
