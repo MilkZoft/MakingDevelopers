@@ -1,4 +1,5 @@
 // NPM Dependencies
+import { exec } from 'child_process';
 import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import nodemon from 'gulp-nodemon';
@@ -65,6 +66,18 @@ gulp.task('analyze', () => {
   .pipe(eslint.failAfterError());
 });
 
+// Start Redis
+gulp.task('start-redis', () => {
+  exec('redis-server', (err, stdout, stderr) => {
+    console.log(stdout);
+    console.log(stderr);
+
+    if (err !== null) {
+      console.log(err);
+    }
+  });
+});
+
 // Start dev task
 gulp.task('start-dev', () => {
   nodemon({
@@ -107,4 +120,4 @@ gulp.task('init', () => {
 });
 
 // Default task
-gulp.task('default', ['start-dev', 'init']);
+gulp.task('default', ['start-dev', 'init', 'start-redis']);
