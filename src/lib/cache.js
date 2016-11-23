@@ -52,11 +52,7 @@ export default (req, res, next) => {
   }
 
   function _expire(key, expirationTime) {
-    if (expirationTime > 0) {
-      cacheClient.expire(_getCacheKey(key), expirationTime);
-    } else {
-      cacheClient.expire(_getCacheKey(key), $cache().expirationTime);
-    }
+    cacheClient.expire(_getCacheKey(key), expirationTime || $cache().expirationTime);
   }
 
   function _getCacheKey(key) {
