@@ -16,7 +16,6 @@ export default (req, res, next) => {
   // Methods
   res.cache = {
     exists,
-    expire,
     get,
     remove,
     set
@@ -30,14 +29,6 @@ export default (req, res, next) => {
 
       callback(reply);
     });
-  }
-
-  function expire(key, expirationTime) {
-    if (expirationTime > 0) {
-      cacheClient.expire(_getCacheKey(key), expirationTime);
-    } else {
-      cacheClient.expire(_getCacheKey(key), $cache().expirationTime);
-    }
   }
 
   function get(key, callback) {
@@ -57,7 +48,15 @@ export default (req, res, next) => {
   function set(key, value, expirationTime) {
     cacheClient.set(_getCacheKey(key), isObject(value) ? stringify(value) : value);
 
-    expire(key, expirationTime);
+    _expire(key, expirationTime);
+  }
+
+  function _expire(key, expirationTime) {
+    if (expirationTime > 0) {
+      cacheClient.expire(_getCacheKey(key), expirationTime);
+    } else {
+      cacheClient.expire(_getCacheKey(key), $cache().expirationTime);
+    }
   }
 
   function _getCacheKey(key) {
