@@ -24,8 +24,8 @@ export default (req, res, next) => {
         total,
         page,
         language
-      }, results => {
-        callback(results);
+      }, (cache, results) => {
+        callback(cache, results);
       });
     });
   }

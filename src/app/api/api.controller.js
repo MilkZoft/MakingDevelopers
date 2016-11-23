@@ -13,9 +13,10 @@ Router.get('/blog/:endpoint*?', (req, res, next) => {
   const data = sanitize(req.query);
 
   if (isFunction(res.blogAPI[endpointMethod])) {
-    return res.blogAPI[endpointMethod](data, response => {
+    return res.blogAPI[endpointMethod](data, (cache, response) => {
       res.json({
         information: {
+          cache: cache || false,
           total: response.length,
           params: data
         },
