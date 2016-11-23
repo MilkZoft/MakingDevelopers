@@ -11,8 +11,8 @@
     "ghooks": {
       "pre-commit": "gulp analyze",
       "pre-push": "gulp test",
-      "post-merge": "npm install",
-      "post-rewrite": "npm install"
+      "post-merge": "yarn",
+      "post-rewrite": "yarn"
     }
   },
   "dependencies": {
@@ -72,6 +72,7 @@
     "react-router": "^2.3.0",
     "react-router-redux": "^4.0.0",
     "react-text-truncate": "^0.8.3",
+    "redis": "^2.6.3",
     "redux": "^3.5.1",
     "redux-form": "^6.1.0",
     "redux-logger": "^2.6.1",

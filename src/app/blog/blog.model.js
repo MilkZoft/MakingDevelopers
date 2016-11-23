@@ -56,9 +56,10 @@ export default (req, res, next) => {
     }
 
     function post(requestQuery, callback) {
+      const query = requestQuery.query;
       const data = {
         table,
-        query: requestQuery.query
+        query
       };
 
       Blog.findByQuery(data, (error, result) => {
@@ -84,8 +85,28 @@ export default (req, res, next) => {
         value: language
       };
 
-      Blog.findAll(data, (error, result) => {
-        callback(result);
+      const cacheKey = `posts(${language}, ${limit})`;
+
+      // Returning cache if exists...
+      res.cache.exists(cacheKey, (exists) => {
+        if (exists) {
+          res.cache.get(cacheKey, (reply) => {
+            callback(true, reply);
+
+            // Removing cache.
+            // res.cache.remove(cacheKey);
+          });
+        } else {
+          Blog.findAll(data, (error, result) => {
+            // Saving cache with custom expirationTime (15 seconds)
+            // res.cache.set(`posts`, result, 15);
+
+            // Saving cache with default expirationTime (3600 seconds = 1 hour)
+            res.cache.set(cacheKey, result);
+
+            callback(false, result);
+          });
+        }
       });
     }
   }

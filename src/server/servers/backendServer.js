@@ -10,6 +10,7 @@ import stylus from 'stylus';
 
 // Helpers
 import * as hbsHelper from '../../lib/handlebars';
+import cache from '../../lib/cache';
 import contentHelper from '../../lib/content';
 import postHelper from '../../lib/post';
 import sessionHelper from '../../lib/session';
@@ -29,6 +30,9 @@ export default () => {
 
   // Compression
   app.use(compression());
+
+  // Cache
+  app.use(cache);
 
   // Content
   app.use(contentHelper);

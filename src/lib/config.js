@@ -31,6 +31,16 @@ export function $baseUrl(env) {
 }
 
 /**
+ * Returns cache node
+ *
+ * @param {string} env Forcing environment
+ * @returns {object} cache
+ */
+export function $cache(env) {
+  return $config(env).cache;
+}
+
+/**
  * Returns the selected environment configuration
  *
  * @param {string} environment Forcing environment
