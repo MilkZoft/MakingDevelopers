@@ -1,5 +1,5 @@
 <div class="Create">
-    <form action="{{ basePath }}/dashboard/blog/create" method="post">
+    <form action="{{ basePath }}/dashboard/blog/create" method="post" enctype="multipart/form-data">
         <h2>{{{ icon "plus" }}} {{ section }}</h2>
 
         {{#if message }}
@@ -14,6 +14,11 @@
                 flashData = flashData
                 schema = schema
                 securityToken = securityToken
+        }}}
+
+        {{{
+            renderMedia
+                media = media
         }}}
     </form>
 </div>

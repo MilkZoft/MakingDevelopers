@@ -7,6 +7,7 @@
     blog().insertAd();
     blog().insertCode();
     blog().slug();
+    dashboard().media();
     dashboard().toggleReadActionCheckboxes();
     menu().fixOpenMenuOnResize();
     menu().toggleMenu();
@@ -80,6 +81,38 @@
 
   function dashboard() {
     return {
+      media: () => {
+        $('#insertMedia').on('click', (e) => {
+          $('#media').removeClass('hidden');
+
+          e.stopPropagation();
+        });
+
+        $('#media').on('click', 'a', (e) => {
+          if (!$('#media').hasClass('hidden')) {
+            $('#media').addClass('hidden');
+          }
+
+          e.stopPropagation();
+        });
+
+        $('#searchMedia').on('click', (e) => {
+          e.stopPropagation();
+        });
+
+        $('#searchMedia').keyup((e) => {
+          const term = e.target.value;
+
+          if (term.trim() === '') {
+            $('.file').show();
+          } else {
+            $('.file').hide();
+
+            $(`.file[title^='${term}], .file[title$=${term}`).show();
+          }
+        });
+      },
+
       toggleReadActionCheckboxes: () => {
         $('.readAction .tableCheckboxAll').on('change', (e) => {
           if (!$(e.target).is(':checked')) {
