@@ -1,0 +1,163 @@
+.media
+    bg($headerDarkBlue)
+    height 700px
+    overflow-y scroll
+    left 0
+    margin 2em auto
+    padding 10px
+    padding-top 100px
+    position absolute
+    top 20px
+    width 95%
+
+    +maxBreakpoint(960px)
+        padding-top 150px
+
+    h2
+        color $white
+        left 15px
+        margin 0
+        position absolute
+        top 10px
+
+    .closeMedia
+        cursor()
+        fontSize(24px)
+        color $white
+        position absolute
+        right 10px
+        top 10px
+
+    .uploadForm
+        fontSize(13px)
+        color $white
+        left 15px
+        position absolute
+        top 50px
+
+    .searchMedia
+        position absolute
+        right 35px
+        top 40px
+
+        +maxBreakpoint(960px)
+            left 15px
+            top 90px
+
+        input
+            fontSize(14px)
+            border($white)
+            padding 10px
+            width 180px
+
+            @media Mobile
+                width 70%
+
+    +breakpoint(769px, 949px)
+        width 85%
+
+    @media Tablet
+        left -30px
+
+    @media Mobile
+        height 600px
+        left -20px
+
+    .fakeLink
+        cursor()
+
+    .options
+        fontSize(14px)
+        display none
+        background-color $black
+        position absolute
+        bottom 0
+        left 0
+        height 50px
+        line-height 50px
+        text-align center
+        width 100%
+
+        a
+            color $white
+            display inline-block
+            text-decoration none
+
+            &.insert
+                float left
+                width 50%
+
+                &:hover
+                    background-color #002642
+
+            &.download
+                float left
+                width 50%
+
+                &:hover
+                    background-color #002642
+
+    .file
+        border($white, 2px, solid)
+        background-position 50% 50%
+        background-repeat no-repeat
+        background-size cover
+        display inline-block
+        float left
+        height 90px
+        margin 4px
+        padding 10px
+        position relative
+        width 21.5%
+
+        &:hover
+            .options
+                display block
+
+        +breakpoint(949px, 1170px)
+            width 29%
+
+        +breakpoint(769px, 949px)
+            width 27%
+
+        +breakpoint(640px, 769px)
+            width 27.5% !important
+
+        @media Tablet
+            width 28.5%
+
+        @media Mobile
+            width 92.8%
+
+        &:hover
+            border($blue, 2px)
+
+        i
+            centerAbsolute(50px)
+            fontSize(40px)
+            color $white
+
+            &.code
+                color $gray
+
+            &.pdf
+                color $red
+
+            &.video
+                color $green
+
+            &.word
+                color $blue
+
+            &.zip
+                color $yellow
+
+        p
+            fontSize(12px)
+            color $white
+            margin-top 50px
+            text-align center
+
+            @media Mobile
+                fontSize(10px)
+

@@ -24,9 +24,75 @@ import {
   getSubmitOptions,
   getTextareaOptions
 } from './utils/options';
+import { getImageFormats, getFileFormats } from './utils/files';
 
 // Configuration
 import { $html } from './config';
+
+export function renderMedia(options) {
+  const media = options.hash.media;
+  let icon;
+
+  let html = `
+    <div id="media" class="media hidden">
+      <h2>Media</h2>
+      <a class="closeMedia" id="closeMedia" title="Close Media"><i class="fa fa-times"></i></a>
+
+      <div class="uploadForm">
+        <input id="upload-image" name="file" multiple="multiple" type="file">
+        <input name="upload" class="btn primary" value="Upload" type="submit">
+      </div>
+
+      <div class="searchMedia">
+        <input id="searchMedia" type="text" placeholder="Search media files..." />
+      </div>
+  `;
+
+  let extension;
+  const imageFormats = getImageFormats();
+  const documentFormats = getFileFormats();
+
+  forEach(media, file => {
+    extension = file.extension;
+
+    if (exists(extension, imageFormats)) {
+      html += `
+        <div class="file" style="background-image: url(${file.url})" title="${file.name} - ${file.size}">
+          <div class="options">
+            <a href="#" class="insert">Insert</a>
+            <a href="#" class="download">Download</a>
+          </div>
+        </div>
+      `;
+    } else {
+      if (documentFormats[extension]) {
+        icon = `fa-file-${documentFormats[extension]}-o`;
+      } else {
+        icon = 'fa-file-text-o';
+      }
+
+      html += `
+        <div class="file" title="${file.name} - ${file.size}">
+          <i class="fa ${icon} ${documentFormats[extension]}"></i>
+
+          <p>
+            ${file.name} <br /><br />
+            ${file.size}
+          </p>
+
+          <div class="options">
+            <a href="#" class="insert">Insert</a>
+            <a href="#" class="download">Download</a>
+          </div>
+        </div>
+      `;
+    }
+  });
+
+  html += '</div>';
+
+  return html;
+}
 
 export function renderSchema(options) {
   let html = '';
