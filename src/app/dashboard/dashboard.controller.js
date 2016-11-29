@@ -27,7 +27,7 @@ Router.use('/blog/:action*?', (req, res) => {
 });
 
 /**
- * Dashboard: Blog Actions
+ * Dashboard: Media Actions
  */
 Router.use('/media/upload', (req, res) => {
   res.mediaDashboard.upload();
