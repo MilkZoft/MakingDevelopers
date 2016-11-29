@@ -14,6 +14,10 @@ export function findAll(data, callback) {
   return Db.findAll(data, callback);
 }
 
+export function findByQuery(data, callback) {
+  return Db.findByQuery(data, callback);
+}
+
 export function search(data, callback) {
   const sql = Db.getSearchQuery(data);
 

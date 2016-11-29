@@ -68,6 +68,12 @@ Include /Users/<Your Mac User>/<Your Path to the Project>/MakingDevelopers/001-M
 sudo apachectl restart
 ```
 
+* Install Redis
+
+```
+brew install redis
+```
+
 * Start the application server
 
 ```

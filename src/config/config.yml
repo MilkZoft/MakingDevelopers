@@ -12,6 +12,10 @@ production: &default
       build: src/public
     extensions: ["", ".js", ".jsx"]
     devtool: eval-source-map
+  cache:
+    host: 127.0.0.1
+    port: 6379
+    expirationTime: 3600
   views:
     engine: .hbs
     extension: .hbs

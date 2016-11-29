@@ -20,24 +20,30 @@ const connection = mysql.createConnection({
 
 export function getExistsQuery(table, data) {
   if (table && data) {
-    const count = keys(data).length - 1;
-    let i = 0;
-    let query = `SELECT * FROM ${table} WHERE `;
-
-    forEach(data, field => {
-      if (i === count) {
-        query += `${field} = '${data[field]}'`;
-      } else {
-        query += `${field} = '${data[field]}' AND `;
-      }
-
-      i++;
-    });
+    const query = `SELECT * FROM ${table} WHERE ${buildWhereQuery(data)}`;
 
     return query;
   }
 
   return false;
+}
+
+export function buildWhereQuery(data) {
+  const count = keys(data).length - 1;
+  let i = 0;
+  let query = '';
+
+  forEach(data, field => {
+    if (i === count) {
+      query += `${field} = '${data[field]}'`;
+    } else {
+      query += `${field} = '${data[field]}' AND `;
+    }
+
+    i++;
+  });
+
+  return query;
 }
 
 export function getSearchQuery(data) {
@@ -179,7 +185,9 @@ export function getQuery(obj, find) {
   }
 
   // Find by SQL
-  if (obj.query) {
+  if (isObject(obj.query)) {
+    where = `WHERE ${buildWhereQuery(obj.query)}`;
+  } else if (obj.query) {
     where = `WHERE ${obj.query}`;
   }
 
@@ -192,7 +200,9 @@ export function getQuery(obj, find) {
     order = `ORDER BY ${obj.key} DESC `;
   }
 
-  return `SELECT ${getFields()} FROM ${getTable()} ${where} ${getGroup()} ${order} ${limit}`;
+  const query = `SELECT ${getFields()} FROM ${getTable()} ${where} ${getGroup()} ${order} ${limit}`;
+
+  return query;
 }
 
 /**
@@ -240,7 +250,7 @@ export function findBy(obj, callback) {
  * @param {function} callback Callback
  * @returns {string} SQL Query
  */
-export function findBySQL(obj, callback) {
+export function findByQuery(obj, callback) {
   return connection.query(getQuery(obj), callback);
 }
 
