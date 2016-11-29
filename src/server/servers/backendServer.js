@@ -1,5 +1,6 @@
 // Dependencies
 import bodyParser from 'body-parser';
+import connectBusboy from 'connect-busboy';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import exphbs from 'express-handlebars';
@@ -73,6 +74,7 @@ export default () => {
 
   // BodyParser
   app.use(logger('dev'));
+  app.use(connectBusboy());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(express.static(path.join(__dirname, '../../public')));
