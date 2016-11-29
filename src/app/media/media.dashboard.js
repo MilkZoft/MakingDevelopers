@@ -43,8 +43,7 @@ export default (req, res, next) => {
           file.pipe(fstream);
 
           fstream.on('finish', () => {
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(uploadedFiles));
+            res.json(uploadedFiles);
           });
         });
       }
