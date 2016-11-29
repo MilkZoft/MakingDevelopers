@@ -8,6 +8,7 @@
     blog().insertCode();
     blog().slug();
     dashboard().media();
+    dashboard().uploadFiles();
     dashboard().toggleReadActionCheckboxes();
     menu().fixOpenMenuOnResize();
     menu().toggleMenu();
@@ -112,7 +113,47 @@
           }
         });
       },
+      uploadFiles: () => {
+        $('#mediaForm').on('submit', (e) => {
+          e.preventDefault();
 
+          const files = $('#files')[0].files;
+          const formdata = new FormData();
+          const action = $('#mediaForm').attr('action');
+
+          for (let i = 0; i < files.length; i++) {
+            formdata.append('files[]', files[i]);
+          }
+
+          $.ajax({
+            url: action,
+            type: 'post',
+            contentType: false,
+            data: formdata,
+            processData: false,
+            cache: false
+          })
+          .done(result => {
+            const data = result;
+
+            for (let i = 0; i < data.length; i++) {
+              const file = data[i];
+
+              const element = `
+                <div class="file" title="${file.name}" style="background-image: url(${file.url})">
+                  <div class="options">
+                    <a href="#" class="insert">Insert</a>
+                    <a target="_blank" href="${file.url}" class="download">Download</a>
+                  </div>
+                </div>`;
+
+              $('.files').prepend(element);
+            }
+          });
+
+          $('#mediaForm')[0].reset();
+        });
+      },
       toggleReadActionCheckboxes: () => {
         $('.readAction .tableCheckboxAll').on('change', (e) => {
           if (!$(e.target).is(':checked')) {
