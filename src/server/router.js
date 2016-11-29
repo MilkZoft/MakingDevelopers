@@ -15,19 +15,17 @@ import { getCurrentApp } from '../lib/utils/url';
 import { $baseUrl, $dashboard } from '../lib/config';
 
 // Importing controllers
+import apiController from '../app/api/api.controller';
 import authController from '../app/auth/auth.controller';
 import contentController from '../app/content/content.controller';
 import dashboardController from '../app/dashboard/dashboard.controller';
 import usersController from '../app/users/users.controller';
 
-// Importing models
-import blogModel from '../app/blog/blog.model';
-
-// Dashboard
-import blogDashboard from '../app/blog/blog.dashboard';
-
 // React
 import render from './servers/render';
+
+// Imports
+import imports from './imports';
 
 export default (app) => {
   // Content machine
@@ -96,13 +94,11 @@ export default (app) => {
     return next();
   });
 
-  // Dashboard actions
-  app.use(blogDashboard);
-
-  // Models
-  app.use(blogModel);
+  // Imports
+  imports(app);
 
   // Controllers dispatch
+  app.use('/api', apiController);
   app.use('/auth', authController);
   app.use('/dashboard', dashboardController);
   app.use(`/:language(${availableLanguages()})/dashboard`, dashboardController);

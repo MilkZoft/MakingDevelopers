@@ -1,11 +1,8 @@
-// Dependencies
-import path from 'path';
-
 // Helpers
 import { getPagination } from '../../lib/pagination';
+import { getMedia } from '../../lib/media';
 
 // Utils
-import { glob } from '../../lib/utils/files';
 import { forEach } from '../../lib/utils/object';
 import { getCurrentApp } from '../../lib/utils/url';
 
@@ -24,7 +21,8 @@ export default (req, res, next) => {
 
   // Setting layout
   res.renderScope.default({
-    layout: 'dashboard.hbs'
+    layout: 'dashboard.hbs',
+    media: getMedia()
   });
 
   // Methods
@@ -49,7 +47,6 @@ export default (req, res, next) => {
       res.content('Dashboard.modules.blog', true);
 
       // Setting some vars
-      res.renderScope.set('multimedia', glob(path.join(__dirname, '../../public/images/uploads')));
       res.renderScope.set('section', res.content('name'));
 
       if (res.isPost()) {
@@ -57,10 +54,10 @@ export default (req, res, next) => {
         const post = res.getAllPost();
 
         // Trying to save the post
-        res.BlogModel.savePost(post, (result, errors) => {
+        res.BlogModel.dashboard().savePost(post, (result, errors) => {
           // Do we have some errors?
           if (errors === 'exists') {
-            res.BlogModel.getSchema(schema => {
+            res.BlogModel.dashboard().getSchema(schema => {
               // The post was added correclty
               schema.alert = {
                 type: 'warning',
@@ -73,7 +70,7 @@ export default (req, res, next) => {
             });
           } else if (errors) {
             // Getting the schema to re-render the form.
-            res.BlogModel.getSchema(schema => {
+            res.BlogModel.dashboard().getSchema(schema => {
               schema.alert = {
                 type: 'danger',
                 icon: 'times',
@@ -93,7 +90,7 @@ export default (req, res, next) => {
             });
           } else if (result) {
             // Getting the schema to re-render the form.
-            res.BlogModel.getSchema(schema => {
+            res.BlogModel.dashboard().getSchema(schema => {
               // The post was added correclty
               schema.alert = {
                 type: 'info',
@@ -107,7 +104,7 @@ export default (req, res, next) => {
           }
         });
       } else {
-        res.BlogModel.getSchema(schema => {
+        res.BlogModel.dashboard().getSchema(schema => {
           res.renderScope.set('schema', schema);
           res.render(createView, res.renderScope.get());
         });
@@ -137,11 +134,11 @@ export default (req, res, next) => {
             : 'restoreAction';
 
         if (rows && deleteAction || removeAction || restoreAction) {
-          res.BlogModel[action](rows, () => {
+          res.BlogModel.dashboard()[action](rows, () => {
             res.redirect(dashboardAppUrl);
           });
         } else {
-          res.BlogModel.search(searchTerm, tableSchema => {
+          res.BlogModel.dashboard().search(searchTerm, tableSchema => {
             res.renderScope.set('tableSchema', tableSchema);
             res.renderScope.set('searching', searchTerm);
 
@@ -149,8 +146,8 @@ export default (req, res, next) => {
           });
         }
       } else {
-        res.BlogModel.countAllPosts(total => {
-          res.BlogModel.getAllPosts(total, tableSchema => {
+        res.BlogModel.dashboard().countAllPosts(total => {
+          res.BlogModel.dashboard().getAllPosts(total, tableSchema => {
             res.renderScope.set('tableSchema', tableSchema);
             res.renderScope.set('pagination', getPagination(req.params, total, paginationUrl));
 
@@ -171,7 +168,6 @@ export default (req, res, next) => {
       res.content('Dashboard.modules.blog', true);
 
       // Setting some vars
-      res.renderScope.set('multimedia', glob(path.join(__dirname, '../../public/images/uploads')));
       res.renderScope.set('section', res.content('name'));
 
       if (res.isPost()) {
@@ -179,10 +175,10 @@ export default (req, res, next) => {
         const post = res.getAllPost();
 
         // Trying to update the post
-        res.BlogModel.updatePost(post, (result, errors) => {
+        res.BlogModel.dashboard().updatePost(post, (result, errors) => {
           if (errors) {
             // Getting the schema to re-render the form.
-            res.BlogModel.getSchema(schema => {
+            res.BlogModel.dashboard().getSchema(schema => {
               schema.alert = {
                 type: 'danger',
                 icon: 'times',
@@ -204,7 +200,7 @@ export default (req, res, next) => {
             });
           } else if (result) {
             // Getting the schema to re-render the form.
-            res.BlogModel.getSchema(schema => {
+            res.BlogModel.dashboard().getSchema(schema => {
               // The post was added correclty
               schema.alert = {
                 type: 'info',
@@ -221,8 +217,8 @@ export default (req, res, next) => {
           }
         });
       } else {
-        res.BlogModel.getPost(res.currentId, post => {
-          res.BlogModel.getSchema(schema => {
+        res.BlogModel.dashboard().getPost(res.currentId, post => {
+          res.BlogModel.dashboard().getSchema(schema => {
             res.renderScope.set('currentId', res.currentId);
             res.renderScope.set('flashData', post);
             res.renderScope.set('schema', schema);
@@ -243,7 +239,7 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       const id = res.currentId;
 
-      res.BlogModel.deletePost(id, () => {
+      res.BlogModel.dashboard().deletePost(id, () => {
         res.redirect(`${res.basePath}/dashboard/blog`);
       });
     });
@@ -253,7 +249,7 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       const id = res.currentId;
 
-      res.BlogModel.removePost(id, () => {
+      res.BlogModel.dashboard().removePost(id, () => {
         res.redirect(`${res.basePath}/dashboard/blog`);
       });
     });
@@ -263,7 +259,7 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       const id = res.currentId;
 
-      res.BlogModel.restorePost(id, () => {
+      res.BlogModel.dashboard().restorePost(id, () => {
         res.redirect(`${res.basePath}/dashboard/blog`);
       });
     });

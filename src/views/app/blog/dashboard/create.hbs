@@ -1,19 +1,24 @@
 <div class="Create">
-    <form action="{{ basePath }}/dashboard/blog/create" method="post">
-        <h2>{{{ icon "plus" }}} {{ section }}</h2>
+    <h2>{{{ icon "plus" }}} {{ section }}</h2>
 
-        {{#if message }}
-            <h3>{{{ message }}}</h3>
-        {{/if}}
+    {{#if message }}
+        <h3>{{{ message }}}</h3>
+    {{/if}}
 
-        {{{
-            renderSchema
-                __ = __
-                action = action
-                connectedUser = connectedUser
-                flashData = flashData
-                schema = schema
-                securityToken = securityToken
-        }}}
-    </form>
+    {{{
+        renderSchema
+            __ = __
+            action = action
+            basePath = basePath
+            connectedUser = connectedUser
+            flashData = flashData
+            schema = schema
+            securityToken = securityToken
+    }}}
+
+    {{{
+        renderMedia
+            basePath = basePath
+            media = media
+    }}}
 </div>

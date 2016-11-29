@@ -11,8 +11,8 @@
     "ghooks": {
       "pre-commit": "gulp analyze",
       "pre-push": "gulp test",
-      "post-merge": "npm install",
-      "post-rewrite": "npm install"
+      "post-merge": "yarn",
+      "post-rewrite": "yarn"
     }
   },
   "dependencies": {
@@ -36,8 +36,9 @@
     "babel-preset-stage-1": "^6.5.0",
     "babel-register": "^6.9.0",
     "bluebird": "^3.3.4",
-    "body-parser": "~1.15.2",
+    "body-parser": "^1.15.2",
     "compression": "^1.6.2",
+    "connect-busboy": "^0.0.2",
     "connect-history-api-fallback": "^1.2.0",
     "cookie-parser": "~1.4.3",
     "cors": "^2.7.1",
@@ -72,6 +73,7 @@
     "react-router": "^2.3.0",
     "react-router-redux": "^4.0.0",
     "react-text-truncate": "^0.8.3",
+    "redis": "^2.6.3",
     "redux": "^3.5.1",
     "redux-form": "^6.1.0",
     "redux-logger": "^2.6.1",

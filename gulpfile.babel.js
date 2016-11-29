@@ -1,9 +1,9 @@
 // NPM Dependencies
+import { exec } from 'child_process';
 import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import nodemon from 'gulp-nodemon';
 import notify from 'gulp-notify';
-import stylus from 'gulp-stylus';
 import mocha from 'gulp-mocha';
 import remoteSrc from 'gulp-remote-src';
 import jsonFormat from 'gulp-json-format';
@@ -59,20 +59,24 @@ gulp.task('analyze', () => {
     '!src/public/bower_components/**/*.js',
     '!src/public/js/vendors/**/*.js',
     '!src/public/js/vendor.js',
-    '!src/public/js/all.js'
+    '!src/public/js/all.js',
+    '!src/public/media/**/*.js'
   ])
   .pipe(eslint())
   .pipe(eslint.format())
   .pipe(eslint.failAfterError());
 });
 
-// Stylus task
-gulp.task('stylus', () => {
-  return gulp.src('src/stylus/style.styl')
-    .pipe(stylus({
-      compress: true
-    }))
-    .pipe(gulp.dest('src/public/css'));
+// Start Redis
+gulp.task('start-redis', () => {
+  exec('redis-server', (err, stdout, stderr) => {
+    console.log(stdout);
+    console.log(stderr);
+
+    if (err !== null) {
+      console.log(err);
+    }
+  });
 });
 
 // Start dev task
@@ -117,4 +121,4 @@ gulp.task('init', () => {
 });
 
 // Default task
-gulp.task('default', ['start-dev', 'init']);
+gulp.task('default', ['start-dev', 'init', 'start-redis']);

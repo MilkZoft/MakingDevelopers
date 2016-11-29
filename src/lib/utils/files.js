@@ -1,35 +1,36 @@
 // Dependencies
 import fs from 'fs';
+import path from 'path';
 
 // Utils
 import { isDefined } from './is';
 
 // Configuration
-import { $baseUrl } from './../config';
+import { $baseUrl } from '../config';
 
 /**
  * Returns the urls of the media inside a given dir
  *
  * @param {string} dir Directory
  * @param {array} _files Files
- * @param {array} urls Urls
- * @returns {array} Media Urls
+ * @param {array} elements Elements
+ * @returns {array} Media Elements
  */
-export function glob(dir, _files, urls) {
+export function glob(dir, _files, elements) {
   const files = fs.readdirSync(dir);
   let name;
   let tmp;
   let url;
 
   _files = _files || [];
-  urls = urls || [];
+  elements = elements || [];
 
   for (const i in files) {
     if (files[i] !== '.DS_Store' && files[i] !== '.gitkeep') {
       name = `${dir}/${files[i]}`;
 
       if (fs.statSync(name).isDirectory()) {
-        glob(name, _files, urls);
+        glob(name, _files, elements);
       } else {
         tmp = name.split('/public/');
 
@@ -37,11 +38,58 @@ export function glob(dir, _files, urls) {
           url = `${$baseUrl()}/${tmp[1]}`;
 
           _files.push(name);
-          urls.push(url);
+
+          elements.push({
+            name: getFilename(tmp[1]),
+            extension: getFileExtension(tmp[1]),
+            size: getFileSize(tmp[1]),
+            url
+          });
         }
       }
     }
   }
 
-  return urls;
+  return elements;
+}
+
+export function getImageFormats() {
+  return ['png', 'jpg', 'jpeg', 'gif'];
+}
+
+export function getFileFormats() {
+  return {
+    'pdf': 'pdf',
+    'docx': 'word',
+    'js': 'code',
+    'json': 'code',
+    'mp4': 'video',
+    'rar': 'zip',
+    'sql': 'code',
+    'zip': 'zip'
+  };
+}
+
+export function getFilename(file) {
+  return file.split('/').pop();
+}
+
+export function getFileExtension(file) {
+  return file.split('.').pop();
+}
+
+export function getFileSize(file, sizeType) {
+  const dir = path.join(__dirname, `../../public/${file}`);
+  const stats = fs.statSync(dir);
+  const bytes = stats.size;
+  const k = 1000;
+  const dm = 2;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  if (bytes === 0) {
+    return '0 Bytes';
+  }
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
