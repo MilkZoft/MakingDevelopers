@@ -98,7 +98,8 @@ export default (req, res, next) => {
       const {
         page,
         total,
-        language
+        language,
+        state
       } = requestQuery;
 
       const limit = getPaginationLimit(page, total);
@@ -108,8 +109,10 @@ export default (req, res, next) => {
         fields: '*',
         order: 'id desc',
         limit,
-        field: 'language',
-        value: language
+        query: {
+          language,
+          state
+        }
       };
 
       const cacheKey = `posts(${language}, ${limit})`;
@@ -118,13 +121,13 @@ export default (req, res, next) => {
       res.cache.exists(cacheKey, (exists) => {
         if (exists) {
           res.cache.get(cacheKey, (reply) => {
-            return callback(true, reply);
-
             // Removing cache.
-            // res.cache.remove(cacheKey);
+            res.cache.remove(cacheKey);
+
+            return callback(true, reply);
           });
         } else {
-          Blog.findAll(data, (error, result) => {
+          Blog.findByQuery(data, (error, result) => {
             // Saving cache with custom expirationTime (15 seconds)
             // res.cache.set(`posts`, result, 15);
 
