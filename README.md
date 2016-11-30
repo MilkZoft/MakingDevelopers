@@ -70,8 +70,18 @@ sudo apachectl restart
 
 * Install Redis
 
+In Mac:
+
 ```
 brew install redis
+```
+
+In Ubuntu:
+
+```
+sudo add-apt-repository ppa:chris-lea/redis-server 
+sudo apt-get update
+sudo apt-get install redis-server
 ```
 
 * Start the application server
@@ -115,3 +125,20 @@ gulp
 - [useragent](https://github.com/3rd-Eden/useragent)
 - [webpack-isomorphic-tools](https://github.com/halt-hammerzeit/webpack-isomorphic-tools)
 - [webpack](http://webpack.github.io/)
+
+### Troubleshooting
+
+- If you get a Redis error like this:
+
+`Creating Server TCP listening socket *:6379: bind: Address already in use`
+
+You will need to run the follow command
+```
+redis-cli
+```
+
+And then execute this command to shutdown the server:
+
+```
+shutdown
+```
