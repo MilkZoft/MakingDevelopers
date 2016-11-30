@@ -51,7 +51,7 @@ export default (req, res, next) => {
 
     function countPosts(callback) {
       Blog.countAllRowsFrom(table, (total) => {
-        callback(total);
+        return callback(total);
       });
     }
 
@@ -61,9 +61,36 @@ export default (req, res, next) => {
         table,
         query
       };
+      const {
+        slug,
+        day,
+        month,
+        year,
+        language = 'en'
+      } = query;
 
-      Blog.findByQuery(data, (error, result) => {
-        callback(result);
+      const cacheKey = `post(${slug}, ${day}, ${month}, ${year}, ${language})`;
+
+      // Returning cache if exists...
+      res.cache.exists(cacheKey, (exists) => {
+        if (exists) {
+          res.cache.get(cacheKey, (reply) => {
+            // Removing cache.
+            res.cache.remove(cacheKey);
+
+            return callback(true, reply);
+          });
+        } else {
+          Blog.findByQuery(data, (error, result) => {
+            // Saving cache with custom expirationTime (15 seconds)
+            // res.cache.set(cacheKey, result, 15);
+
+            // Saving cache with default expirationTime (3600 seconds = 1 hour)
+            res.cache.set(cacheKey, result);
+
+            return callback(false, result);
+          });
+        }
       });
     }
 
@@ -91,7 +118,7 @@ export default (req, res, next) => {
       res.cache.exists(cacheKey, (exists) => {
         if (exists) {
           res.cache.get(cacheKey, (reply) => {
-            callback(true, reply);
+            return callback(true, reply);
 
             // Removing cache.
             // res.cache.remove(cacheKey);
@@ -104,7 +131,7 @@ export default (req, res, next) => {
             // Saving cache with default expirationTime (3600 seconds = 1 hour)
             res.cache.set(cacheKey, result);
 
-            callback(false, result);
+            return callback(false, result);
           });
         }
       });
@@ -130,19 +157,19 @@ export default (req, res, next) => {
 
     function countAllPosts(callback) {
       Blog.countAllRowsFrom(table, (total) => {
-        callback(total);
+        return callback(total);
       });
     }
 
     function deleteAction(rows, callback) {
       Blog.deleteRows(table, rows, () => {
-        callback();
+        return callback();
       });
     }
 
     function deletePost(id, callback) {
       Blog.deleteRow(table, id, () => {
-        callback();
+        return callback();
       });
     }
 
@@ -159,7 +186,7 @@ export default (req, res, next) => {
       Blog.findAll(data, (error, result) => {
         const tableSchema = Blog.getTableSchema(result, resData);
 
-        callback(tableSchema);
+        return callback(tableSchema);
       });
     }
 
@@ -170,7 +197,7 @@ export default (req, res, next) => {
       };
 
       Blog.find(data, (error, result) => {
-        callback(parseObject(result[0]));
+        return callback(parseObject(result[0]));
       });
     }
 
@@ -182,31 +209,31 @@ export default (req, res, next) => {
       };
 
       Blog.getSchemaFrom(data, callback, (schema, noRender, callback) => {
-        callback(schema);
+        return callback(schema);
       });
     }
 
     function removeAction(rows, callback) {
       Blog.removeRows(table, rows, () => {
-        callback();
+        return callback();
       });
     }
 
     function removePost(id, callback) {
       Blog.removeRow(table, id, () => {
-        callback();
+        return callback();
       });
     }
 
     function restoreAction(rows, callback) {
       Blog.restoreRows(table, 'draft', rows, () => {
-        callback();
+        return callback();
       });
     }
 
     function restorePost(id, callback) {
       Blog.restoreRow(table, 'draft', id, () => {
-        callback();
+        return callback();
       });
     }
 
@@ -233,7 +260,7 @@ export default (req, res, next) => {
         Blog.existsRow(table, validateIfExists, (exists) => {
           if (!exists) {
             Blog.insertRow(table, data, callback, (result, callback) => {
-              callback(result);
+              return callback(result);
             });
           } else {
             return callback(false, 'exists');
@@ -255,7 +282,7 @@ export default (req, res, next) => {
       Blog.search(data, (result) => {
         const tableSchema = Blog.getTableSchema(result, resData);
 
-        callback(tableSchema);
+        return callback(tableSchema);
       });
     }
 
@@ -287,7 +314,7 @@ export default (req, res, next) => {
         Blog.existsRow(table, validateIfExists, (exists) => {
           if (exists) {
             Blog.updateRow(table, data, res.currentId, callback, (result, callback) => {
-              callback(result);
+              return callback(result);
             });
           } else {
             return callback(false, 'no exists');

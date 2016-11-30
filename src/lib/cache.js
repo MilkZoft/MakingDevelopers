@@ -23,36 +23,56 @@ export default (req, res, next) => {
 
   function exists(key, callback) {
     cacheClient.exists(_getCacheKey(key), (error, reply) => {
-      if (error) {
-        console.log('Redis Error:', error); // eslint-disable-line no-console
-      }
+      if ($cache().enable) {
+        if (error) {
+          console.log('Redis Error:', error); // eslint-disable-line no-console
+        }
 
-      callback(reply);
+        return callback(reply);
+      } else {
+        return callback(false);
+      }
     });
   }
 
   function get(key, callback) {
-    cacheClient.get(_getCacheKey(key), (error, reply) => {
-      if (error) {
-        console.log('Redis Error:', error); // eslint-disable-line no-console
-      }
+    if ($cache().enable) {
+      cacheClient.get(_getCacheKey(key), (error, reply) => {
+        if (error) {
+          console.log('Redis Error:', error); // eslint-disable-line no-console
+        }
 
-      callback(isJson(reply) ? parseJson(reply) : reply);
-    });
+        return callback(isJson(reply) ? parseJson(reply) : reply);
+      });
+    } else {
+      return callback(false);
+    }
   }
 
   function remove(key, callback) {
-    cacheClient.del(_getCacheKey(key));
+    if ($cache().enable) {
+      cacheClient.del(_getCacheKey(key));
+    }
+
+    return false;
   }
 
   function set(key, value, expirationTime) {
-    cacheClient.set(_getCacheKey(key), isObject(value) ? stringify(value) : value);
+    if ($cache().enable) {
+      cacheClient.set(_getCacheKey(key), isObject(value) ? stringify(value) : value);
 
-    _expire(key, expirationTime);
+      _expire(key, expirationTime);
+    }
+
+    return false;
   }
 
   function _expire(key, expirationTime) {
-    cacheClient.expire(_getCacheKey(key), expirationTime || $cache().expirationTime);
+    if ($cache().enable) {
+      cacheClient.expire(_getCacheKey(key), expirationTime || $cache().expirationTime);
+    }
+
+    return false;
   }
 
   function _getCacheKey(key) {

@@ -267,7 +267,11 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (169, 'Dashboard.table.actions.remove.question', 'Do you want to remove permanently these records?', 'en'),
 (170, 'Dashboard.table.actions.remove.question', '¿Deseas eliminar permanentemente estos registros?', 'es'),
 (171, 'Dashboard.table.actions.restore.question', 'Do you want to restore these records?', 'en'),
-(172, 'Dashboard.table.actions.restore.question', '¿Deseas recuperar estos registros?', 'es');
+(172, 'Dashboard.table.actions.restore.question', '¿Deseas recuperar estos registros?', 'es'),
+(173, 'Api.errors.noData', 'No data found', 'en'),
+(174, 'Api.errors.noData', 'No hay información para mostrar', 'es'),
+(175, 'Api.errors.invalidMethod', 'Invalid Method', 'en'),
+(176, 'Api.errors.invalidMethod', 'Método Inválido', 'es');
 
 -- --------------------------------------------------------
 

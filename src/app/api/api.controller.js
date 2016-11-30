@@ -14,18 +14,24 @@ Router.get('/blog/:endpoint*?', (req, res, next) => {
 
   if (isFunction(res.blogAPI[endpointMethod])) {
     return res.blogAPI[endpointMethod](data, (cache, response) => {
-      res.json({
-        information: {
-          cache: cache || false,
-          total: response.length,
-          params: data
-        },
-        response
-      });
+      if (response) {
+        res.json({
+          information: {
+            cache: cache || false,
+            total: response.length,
+            params: data
+          },
+          response
+        });
+      } else {
+        res.json({
+          error: res.content('Api.errors.noData')
+        });
+      }
     });
   } else {
     res.json({
-      error: 'No data found'
+      error: res.content('Api.errors.invalidMethod')
     });
   }
 });

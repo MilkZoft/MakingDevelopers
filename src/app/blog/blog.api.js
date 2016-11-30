@@ -8,8 +8,8 @@ export default (req, res, next) => {
   function post(query, callback) {
     res.BlogModel.cms().post({
       query
-    }, results => {
-      callback(results);
+    }, (cache, results) => {
+      return callback(cache, results);
     });
   }
 
@@ -25,7 +25,7 @@ export default (req, res, next) => {
         page,
         language
       }, (cache, results) => {
-        callback(cache, results);
+        return callback(cache, results);
       });
     });
   }
