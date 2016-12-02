@@ -19,19 +19,19 @@ gulp.task('vendor', () => {
     './src/public/bower_components/jquery/dist/jquery.min.js',
     './src/public/js/vendors/ckeditor/basepath.js',
     './src/public/bower_components/ckeditor/ckeditor.js'
-    ])
-    .pipe(concat('vendor.js'))
-    .pipe(gulp.dest('./src/public/js/'));
+  ])
+  .pipe(concat('vendor.js'))
+  .pipe(gulp.dest('./src/public/js/'));
 });
 
 // All task
 gulp.task('all', () => {
   return gulp.src([
     './src/public/js/dashboard/main.js',
-    './src/public/js/dashboard/events.js',
-    ])
-    .pipe(concat('all.js'))
-    .pipe(gulp.dest('./src/public/js/'));
+    './src/public/js/dashboard/events.js'
+  ])
+  .pipe(concat('all.js'))
+  .pipe(gulp.dest('./src/public/js/'));
 });
 
 // Content task
@@ -70,11 +70,8 @@ gulp.task('analyze', () => {
 // Start Redis
 gulp.task('start-redis', () => {
   exec('redis-server', (err, stdout, stderr) => {
-    console.log(stdout);
-    console.log(stderr);
-
     if (err !== null) {
-      console.log(err);
+      console.log(err); // eslint-disable-line no-console
     }
   });
 });
@@ -114,8 +111,8 @@ gulp.task('init', () => {
   setTimeout(() => {
     try {
       runSequence('vendor', 'all', 'content');
-    } catch (e) {
-      console.log(e);
+    } catch (e) {
+      console.log(e); // eslint-disable-line no-console
     }
   }, 11000);
 });

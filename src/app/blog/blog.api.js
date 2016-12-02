@@ -6,26 +6,30 @@ export default (req, res, next) => {
   };
 
   function post(query, callback) {
+    query.state = 'published';
+
     res.BlogModel.cms().post({
       query
-    }, results => {
-      callback(results);
+    }, (cache, results) => {
+      return callback(cache, results);
     });
   }
 
   function posts(query, callback) {
     const {
       page = 1,
-      language = 'en'
+      language = 'en',
+      state = 'published'
     } = query;
 
     res.BlogModel.cms().countPosts(total => {
       res.BlogModel.cms().posts({
         total,
         page,
-        language
+        language,
+        state
       }, (cache, results) => {
-        callback(cache, results);
+        return callback(cache, results);
       });
     });
   }

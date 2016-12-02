@@ -16,6 +16,7 @@ production: &default
     host: 127.0.0.1
     port: 6379
     expirationTime: 3600
+    enable: true
   views:
     engine: .hbs
     extension: .hbs

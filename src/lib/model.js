@@ -22,7 +22,7 @@ export function search(data, callback) {
   const sql = Db.getSearchQuery(data);
 
   query(sql, callback, (result, callback) => {
-    callback(result);
+    return callback(result);
   });
 }
 
@@ -272,7 +272,7 @@ export function updateRow(table, data, id, callback) {
   const sql = Db.getUpdateQuery(table, data, id);
 
   query(sql, callback, (result, callback) => {
-    callback(result);
+    return callback(result);
   });
 }
 
@@ -288,7 +288,7 @@ export function deleteRows(table, rows, callback) {
   const sql = Db.getDeleteRowsQuery(table, rows);
 
   query(sql, callback, (result, callback) => {
-    callback(result);
+    return callback(result);
   });
 }
 
@@ -296,7 +296,7 @@ export function removeRow(table, id, callback) {
   const sql = Db.getRemoveQuery(table, id);
 
   query(sql, callback, (result, callback) => {
-    callback(result);
+    return callback(result);
   });
 }
 
@@ -304,7 +304,7 @@ export function removeRows(table, rows, callback) {
   const sql = Db.getRemoveRowsQuery(table, rows);
 
   query(sql, callback, (result, callback) => {
-    callback(result);
+    return callback(result);
   });
 }
 
@@ -320,7 +320,7 @@ export function restoreRows(table, state, rows, callback) {
   const sql = Db.getRestoreRowsQuery(table, state, rows);
 
   query(sql, callback, (result, callback) => {
-    callback(result);
+    return callback(result);
   });
 }
 
@@ -328,7 +328,7 @@ export function existsRow(table, data, callback) {
   const sql = Db.getExistsQuery(table, data);
 
   query(sql, callback, (result, callback) => {
-    callback(result.length === 0 ? false : result);
+    return callback(result.length === 0 ? false : result);
   });
 }
 
@@ -336,7 +336,7 @@ export function countAllRowsFrom(table, callback) {
   const sql = Db.getCountAllRowsQuery(table);
 
   query(sql, callback, (result, callback) => {
-    callback(isDefined(result[0]) ? result[0].Total : 0);
+    return callback(isDefined(result[0]) ? result[0].Total : 0);
   });
 }
 
@@ -349,7 +349,7 @@ export function countAllRowsFrom(table, callback) {
  * @returns {callback} Callback
  */
 export function query(sql, callback, fn) {
-  executeQuery(sql, (error, result) => {
+  return executeQuery(sql, (error, result) => {
     return fn(result, callback);
   });
 }
