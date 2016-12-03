@@ -30,6 +30,7 @@ import { getImageFormats, getFileFormats } from './utils/files';
 import { $html } from './config';
 
 export function renderMedia(options) {
+  const __ = options.hash.__;
   const media = options.hash.media;
   const basePath = options.hash.basePath;
   let icon;
@@ -43,16 +44,27 @@ export function renderMedia(options) {
 
   html += `
     <div id="media" class="media hidden">
-      <h2>Media</h2>
-      <a class="closeMedia" id="closeMedia" title="Close Media"><i class="fa fa-times"></i></a>
+      <h2>${content('Dashboard.media.title', __)}</h2>
+      <a class="closeMedia" id="closeMedia" title="${content('Dashboard.media.close', __)}">
+        <i class="fa fa-times"></i>
+      </a>
 
       <div class="uploadForm">
         <input id="files" name="file" type="file">
-        <input name="upload" class="btn primary" value="Upload" type="submit">
+        <input
+          name="upload"
+          class="btn primary"
+          value="${content('Dashboard.media.upload.submit', __)}"
+          type="submit"
+        />
       </div>
 
       <div class="searchMedia">
-        <input id="searchMedia" type="text" placeholder="Search media files..." />
+        <input
+          id="searchMedia"
+          type="text"
+          placeholder="${content('Dashboard.media.upload.search.placeholder', __)}"
+        />
       </div>
 
       <div class="files">
@@ -61,16 +73,25 @@ export function renderMedia(options) {
   let extension;
   const imageFormats = getImageFormats();
   const documentFormats = getFileFormats();
+  let isImage;
 
   forEach(media, file => {
     extension = file.extension;
+    isImage = exists(extension, imageFormats);
 
-    if (exists(extension, imageFormats)) {
+    if (isImage) {
       html += `
         <div class="file" style="background-image: url(${file.url})" title="${file.name} - ${file.size}">
           <div class="options">
-            <a href="#" class="insert">Insert</a>
-            <a target="_blank" href="${file.url}" class="download">Download</a>
+            <a
+              data-type="${isImage ? 'image' : 'document'}"
+              data-filename="${file.name}"
+              data-url="${file.url}"
+              class="insert"
+            >
+              ${content('Dashboard.media.insert', __)}
+            </a>
+            <a target="_blank" href="${file.url}" class="download">${content('Dashboard.media.download', __)}</a>
           </div>
         </div>
       `;
@@ -91,8 +112,21 @@ export function renderMedia(options) {
           </p>
 
           <div class="options">
-            <a href="#" class="insert">Insert</a>
-            <a target="_blank" href="${file.url}" class="download">Download</a>
+            <a
+              data-type="${isImage ? 'image' : 'document'}"
+              data-filename="${file.name}"
+              data-url="${file.url}"
+              class="insert"
+            >
+              ${content('Dashboard.media.insert', __)}
+            </a>
+            <a
+              target="_blank"
+              href="${file.url}"
+              class="download"
+            >
+              ${content('Dashboard.media.download', __)}
+            </a>
           </div>
         </div>
       `;

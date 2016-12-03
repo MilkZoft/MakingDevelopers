@@ -21,6 +21,7 @@ export function glob(dir, _files, elements) {
   let name;
   let tmp;
   let url;
+  let fileInfo;
 
   _files = _files || [];
   elements = elements || [];
@@ -39,9 +40,11 @@ export function glob(dir, _files, elements) {
 
           _files.push(name);
 
+          fileInfo = getFileInfo(tmp[1]);
+
           elements.push({
-            name: getFilename(tmp[1]),
-            extension: getFileExtension(tmp[1]),
+            name: `${fileInfo.name}.${fileInfo.extension}`,
+            extension: fileInfo.extension,
             size: getFileSize(tmp[1]),
             url
           });
@@ -70,8 +73,14 @@ export function getFileFormats() {
   };
 }
 
-export function getFilename(file) {
-  return file.split('/').pop();
+export function getFileInfo(file) {
+  const filename = file.split('/').pop();
+  const parts = filename.split('.');
+
+  return {
+    name: parts[0],
+    extension: parts[1]
+  };
 }
 
 export function getFileExtension(file) {

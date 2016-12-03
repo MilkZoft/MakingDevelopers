@@ -10,6 +10,7 @@ import {
 import { isMobile } from '../lib/utils/device';
 import { sha1 } from '../lib/utils/security';
 import { getCurrentApp } from '../lib/utils/url';
+import { stringify } from '../lib/utils/object';
 
 // Configuration
 import { $baseUrl, $dashboard } from '../lib/config';
@@ -47,6 +48,7 @@ export default (app) => {
   // i18n
   app.use((req, res, next) => {
     res.__ = res.locals.__ = loadLanguage(getCurrentLanguage(req.url));
+    res.locals.content = stringify(res.__);
     res.locals.currentLanguage = getCurrentLanguage(req.url);
 
     return next();

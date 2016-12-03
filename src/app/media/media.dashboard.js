@@ -2,8 +2,8 @@
 import fs from 'fs';
 
 // Utils
-import { getFilename, getFileExtension } from '../../lib/utils/files';
-import { md5 } from '../../lib/utils/security';
+import { getFileInfo } from '../../lib/utils/files';
+import { randomCode } from '../../lib/utils/security';
 
 export default (req, res, next) => {
   // Methods
@@ -27,16 +27,17 @@ export default (req, res, next) => {
         req.pipe(req.busboy);
 
         req.busboy.on('file', (fieldname, file, filename) => {
-          const name = md5(getFilename(filename));
-          const extension = getFileExtension(filename);
+          const fileInfo = getFileInfo(filename);
+          const name = `${fileInfo.name}-${randomCode(5)}`;
+          const extension = fileInfo.extension;
           const filePath = `media/${name}.${extension}`;
           const url = `${__dirname}/../../public/${filePath}`;
 
           fstream = fs.createWriteStream(url);
 
           uploadedFiles.push({
-            url: `${res.basePath}/${filePath}`,
-            name,
+            url: `${res.baseUrl}/${filePath}`,
+            name: `${name}.${extension}`,
             extension
           });
 

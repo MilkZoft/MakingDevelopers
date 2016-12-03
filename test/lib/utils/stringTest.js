@@ -2,7 +2,6 @@ import '../../globalTest';
 import {
   clean,
   escapeString,
-  randomCode,
   removeHTML
 } from '../../../src/lib/utils/string';
 
@@ -35,12 +34,6 @@ describe('@String', () => {
   describe('#escapeString', () => {
     it('should be a function', () => {
       assert.typeOf(escapeString, 'function', 'escape should be a function');
-    });
-  });
-
-  describe('#randomCode', () => {
-    it('should be a function', () => {
-      assert.typeOf(randomCode, 'function', 'randomCode should be a function');
     });
   });
 

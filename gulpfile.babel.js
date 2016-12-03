@@ -90,6 +90,8 @@ gulp.task('start-dev', () => {
     }
   })
   .on('restart', () => {
+    runSequence('vendor', 'all');
+
     gulp
       .src('src/server')
       .pipe(notify('Reloading page, please wait...'));

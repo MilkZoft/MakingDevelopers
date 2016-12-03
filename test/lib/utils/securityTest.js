@@ -2,6 +2,7 @@ import '../../globalTest';
 import {
   encrypt,
   md5,
+  randomCode,
   sha1
 } from '../../../src/lib/utils/security';
 
@@ -22,6 +23,12 @@ describe('@Security', () => {
   describe('#md5', () => {
     it('should be a function', () => {
       assert.typeOf(md5, 'function', 'md5 should be a function');
+    });
+  });
+
+  describe('#randomCode', () => {
+    it('should be a function', () => {
+      assert.typeOf(randomCode, 'function', 'randomCode should be a function');
     });
   });
 
