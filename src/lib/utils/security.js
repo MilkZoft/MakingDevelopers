@@ -53,3 +53,25 @@ export function sha1(str) {
 
   return false;
 }
+
+/**
+ * Generates a random code
+ *
+ * @param {number} max Max Size
+ * @param {string} charset Custom charset
+ * @returns {string} Cleaned string.
+ */
+export function randomCode(max, charset) {
+  let randomCode = '';
+  let randomPoz;
+
+  max = max || 12;
+  charset = charset || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < max; i++) {
+    randomPoz = Math.floor(Math.random() * charset.length);
+    randomCode += charset.substring(randomPoz, randomPoz + 1);
+  }
+
+  return randomCode;
+}

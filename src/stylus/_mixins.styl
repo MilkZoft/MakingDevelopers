@@ -33,6 +33,18 @@ btn($startColor, $endColor, $borderColor, $shadowColor)
         bg($endColor)
         bgGradient($endColor, $startColor)
 
+breakpoint($minSize, $maxSize)
+    @media only screen and (min-width: $minSize) and (max-width: $maxSize)
+        {block}
+
+maxBreakpoint($size)
+    @media only screen and (max-width: $size)
+        {block}
+
+minBreakpoint($size)
+    @media only screen and (min-width: $size)
+        {block}
+
 center($margin = 0, $width = false, $display = false)
     if $display != false
         display $display

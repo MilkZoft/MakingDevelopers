@@ -22,18 +22,19 @@ function loadCKEditor() {
   CKEDITOR.plugins.addExternal('codemirror', '/js/vendors/ckeditor/plugins/codemirror/');
 
   const config = {
-    width: '91%',
+    allowedContent: true,
+    extraPlugins: 'codemirror',
+    format_tags: 'p;h1;h2;h3;pre',
+    removeButtons: 'Underline,Subscript,Superscript',
+    removeDialogTabs: 'image:advanced;link:advanced',
+    skin: 'office,/js/vendors/ckeditor/skins/office/',
     toolbar: [
       { name:'group1', items: ['Bold','Italic','Underline','StrikeThrough','PasteFromWord'] },
       { name:'group2', items: ['Format'] },
       { name:'group3', items: ['Outdent','Indent','NumberedList','BulletedList','Blockquote','PageBreak'] },
       { name:'group4', items: ['Image','Link','Unlink','Source'] }
     ],
-    removeButtons: 'Underline,Subscript,Superscript',
-    format_tags: 'p;h1;h2;h3;pre',
-    removeDialogTabs: 'image:advanced;link:advanced',
-    extraPlugins: 'codemirror',
-    skin: 'office,/js/vendors/ckeditor/skins/office/'
+    width: '91%'
   };
 
   $('.editor').each(function() {

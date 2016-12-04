@@ -1,11 +1,8 @@
-// Dependencies
-import path from 'path';
-
 // Helpers
 import { getPagination } from '../../lib/pagination';
+import { getMedia } from '../../lib/media';
 
 // Utils
-import { glob } from '../../lib/utils/files';
 import { forEach } from '../../lib/utils/object';
 import { getCurrentApp } from '../../lib/utils/url';
 
@@ -24,7 +21,8 @@ export default (req, res, next) => {
 
   // Setting layout
   res.renderScope.default({
-    layout: 'dashboard.hbs'
+    layout: 'dashboard.hbs',
+    media: getMedia()
   });
 
   // Methods
@@ -49,7 +47,6 @@ export default (req, res, next) => {
       res.content('Dashboard.modules.blog', true);
 
       // Setting some vars
-      res.renderScope.set('multimedia', glob(path.join(__dirname, '../../public/images/uploads')));
       res.renderScope.set('section', res.content('name'));
 
       if (res.isPost()) {
@@ -171,7 +168,6 @@ export default (req, res, next) => {
       res.content('Dashboard.modules.blog', true);
 
       // Setting some vars
-      res.renderScope.set('multimedia', glob(path.join(__dirname, '../../public/images/uploads')));
       res.renderScope.set('section', res.content('name'));
 
       if (res.isPost()) {

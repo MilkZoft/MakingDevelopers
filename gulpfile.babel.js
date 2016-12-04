@@ -59,7 +59,8 @@ gulp.task('analyze', () => {
     '!src/public/bower_components/**/*.js',
     '!src/public/js/vendors/**/*.js',
     '!src/public/js/vendor.js',
-    '!src/public/js/all.js'
+    '!src/public/js/all.js',
+    '!src/public/media/**/*.js'
   ])
   .pipe(eslint())
   .pipe(eslint.format())
@@ -89,6 +90,8 @@ gulp.task('start-dev', () => {
     }
   })
   .on('restart', () => {
+    runSequence('vendor', 'all');
+
     gulp
       .src('src/server')
       .pipe(notify('Reloading page, please wait...'));

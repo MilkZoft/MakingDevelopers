@@ -26,5 +26,12 @@ Router.use('/blog/:action*?', (req, res) => {
   res.blogDashboard[res.action()]();
 });
 
+/**
+ * Dashboard: Media Actions
+ */
+Router.use('/media/upload', (req, res) => {
+  res.mediaDashboard.upload();
+});
+
 
 export default Router;

@@ -9,5 +9,7 @@ src/content/i18n/*.json
 src/public/js/all.js
 src/public/js/vendor.js
 src/public/bundle.js
+src/public/media/**/*
+!src/public/media/.gitkeep
 dump.rdb
 yarn.lock

@@ -6,6 +6,7 @@ import blogModel from '../app/blog/blog.model';
 
 // Importing Dashboards
 import blogDashboard from '../app/blog/blog.dashboard';
+import mediaDashboard from '../app/media/media.dashboard';
 
 export default (app) => {
   // API
@@ -13,6 +14,7 @@ export default (app) => {
 
   // Dashboard
   app.use(blogDashboard);
+  app.use(mediaDashboard);
 
   // Model
   app.use(blogModel);
