@@ -10,12 +10,14 @@ import { parseJson, stringify } from './utils/object';
 import { md5 } from './utils/security';
 
 export default (req, res, next) => {
+  const { exists, get, remove, set } = Cache();
+
   // Methods
   res.cache = {
-    exists: Cache().exists,
-    get: Cache().get,
-    remove: Cache().remove,
-    set: Cache().set
+    exists,
+    get,
+    remove,
+    set
   };
 
   return next();

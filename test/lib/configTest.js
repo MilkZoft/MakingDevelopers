@@ -2,6 +2,7 @@ import '../globalTest';
 import {
   $appName,
   $baseUrl,
+  $cache,
   $config,
   $dashboard,
   $db,
@@ -25,6 +26,12 @@ describe('@Config', () => {
   describe('#$baseUrl', () => {
     it('should be a function', () => {
       assert.typeOf($baseUrl, 'function', '$baseUrl should be a function');
+    });
+  });
+
+  describe('#$cache', () => {
+    it('should be a function', () => {
+      assert.typeOf($cache, 'function', '$cache should be a function');
     });
   });
 
