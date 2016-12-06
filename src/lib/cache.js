@@ -21,9 +21,13 @@ export default (req, res, next) => {
   return next();
 };
 
-export function Cache() {
-  // Creating Redis Client
-  const cacheClient = redis.createClient($cache().port, $cache().host);
+export function Cache(isUnitTest) {
+  let cacheClient;
+
+  if (!isUnitTest) {
+    // Creating Redis Client
+    cacheClient = redis.createClient($cache().port, $cache().host);
+  }
 
   // Methods
   return {

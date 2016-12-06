@@ -1,7 +1,7 @@
 import '../globalTest';
 import { Cache } from '../../src/lib/cache';
 
-const { exists, get, remove, set } = Cache();
+const { exists, get, remove, set } = Cache('Unit Test');
 
 describe('@Cache', () => {
   describe('#exists', () => {
