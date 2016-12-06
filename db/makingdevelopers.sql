@@ -271,7 +271,19 @@ INSERT INTO `content` (`id`, `name`, `value`, `language`) VALUES
 (173, 'Api.errors.noData', 'No data found', 'en'),
 (174, 'Api.errors.noData', 'No hay información para mostrar', 'es'),
 (175, 'Api.errors.invalidMethod', 'Invalid Method', 'en'),
-(176, 'Api.errors.invalidMethod', 'Método Inválido', 'es');
+(176, 'Api.errors.invalidMethod', 'Método Inválido', 'es'),
+(177, 'Dashboard.media.upload.submit', 'Upload', 'en'),
+(178, 'Dashboard.media.upload.submit', 'Subir', 'es'),
+(179, 'Dashboard.media.upload.search.placeholder', 'Search files...', 'en'),
+(180, 'Dashboard.media.upload.search.placeholder', 'Buscar archivos...', 'es'),
+(181, 'Dashboard.media.insert', 'Insert', 'en'),
+(182, 'Dashboard.media.insert', 'Insertar', 'es'),
+(183, 'Dashboard.media.download', 'Download', 'en'),
+(184, 'Dashboard.media.download', 'Descargar', 'es'),
+(185, 'Dashboard.media.close', 'Close Media', 'en'),
+(186, 'Dashboard.media.close', 'Cerrar Media', 'es'),
+(187, 'Dashboard.media.title', 'Media', 'en'),
+(188, 'Dashboard.media.title', 'Media', 'es');
 
 -- --------------------------------------------------------
 

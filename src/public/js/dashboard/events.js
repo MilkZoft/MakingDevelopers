@@ -118,7 +118,7 @@
           } else {
             $('.file').hide();
 
-            $(`.file[title^='${term}], .file[title$=${term}`).show();
+            $(`.file[title^=${term}], .file[title$=${term}`).show();
           }
         });
       },
