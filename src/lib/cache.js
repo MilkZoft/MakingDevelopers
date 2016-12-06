@@ -10,11 +10,23 @@ import { parseJson, stringify } from './utils/object';
 import { md5 } from './utils/security';
 
 export default (req, res, next) => {
+  // Methods
+  res.cache = {
+    exists: Cache().exists,
+    get: Cache().get,
+    remove: Cache().remove,
+    set: Cache().set
+  };
+
+  return next();
+};
+
+export function Cache() {
   // Creating Redis Client
   const cacheClient = redis.createClient($cache().port, $cache().host);
 
   // Methods
-  res.cache = {
+  return {
     exists,
     get,
     remove,
@@ -78,6 +90,4 @@ export default (req, res, next) => {
   function _getCacheKey(key) {
     return md5(key);
   }
-
-  return next();
-};
+}
