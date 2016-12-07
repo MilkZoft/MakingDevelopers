@@ -32,7 +32,7 @@ export function getPagination(params, total, url) {
   return '';
 }
 
-function _pagination(count, end, start, url, elementsPerPage) {
+export function _pagination(count, end, start, url, elementsPerPage) {
   const increment = 5;
   const limit = elementsPerPage || 10;
 
@@ -80,7 +80,7 @@ function _pagination(count, end, start, url, elementsPerPage) {
   return `<ul class="pagination">${pagePrevious} ${pageNav} ${pageNext}</ul>`;
 }
 
-function _getPageNav(firstPage, lastPage, start, end, next, url, limit) {
+export function _getPageNav(firstPage, lastPage, start, end, next, url, limit) {
   let j = 1;
   let pageNav = '';
 
@@ -102,17 +102,17 @@ function _getPageNav(firstPage, lastPage, start, end, next, url, limit) {
   return pageNav;
 }
 
-function _getCurrentPage(start, end) {
+export function _getCurrentPage(start, end) {
   return start === 0 ? 1 : start / end + 1;
 }
 
-function _getPageNext(currentPage, pages, url) {
+export function _getPageNext(currentPage, pages, url) {
   return currentPage < pages
     ? `<li><a href="${url}${currentPage + 1}/"><i class="fa fa-chevron-right"></i></a></li>`
     : '';
 }
 
-function _getPagePrevious(start, currentPage, url) {
+export function _getPagePrevious(start, currentPage, url) {
   return start > 0
     ? `<li><a href="${url}${currentPage - 1}/"><i class="fa fa-chevron-left"></i></a></li>`
     : '';

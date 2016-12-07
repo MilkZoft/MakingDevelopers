@@ -78,7 +78,7 @@ export function createTable(tableSchema) {
 
 /* Private functions */
 
-function _getTHead(fields, __) {
+export function _getTHead(fields, __) {
   let html;
 
   html = '<thead><tr><th><input class="tableCheckboxAll" type="checkbox" /></th>';
@@ -100,7 +100,7 @@ function _getTHead(fields, __) {
   return html;
 }
 
-function _getTBody(data, fields, basePath, currentDashboardApp, __) {
+export function _getTBody(data, fields, basePath, currentDashboardApp, __) {
   const dashboardUrl = `${basePath}/dashboard/${currentDashboardApp}`;
   let deleteAction;
   let html;

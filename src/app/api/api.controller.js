@@ -17,7 +17,7 @@ Router.get('/blog/:endpoint*?', (req, res, next) => {
       if (response) {
         res.json({
           information: {
-            cache: cache || false,
+            cache,
             total: response.length,
             params: data
           },

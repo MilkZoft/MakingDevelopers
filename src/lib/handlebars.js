@@ -14,7 +14,7 @@ import { createTable } from './table';
 
 // Utils
 import { isDefined, isUndefined } from './utils/is';
-import { content, exists, forEach, ternary, stringify } from './utils/object';
+import { content, exists, forEach, ternary } from './utils/object';
 import {
   getContentInsertOptionsHTML,
   getHiddenOptions,
@@ -235,10 +235,6 @@ export function renderSearch(options) {
   return form;
 }
 
-export function ceil(number) {
-  return Math.ceil(parseFloat(number));
-}
-
 export function checkbox(options) {
   if (isDefined(options.hash)) {
     options.hash.type = 'checkbox';
@@ -285,14 +281,6 @@ export function flash(value) {
   return value || '';
 }
 
-export function gt(value1, value2, options) {
-  return ternary(value1 > value2, options.fn(this), options.inverse(this));
-}
-
-export function gte(value1, value2, options) {
-  return ternary(value1 >= value2, options.fn(this), options.inverse(this));
-}
-
 export function hidden(options) {
   if (isDefined(options.hash)) {
     options.hash.type = 'hidden';
@@ -317,36 +305,12 @@ export function input(options, type) {
   return '';
 }
 
-export function is(variable, value, options) {
-  return ternary(variable && variable === value, options.fn(this), options.inverse(this));
-}
-
-export function isNot(variable, value, options) {
-  return ternary(!variable || variable !== value, options.fn(this), options.inverse(this));
-}
-
-export function json(content) {
-  return stringify(content);
-}
-
 export function label(options) {
   if (isDefined(options.hash)) {
     return createLabel(options.hash, options.hash.text ? options.hash.text : '');
   }
 
   return '';
-}
-
-export function lowercase(str) {
-  return str.toLowerCase();
-}
-
-export function lt(value1, value2, options) {
-  return ternary(value1 < value2, options.fn(this), options.inverse(this));
-}
-
-export function lte(value1, value2, options) {
-  return ternary(value1 <= value2, options.fn(this), options.inverse(this));
 }
 
 export function password(options) {
@@ -369,10 +333,6 @@ export function radio(options) {
   }
 
   return '';
-}
-
-export function reverse(str) {
-  return str.split('').reverse().join('');
 }
 
 export function select(options, type) {
@@ -425,12 +385,7 @@ export function token(securityToken) {
   return '';
 }
 
-export function uppercase(str) {
-  return str.toUpperCase();
-}
-
 /* Private functions */
-
 function _renderFormElements(schema, __, field, errorClass, userInfo, flashData) {
   let html = '<div class="inputBlock">';
 

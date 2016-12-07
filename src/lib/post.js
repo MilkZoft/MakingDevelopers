@@ -11,6 +11,19 @@ import { getValueFromParam } from './utils/url';
 let postData = {};
 
 export default (req, res, next) => {
+  const {
+    action,
+    debug,
+    getAllPost,
+    isGet,
+    isPost,
+    post,
+    refreshSecurityToken,
+    validate,
+    validateSecurityToken
+  } = Post(req, res);
+
+  // Methods
   res.action = action;
   res.debug = debug;
   res.getAllPost = getAllPost;
@@ -22,6 +35,22 @@ export default (req, res, next) => {
   res.validateSecurityToken = validateSecurityToken;
 
   return next();
+};
+
+export function Post(req, res) {
+  // Methods
+  return {
+    action,
+    debug,
+    getAllPost,
+    isGet,
+    isPost,
+    post,
+    refreshSecurityToken,
+    validate,
+    validateSecurityToken,
+    _getPostsFromArray
+  };
 
   function action() {
     const actions = ['create', 'update', 'delete', 'remove', 'restore'];
@@ -188,4 +217,4 @@ export default (req, res, next) => {
 
     return posts;
   }
-};
+}
