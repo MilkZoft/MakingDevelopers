@@ -1,4 +1,14 @@
 /**
+ * Returns current device (desktop or mobile)
+ *
+ * @param {string} ua User Agent
+ * @returns {string} Current device
+ */
+export function getCurrentDevice(ua) {
+  return /mobile/i.test(ua) ? 'mobile' : 'desktop';
+}
+
+/**
  * Validates if the User Agent is a Desktop Browser
  *
  * @param {string} ua User Agent
@@ -26,12 +36,4 @@ export function isServer() {
   return typeof window === 'undefined';
 }
 
-/**
- * Returns current device (desktop or mobile)
- *
- * @param {string} ua User Agent
- * @returns {string} Current device
- */
-export function getCurrentDevice(ua) {
-  return /mobile/i.test(ua) ? 'mobile' : 'desktop';
-}
+

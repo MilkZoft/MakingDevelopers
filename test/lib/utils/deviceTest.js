@@ -1,8 +1,10 @@
 import '../../globalTest';
 import {
+  getCurrentDevice,
+  isClient,
   isDesktop,
   isMobile,
-  getCurrentDevice
+  isServer
 } from '../../../src/lib/utils/device';
 
 const desktopUA = `
@@ -21,6 +23,30 @@ const mobileUA = `
   Safari/601.1`;
 
 describe('@Device', () => {
+  describe('#getCurrentDevice', () => {
+    it('should be a function', () => {
+      assert.typeOf(getCurrentDevice, 'function', 'getCurrentDevice should be a function');
+    });
+
+    it('should return "desktop" if is a Desktop device', () => {
+      const actualResult = getCurrentDevice(desktopUA);
+
+      assert.isTrue(actualResult === 'desktop', 'should be desktop');
+    });
+
+    it('should return "mobile" if is a Mobile device', () => {
+      const actualResult = getCurrentDevice(mobileUA);
+
+      assert.isTrue(actualResult === 'mobile', 'should be mobile');
+    });
+  });
+
+  describe('#isClient', () => {
+    it('should be a function', () => {
+      assert.typeOf(isClient, 'function', 'isClient should be a function');
+    });
+  });
+
   describe('#isDesktop', () => {
     it('should be a function', () => {
       assert.typeOf(isDesktop, 'function', 'isDesktop should be a function');
@@ -57,21 +83,9 @@ describe('@Device', () => {
     });
   });
 
-  describe('#getCurrentDevice', () => {
+  describe('#isServer', () => {
     it('should be a function', () => {
-      assert.typeOf(getCurrentDevice, 'function', 'getCurrentDevice should be a function');
-    });
-
-    it('should return "desktop" if is a Desktop device', () => {
-      const actualResult = getCurrentDevice(desktopUA);
-
-      assert.isTrue(actualResult === 'desktop', 'should be desktop');
-    });
-
-    it('should return "mobile" if is a Mobile device', () => {
-      const actualResult = getCurrentDevice(mobileUA);
-
-      assert.isTrue(actualResult === 'mobile', 'should be mobile');
+      assert.typeOf(isServer, 'function', 'isServer should be a function');
     });
   });
 });
