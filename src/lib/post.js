@@ -21,7 +21,7 @@ export default (req, res, next) => {
     refreshSecurityToken,
     validate,
     validateSecurityToken
-  } = Post();
+  } = Post(req, res);
 
   // Methods
   res.action = action;
@@ -37,7 +37,7 @@ export default (req, res, next) => {
   return next();
 };
 
-export function Post() {
+export function Post(req, res) {
   // Methods
   return {
     action,

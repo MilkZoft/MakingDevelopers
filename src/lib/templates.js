@@ -3,6 +3,8 @@ let renderOptions = {};
 let defaultOptions = {};
 
 export default (req, res, next) => {
+  const { defaultScope, get, set } = Templates();
+
   res.renderScope = {
     default: defaultScope,
     get,
@@ -10,6 +12,14 @@ export default (req, res, next) => {
   };
 
   return next();
+};
+
+export function Templates() {
+  return {
+    defaultScope,
+    get,
+    set
+  };
 
   /**
    * Sets default templates options
@@ -51,4 +61,4 @@ export default (req, res, next) => {
   function set(key, value) {
     renderOptions[key] = value;
   }
-};
+}
