@@ -4,10 +4,23 @@ import Component from 'react-pure-render/component';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 
+// BaseComponent
+import baseComponent from '../../lib/baseComponent';
+
+// Actions
+import * as actions from './actions';
+
 class Blog extends Component {
   static propTypes = {
-    __: PropTypes.object.isRequired
+    __: PropTypes.object.isRequired,
+    getPosts: PropTypes.func
   };
+
+  componentWillMount() {
+    const { getPosts } = this.props;
+
+    getPosts();
+  }
 
   render() {
     // Getting props
@@ -23,7 +36,11 @@ class Blog extends Component {
   }
 }
 
+Blog = baseComponent(Blog);
+
 // Redux state
 export default connect(state => ({
-  __: state.language.__
-}), null)(Blog);
+  __: state.language.__,
+  information: state.blog.information,
+  posts: state.blog.posts
+}), actions)(Blog);

@@ -23,6 +23,19 @@ import { asyncQueryServer } from '../../lib/queryServer';
 // Config
 import { $appName } from '../../lib/config';
 
+const getDevice = req => {
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  const isBrowser = userAgentIsBrowser(req.headers['user-agent']);
+  const agent = userAgent.parse(req.headers['user-agent']);
+  const host = `${protocol}://${req.headers.host}`;
+
+  return {
+    isBrowser,
+    agent,
+    host
+  };
+};
+
 const getInitialState = (req) => {
   const protocol = req.headers['x-forwarded-proto'] || req.protocol;
   const isBrowser = userAgentIsBrowser(req.headers['user-agent']);
@@ -108,7 +121,11 @@ export default function render(req, res, next) {
     }
 
     try {
-      await asyncQueryServer(() => renderApp(store, renderProps));
+      const { isBrowser } = getDevice(req);
+
+      if (!isBrowser) {
+        await asyncQueryServer(() => renderApp(store, renderProps));
+      }
 
       const html = await renderPage(store, renderProps, req);
       const status = renderProps.routes.some(route => route.path === '*') ? 404 : 200;

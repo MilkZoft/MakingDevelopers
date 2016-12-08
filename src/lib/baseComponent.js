@@ -1,9 +1,14 @@
 // Dependencies
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Component from 'react-pure-render/component';
 
 export default function baseComponent(Wrapped) {
   class BaseComponent extends Component {
+    // Redux store
+    static contextType = {
+      store: PropTypes.object
+    };
+
     componentDidMount() {
       const self = this;
       const componentName = Wrapped.prototype.constructor.name;

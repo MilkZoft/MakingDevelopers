@@ -64,6 +64,13 @@ export default function storeFactory(options) {
   }
 
   const resetOnLogout = reducer => (state, action) => {
+    if (action.type === LOGOUT) {
+      state = {
+        device: initialState.device,
+        routing: state.routing
+      };
+    }
+
     return reducer(state, action);
   };
 
