@@ -8,7 +8,7 @@ production: &default
   webpack:
     port: 3001
     paths:
-      app: src
+      app: src/frontend
       build: src/public
     extensions: ["", ".js", ".jsx"]
     devtool: eval-source-map

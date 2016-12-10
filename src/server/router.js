@@ -13,7 +13,7 @@ import { getCurrentApp } from '../lib/utils/url';
 import { stringify } from '../lib/utils/object';
 
 // Configuration
-import { $baseUrl, $dashboard } from '../lib/config';
+import { $baseUrl, $dashboard, $webpack } from '../lib/config';
 
 // Importing controllers
 import apiController from '../app/api/api.controller';
@@ -21,9 +21,6 @@ import authController from '../app/auth/auth.controller';
 import contentController from '../app/content/content.controller';
 import dashboardController from '../app/dashboard/dashboard.controller';
 import usersController from '../app/users/users.controller';
-
-// React
-import render from './servers/render';
 
 // Imports
 import imports from './imports';
@@ -60,6 +57,7 @@ export default (app) => {
     res.locals.currentDashboardApp = res.currentDashboardApp = getCurrentApp(req.originalUrl, true);
     res.locals.currentUrl = res.currentUrl = $baseUrl() + req.originalUrl;
     res.locals.baseUrl = res.baseUrl = $baseUrl();
+    res.locals.webpackUrl = `${res.baseUrl}:${$webpack().port}`;
     res.locals.basePath = res.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
 
     return next();
@@ -108,7 +106,11 @@ export default (app) => {
   app.use(`/:language(${availableLanguages()})/users`, usersController);
 
   // React dispatch
-  app.get('*', render);
+  app.get('*', (req, res) => {
+    res.render('frontend/index', {
+      layout: false
+    });
+  });
 
   // Disabling x-powered-by
   app.disable('x-powered-by');
