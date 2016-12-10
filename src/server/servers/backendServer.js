@@ -8,6 +8,9 @@ import express from 'express';
 import logger from 'morgan';
 import path from 'path';
 import stylus from 'stylus';
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // Helpers
 import * as hbsHelper from '../../lib/handlebars';
@@ -20,6 +23,7 @@ import userHelper from '../../lib/user';
 
 // Configuration
 import { $html, $views, $serverPort } from '../../lib/config';
+import webpackConfig from '../../../webpack.config.babel.js';
 
 // Router
 import router from '../router';
@@ -90,6 +94,12 @@ export default () => {
   // view engine setup
   app.set('views', path.join(__dirname, '/../../views'));
   app.set('view engine', $views().engine);
+
+  // Webpack
+  const compiler = webpack(webpackConfig);
+
+  app.use(webpackDevMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler));
 
   // Router
   router(app);

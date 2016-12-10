@@ -116,7 +116,7 @@ gulp.task('init', () => {
     } catch (e) {
       console.log(e); // eslint-disable-line no-console
     }
-  }, 9000);
+  }, 8000);
 });
 
 // Default task

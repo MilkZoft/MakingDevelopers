@@ -13,7 +13,7 @@ import { getCurrentApp } from '../lib/utils/url';
 import { stringify } from '../lib/utils/object';
 
 // Configuration
-import { $baseUrl, $dashboard, $webpack } from '../lib/config';
+import { $baseUrl, $dashboard } from '../lib/config';
 
 // Importing controllers
 import apiController from '../app/api/api.controller';
@@ -57,7 +57,6 @@ export default (app) => {
     res.locals.currentDashboardApp = res.currentDashboardApp = getCurrentApp(req.originalUrl, true);
     res.locals.currentUrl = res.currentUrl = $baseUrl() + req.originalUrl;
     res.locals.baseUrl = res.baseUrl = $baseUrl();
-    res.locals.webpackUrl = `${res.baseUrl}:${$webpack().port}`;
     res.locals.basePath = res.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
 
     return next();

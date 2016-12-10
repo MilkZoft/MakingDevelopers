@@ -14,10 +14,9 @@ const PATHS = {
 export default {
   debug: true,
   devtool: $webpack().devtool,
-  noInfo: true,
+  noInfo: false,
   entry: [
-    'webpack/hot/dev-server',
-    `webpack-dev-server/client?http://localhost:${$webpack().port}`,
+    'webpack-hot-middleware/client?reload=true',
     `${PATHS.app}`
   ],
   resolve: {
@@ -34,9 +33,7 @@ export default {
     hot: true,
     inline: true,
     progress: true,
-    stats: 'errors-only',
-    host: process.env.HOST,
-    port: $webpack().port
+    stats: 'errors-only'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

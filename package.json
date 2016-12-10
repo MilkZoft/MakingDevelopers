@@ -89,9 +89,9 @@
     "user-agent-is-browser": "^0.1.0",
     "useragent": "^2.1.9",
     "webpack": "^1.12.9",
-    "webpack-dev-middleware": "^1.4.0",
+    "webpack-dev-middleware": "^1.8.4",
     "webpack-dev-server": "^1.14.1",
-    "webpack-hot-middleware": "^2.9.1",
+    "webpack-hot-middleware": "^2.13.2",
     "webpack-isomorphic-tools": "^2.2.48",
     "webpack-md5-hash": "^0.0.5",
     "webpack-merge": "^1.1.0"
