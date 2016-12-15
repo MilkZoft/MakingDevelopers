@@ -16,6 +16,7 @@
     }
   },
   "dependencies": {
+    "async": "^2.1.4",
     "babel-core": "^6.6.7",
     "babel-eslint": "^7.0.0",
     "babel-jest": "^17.0.2",
@@ -59,6 +60,7 @@
     "moment": "^2.13.0",
     "morgan": "~1.7.0",
     "mysql": "^2.10.2",
+    "node-fetch": "^1.6.3",
     "nodemon": "^1.9.1",
     "oauth": "^0.9.14",
     "path": "^0.12.7",
@@ -78,7 +80,7 @@
     "redux-form": "^6.1.0",
     "redux-immutable-state-invariant": "^1.2.4",
     "redux-logger": "^2.6.1",
-    "redux-promise-middleware": "^4.0.0",
+    "redux-promise-middleware": "^4.2.0",
     "redux-recycle": "^1.1.2",
     "redux-storage": "^4.0.0",
     "redux-storage-decorator-debounce": "^1.0.0",

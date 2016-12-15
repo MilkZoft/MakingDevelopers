@@ -21,6 +21,16 @@
     <body>
         <div id="App"></div>
 
+        <script>
+            (function() {
+                // Content
+                const initialState = {
+                    content: {{{ content }}}
+                };
+
+                window.initialState = initialState;
+            })();
+        </script>
         <script src="/bundle.js"></script>
     </body>
 </html>

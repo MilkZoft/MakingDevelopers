@@ -1,12 +1,20 @@
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from '../reducers';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
-import thunk from 'redux-thunk';
+import promiseMiddleware from 'redux-promise-middleware';
+// import isomorphicFetch from 'isomorphic-fetch';
 
-export default function configureStore(initialState) {
+export default function configureStore(options) {
+  const { initialState = {} } = options;
+
   return createStore(
     rootReducer,
     initialState,
-    applyMiddleware(thunk, reduxImmutableStateInvariant())
+    applyMiddleware(
+      reduxImmutableStateInvariant(),
+      promiseMiddleware({
+        promiseTypeSuffixes: ['START', 'SUCCESS', 'ERROR']
+      })
+    )
   );
 }

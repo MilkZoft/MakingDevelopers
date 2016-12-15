@@ -8,7 +8,7 @@ class Home extends React.Component {
       <div className="Home">
         <h1>Homepage2</h1>
         <p>Lorem ipsum...</p>
-        <Link to="about" className="btn btn-primary">About</Link>
+        <Link to="blog" className="btn btn-primary">Blog</Link>
       </div>
     );
   }

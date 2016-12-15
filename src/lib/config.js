@@ -11,6 +11,16 @@ import env from './env';
 let config;
 
 /**
+ * Returns api node
+ *
+ * @param {string} env Forcing environment
+ * @returns {string} api
+ */
+export function $api(env) {
+  return $config(env).api;
+}
+
+/**
  * Returns appName node
  *
  * @param {string} env Forcing environment

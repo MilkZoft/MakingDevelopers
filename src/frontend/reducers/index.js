@@ -1,8 +1,13 @@
+// Dependencies
 import { combineReducers } from 'redux';
-import courses from './courseReducer';
+
+// Reducers
+import blog from './blogReducer';
+import content from './contentReducer';
 
 const rootReducer = combineReducers({
-  courses
+  blog,
+  content
 });
 
 export default rootReducer;

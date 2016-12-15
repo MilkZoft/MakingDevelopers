@@ -3,6 +3,8 @@ production: &default
   appName: makingdevelopers
   serverPort: 3333
   baseUrl: http://www.makingdevelopers.com
+  api:
+    url: http://www.makingdevelopers.com/api/
   dashboard:
     title: Making Developers
   webpack:
@@ -78,6 +80,8 @@ latest: &latest
 
 development:
   <<: *latest
+  api:
+    url: http://local.makingdevelopers.com/api/
   baseUrl: http://local.makingdevelopers.com
   html:
     livereload: true
