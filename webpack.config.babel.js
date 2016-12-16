@@ -1,4 +1,5 @@
 // Dependencies
+import fs from 'fs';
 import webpack from 'webpack';
 import path from 'path';
 
@@ -8,7 +9,8 @@ import { $webpack } from './src/lib/config';
 // Paths
 const PATHS = {
   app: path.join(__dirname, $webpack().paths.app),
-  build: path.join(__dirname, $webpack().paths.build)
+  build: path.join(__dirname, $webpack().paths.build),
+  src: path.join(__dirname, 'src')
 };
 
 export default {
@@ -28,7 +30,7 @@ export default {
     publicPath: '/'
   },
   devServer: {
-    contentBase: PATHS.build,
+    contentBase: PATHS.src,
     historyApiFallback: true,
     hot: true,
     inline: true,
@@ -44,7 +46,7 @@ export default {
       {
         test: /\.js?$/,
         loaders: ['babel'],
-        include: PATHS.app
+        include: PATHS.src
       },
       {
         test: /\.json$/,

@@ -10,8 +10,8 @@ class Blog extends React.Component {
     posts: PropTypes.array
   };
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
   }
 
   componentWillMount() {

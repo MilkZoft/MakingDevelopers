@@ -1,13 +1,8 @@
-// Dependencies
-import fs from 'fs';
-import yaml from 'js-yaml';
+// Configuration
+import defaultConfig from '../config/default.json';
+import developmentConfig from '../config/development.json';
 
-// Helpers
-import env from './env';
-
-/**
- * Config container
- */
+// Config container
 let config;
 
 /**
@@ -53,17 +48,19 @@ export function $cache(env) {
 /**
  * Returns the selected environment configuration
  *
- * @param {string} environment Forcing environment
+ * @param {string} env Forcing environment
  * @returns {object} Config
  */
-export function $config(environment) {
+export function $config(env) {
   if (!config) {
-    config = yaml.safeLoad(
-      fs.readFileSync(`${__dirname}/../config/config.yml`, 'utf-8')
-    );
+    config = defaultConfig;
+
+    if (developmentConfig.enableConfig || env === 'development') {
+      config = developmentConfig;
+    }
   }
 
-  return environment && config[environment] || config[env().name] || {};
+  return config;
 }
 
 /**

@@ -7,10 +7,10 @@ import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 
 // Routes
-import routes from './routes';
+import routes from './frontend/routes';
 
 // Redux
-import configureStore from './store/configureStore';
+import configureStore from './frontend/configureStore';
 
 // Bluebird configuration
 window.Promise = Bluebird;
@@ -21,9 +21,7 @@ window.addEventListener('unhandledrejection', error => {
     error.preventDefault();
   } else {
     error.preventDefault();
-    /* eslint-disable no-console */
-    console.warn('Unhandled promise rejection warning. You can fix it or ignore it.');
-    /* eslint-enable no-console */
+    console.warn('Unhandled promise rejection warning.'); // eslint-disable-line no-console
   }
 });
 
