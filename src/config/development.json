@@ -4,6 +4,7 @@
     "serverPort": 3333,
     "baseUrl": "http://local.makingdevelopers.com",
     "api": {
+        "enable": false,
         "url": "http://local.makingdevelopers.com/api/"
     },
     "dashboard": {

@@ -3,6 +3,7 @@
     "serverPort": 3333,
     "baseUrl": "http://www.makingdevelopers.com",
     "api": {
+        "enable": true,
         "url": "http://www.makingdevelopers.com/api/"
     },
     "dashboard": {

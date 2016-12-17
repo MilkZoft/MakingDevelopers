@@ -1,7 +1,25 @@
-import { $api } from '../config';
+import { $api, $baseUrl } from '../config';
+
+export function apiFetch(endpoint, options) {
+  const getPromise = async () => {
+    try {
+      const response = await fetch(apiEndpoint(endpoint), apiOptions(options));
+
+      return response.json();
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  return getPromise();
+}
 
 export function apiEndpoint(endpoint) {
-  return `${$api().url}${endpoint}`;
+  if ($api().enable) {
+    return `${$api().url}${endpoint}`;
+  }
+
+  return `${$baseUrl()}/content/data/${endpoint}.json`;
 }
 
 export function apiOptions(options = {}) {
@@ -23,18 +41,4 @@ export function apiOptions(options = {}) {
   }
 
   return newOptions;
-}
-
-export function apiFetch(endpoint, options) {
-  const getPromise = async () => {
-    try {
-      const response = await fetch(apiEndpoint(endpoint), apiOptions(options));
-
-      return response.json();
-    } catch (e) {
-      throw e;
-    }
-  };
-
-  return getPromise();
 }
