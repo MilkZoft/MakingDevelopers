@@ -64,6 +64,7 @@
     "nodemon": "^1.9.1",
     "oauth": "^0.9.14",
     "path": "^0.12.7",
+    "query-string": "^4.2.3",
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.0.1",
     "react-addons-update": "^15.0.1",

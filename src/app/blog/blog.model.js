@@ -75,17 +75,10 @@ export default (req, res, next) => {
       res.cache.exists(cacheKey, (exists) => {
         if (exists) {
           res.cache.get(cacheKey, (reply) => {
-            // Removing cache.
-            res.cache.remove(cacheKey);
-
             return callback(true, reply);
           });
         } else {
           Blog.findByQuery(data, (error, result) => {
-            // Saving cache with custom expirationTime (15 seconds)
-            // res.cache.set(cacheKey, result, 15);
-
-            // Saving cache with default expirationTime (3600 seconds = 1 hour)
             res.cache.set(cacheKey, result);
 
             return callback(false, result);
@@ -121,17 +114,10 @@ export default (req, res, next) => {
       res.cache.exists(cacheKey, (exists) => {
         if (exists) {
           res.cache.get(cacheKey, (reply) => {
-            // Removing cache.
-            res.cache.remove(cacheKey);
-
             return callback(true, reply);
           });
         } else {
           Blog.findByQuery(data, (error, result) => {
-            // Saving cache with custom expirationTime (15 seconds)
-            // res.cache.set(`posts`, result, 15);
-
-            // Saving cache with default expirationTime (3600 seconds = 1 hour)
             res.cache.set(cacheKey, result);
 
             return callback(false, result);

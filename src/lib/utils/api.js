@@ -1,10 +1,19 @@
+// Dependencies
+import queryString from 'query-string';
+
+// Config
 import { $api, $baseUrl } from '../config';
 
-export function apiFetch(endpoint, options) {
+export function apiFetch(endpoint, options, query = false) {
+  if (query) {
+    const qs = queryString.stringify(query);
+
+    endpoint += `?${qs}`;
+  }
+
   const getPromise = async () => {
     try {
       const response = await fetch(apiEndpoint(endpoint), apiOptions(options));
-
       return response.json();
     } catch (e) {
       throw e;

@@ -1,8 +1,10 @@
 // Dependencies
 import { combineReducers } from 'redux';
 
-// Reducers
-import blog from './blogReducer';
+// Components Reducers
+import blog from '../containers/Blog/reducer';
+
+// Shared Reducers
 import content from './contentReducer';
 
 const rootReducer = combineReducers({

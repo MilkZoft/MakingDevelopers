@@ -4,7 +4,7 @@
     "serverPort": 3333,
     "baseUrl": "http://local.makingdevelopers.com",
     "api": {
-        "enable": false,
+        "enable": true,
         "url": "http://local.makingdevelopers.com/api/"
     },
     "dashboard": {
@@ -24,7 +24,7 @@
         "devtool": "eval-source-map"
     },
     "cache": {
-        "enable": false,
+        "enable": true,
         "host": "127.0.0.1",
         "port": 6379,
         "expirationTime": 3600

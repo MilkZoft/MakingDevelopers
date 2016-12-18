@@ -25,7 +25,9 @@
             (function() {
                 // Content
                 const initialState = {
-                    content: {{{ content }}}
+                    content: {
+                        __: {{{ content }}}
+                    }
                 };
 
                 window.initialState = initialState;
