@@ -1,3 +1,6 @@
+// Constants
+import { API } from '../../constants/api';
+
 // Utils
 import { apiFetch } from '../../../lib/utils/api';
 
@@ -7,7 +10,7 @@ class BlogApi {
       language
     };
 
-    return apiFetch('blog/posts', {}, query);
+    return apiFetch(API.BLOG.POSTS, {}, query);
   }
 
   static getSinglePost(day, month, year, slug, language) {
@@ -19,7 +22,7 @@ class BlogApi {
       language
     };
 
-    return apiFetch('blog/post', {}, query);
+    return apiFetch(API.BLOG.POST, {}, query);
   }
 }
 

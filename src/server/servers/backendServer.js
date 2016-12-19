@@ -46,14 +46,6 @@ export default (app) => {
   app.use(sessionHelper);
   app.use(userHelper);
 
-  const stylusDefinitions = (style) => {
-    style.define('component', () => {
-      const component = 'components/App';
-
-      return new stylus.nodes.Literal(component);
-    });
-  };
-
   if (!$html().css.stylusPrecompile) {
     app.use(
       stylus.middleware({
@@ -62,8 +54,7 @@ export default (app) => {
         compile: (str, path) => {
           return stylus(str)
             .set('filename', path)
-            .set('compress', true)
-            .use(stylusDefinitions);
+            .set('compress', $html().css.compress);
         }
       })
     );

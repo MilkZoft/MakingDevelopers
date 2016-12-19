@@ -15,6 +15,7 @@ import { isDefined } from '../../../lib/utils/is';
 class Blog extends React.Component {
   static propTypes = {
     __: PropTypes.object.isRequired,
+    isMobile: PropTypes.bool,
     day: PropTypes.number,
     loadAllPosts: PropTypes.func,
     loadSinglePost: PropTypes.func,
@@ -24,7 +25,13 @@ class Blog extends React.Component {
   };
 
   render() {
-    const { __, router, loadAllPosts, loadSinglePost } = this.props;
+    const {
+      __,
+      isMobile,
+      router,
+      loadAllPosts,
+      loadSinglePost
+    } = this.props;
 
     let component = <Posts loadAllPosts={loadAllPosts} params={router.params} />;
 
@@ -33,8 +40,8 @@ class Blog extends React.Component {
     }
 
     return (
-      <div className="Blog">
-        <h1>Blog {__.Site.language}</h1>
+      <div className={`Blog ${isMobile ? 'mobile' : ''}`}>
+        <h1>Blog - {__.Site.language}</h1>
 
         {component}
       </div>
@@ -43,5 +50,6 @@ class Blog extends React.Component {
 }
 
 export default connect(state => ({
-  __: state.content.__
+  __: state.content.__,
+  isMobile: state.device.isMobile
 }), actions)(Blog);

@@ -22,7 +22,6 @@ export default function blogReducer(state = initialState, action) {
   switch (action.type) {
     case 'BLOG_LIST_POSTS_SUCCESS': {
       const response = action.payload ? action.payload.response : [];
-
       const newList = jsonToList(response);
 
       return state.set('list', newList);
@@ -30,7 +29,6 @@ export default function blogReducer(state = initialState, action) {
 
     case 'BLOG_SHOW_SINGLE_POST_SUCCESS': {
       const response = action.payload ? action.payload.response : [];
-
       const newList = jsonToList(response);
 
       return state.set('list', newList);

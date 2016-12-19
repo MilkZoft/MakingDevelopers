@@ -38,8 +38,8 @@
         "livereload": false,
         "minify": true,
         "css": {
-            "stylusPrecompile": true,
-            "compress": true
+            "stylusPrecompile": false,
+            "compress": false
         }
     },
     "languages": {
