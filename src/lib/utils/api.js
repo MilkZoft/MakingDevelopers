@@ -5,15 +5,15 @@ import queryString from 'query-string';
 import { $api, $baseUrl } from '../config';
 
 export function apiFetch(endpoint, options, query = false) {
-  if (query) {
-    const qs = queryString.stringify(query);
+  let qs;
 
-    endpoint += `?${qs}`;
+  if (query) {
+    qs = queryString.stringify(query);
   }
 
   const getPromise = async () => {
     try {
-      const response = await fetch(apiEndpoint(endpoint), apiOptions(options));
+      const response = await fetch(apiEndpoint(endpoint, qs), apiOptions(options));
       return response.json();
     } catch (e) {
       throw e;
@@ -23,9 +23,15 @@ export function apiFetch(endpoint, options, query = false) {
   return getPromise();
 }
 
-export function apiEndpoint(endpoint) {
+export function apiEndpoint(endpoint, qs) {
+  let query = '';
+
+  if (qs) {
+    query = `?${qs}`;
+  }
+
   if ($api().enable) {
-    return `${$api().url}${endpoint}`;
+    return `${$api().url}${endpoint}${query}`;
   }
 
   return `${$baseUrl()}/content/data/${endpoint}.json`;
