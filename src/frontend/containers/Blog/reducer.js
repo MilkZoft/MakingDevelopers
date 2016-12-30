@@ -7,8 +7,7 @@ const InitialState = Record({
 
 const initialState = new InitialState;
 
-const jsonToList = list => list && list
-  .map(json => new PostRecord(json));
+const jsonToList = list => list && list.map(json => new PostRecord(json));
 
 const revive = ({ list }) => initialState.merge({
   list: jsonToList(list)
