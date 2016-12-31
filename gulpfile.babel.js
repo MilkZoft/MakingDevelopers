@@ -69,11 +69,7 @@ gulp.task('analyze', () => {
 
 // Start Redis
 gulp.task('start-redis', () => {
-  exec('redis-server', (err, stdout, stderr) => {
-    if (err !== null) {
-      console.log(err); // eslint-disable-line no-console
-    }
-  });
+  exec('redis-server');
 });
 
 // Start dev task
@@ -116,7 +112,7 @@ gulp.task('init', () => {
     } catch (e) {
       console.log(e); // eslint-disable-line no-console
     }
-  }, 11000);
+  }, 8000);
 });
 
 // Default task

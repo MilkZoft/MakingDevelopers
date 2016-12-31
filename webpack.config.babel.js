@@ -1,82 +1,57 @@
 // Dependencies
-import path from 'path';
-import merge from 'webpack-merge';
+import fs from 'fs';
 import webpack from 'webpack';
-import npmInstallPlugin from 'npm-install-webpack-plugin';
+import path from 'path';
 
 // Configuration
 import { $webpack } from './src/lib/config';
 
-const isProduction = process.env.NODE_ENV === 'production';
-
+// Paths
 const PATHS = {
   app: path.join(__dirname, $webpack().paths.app),
-  build: path.join(__dirname, $webpack().paths.build)
+  build: path.join(__dirname, $webpack().paths.build),
+  src: path.join(__dirname, 'src')
 };
 
-let configuration = {
+export default {
+  debug: true,
+  devtool: $webpack().devtool,
+  noInfo: false,
   entry: [
-    'webpack/hot/dev-server',
-    `webpack-dev-server/client?http://localhost:${$webpack().port}`,
-    PATHS.app
+    'webpack-hot-middleware/client?reload=true',
+    `${PATHS.app}`
   ],
   resolve: {
     extensions: $webpack().extensions
   },
   output: {
     path: PATHS.build,
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
-  node: {
-    console: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
+  devServer: {
+    contentBase: PATHS.src,
+    historyApiFallback: true,
+    hot: true,
+    inline: true,
+    progress: true,
+    stats: 'errors-only'
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ],
   module: {
     loaders: [
+      {
+        test: /\.js?$/,
+        loaders: ['babel'],
+        include: PATHS.src
+      },
       {
         test: /\.json$/,
         loader: 'json'
       },
-      {
-        test: /\.css%/,
-        loaders: ['style!css', 'css'],
-        include: PATHS.app
-      },
-      {
-        test: /\.js?$/,
-        loader: ['babel'],
-        query: {
-          cacheDirectory: true,
-          presets: ['react', 'es2015', 'stage-0']
-        },
-        include: PATHS.app
-      }
     ]
   }
 };
-
-if (!isProduction) {
-  configuration = merge(configuration, {
-    devtool: $webpack().devtool,
-    devServer: {
-      contentBase: PATHS.build,
-      historyApiFallback: true,
-      hot: true,
-      inline: true,
-      progress: true,
-      stats: 'errors-only',
-      host: process.env.HOST,
-      port: $webpack().port
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new npmInstallPlugin({
-        save: true
-      })
-    ]
-  });
-}
-
-module.exports = configuration;

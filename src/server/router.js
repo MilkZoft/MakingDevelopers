@@ -22,9 +22,6 @@ import contentController from '../app/content/content.controller';
 import dashboardController from '../app/dashboard/dashboard.controller';
 import usersController from '../app/users/users.controller';
 
-// React
-import render from './servers/render';
-
 // Imports
 import imports from './imports';
 
@@ -108,7 +105,11 @@ export default (app) => {
   app.use(`/:language(${availableLanguages()})/users`, usersController);
 
   // React dispatch
-  app.get('*', render);
+  app.get('*', (req, res) => {
+    res.render('frontend/index', {
+      layout: false
+    });
+  });
 
   // Disabling x-powered-by
   app.disable('x-powered-by');

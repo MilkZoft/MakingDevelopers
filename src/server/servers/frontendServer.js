@@ -1,17 +1,16 @@
 // Dependencies
 import webpack from 'webpack';
-import webpackDevServer from 'webpack-dev-server';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
 // Configuration
-import { $serverPort, $webpack } from '../../lib/config';
 import webpackConfig from '../../../webpack.config.babel.js';
 
-export default () => {
-  const server = new webpackDevServer(webpack(webpackConfig), {
-    proxy: {
-      '*': `http://localhost:${$serverPort()}`
-    }
-  });
+export default (app) => {
+  // Webpack Configuration
+  const compiler = webpack(webpackConfig);
 
-  server.listen($webpack().port, 'localhost');
+  // Starting Webpack dev & hot servers
+  app.use(webpackDevMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler));
 };

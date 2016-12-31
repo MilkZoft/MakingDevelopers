@@ -1,6 +1,12 @@
+// Dependencies
+import express from 'express';
+
 // Servers
 import backendServer from './backendServer';
 import frontendServer from './frontendServer';
 
-backendServer();
-frontendServer();
+// Starting express application
+const app = express();
+
+frontendServer(app);
+backendServer(app);
