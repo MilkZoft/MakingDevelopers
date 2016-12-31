@@ -1,5 +1,4 @@
 // Dependencies
-import fs from 'fs';
 import webpack from 'webpack';
 import path from 'path';
 
