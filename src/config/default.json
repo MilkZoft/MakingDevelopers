@@ -1,95 +1,87 @@
 {
-    "appName": "makingdevelopers",
-    "serverPort": 3333,
-    "baseUrl": "http://www.makingdevelopers.com",
-    "api": {
-        "enable": true,
-        "url": "http://www.makingdevelopers.com/api/"
+  "appName": "makingdevelopers",
+  "serverPort": 3333,
+  "baseUrl": "http://www.makingdevelopers.com",
+  "api": {
+    "enable": true,
+    "url": "http://www.makingdevelopers.com/api/"
+  },
+  "dashboard": {
+    "title": "Making Developers"
+  },
+  "webpack": {
+    "port": 3001,
+    "paths": {
+      "app": "src/main",
+      "build": "src/public"
     },
-    "dashboard": {
-        "title": "Making Developers"
-    },
-    "webpack": {
-        "port": 3001,
-        "paths": {
-            "app": "src/main",
-            "build": "src/public"
-        },
-        "extensions": [
-            "",
-            ".js",
-            ".jsx"
-        ],
-        "devtool": "eval-source-map"
-    },
-    "cache": {
-        "enable": true,
-        "host": "127.0.0.1",
-        "port": 6379,
-        "expirationTime": 3600
-    },
-    "views": {
-        "engine": ".hbs",
-        "extension": ".hbs",
-        "layout": "main"
-    },
-    "html": {
-        "livereload": false,
-        "minify": true,
-        "css": {
-            "stylusPrecompile": true,
-            "compress": true
-        }
-    },
-    "languages": {
-        "default": "en",
-        "list": [
-            "en",
-            "es"
-        ]
-    },
-    "security": {
-        "secret": "m4k1ingd3v3lop3ers.com",
-        "validateSecurityToken": true,
-        "refreshSecurityToken": true
-    },
-    "session": {
-        "cookieDomain": ".makingdevelopers.com",
-        "maxAge": 259200,
-        "cookiePrefix": "mdSession_",
-        "path": "/",
-        "httpOnly": true
-    },
-    "db": {
-        "mysql": {
-            "host": "localhost",
-            "user": "root",
-            "password": "",
-            "database": "",
-            "port": 3306,
-            "debug": true,
-            "socket": "/var/mysql/mysql.sock"
-        }
-    },
-    "social": {
-        "facebook": {
-            "account": "MakingDevelopers",
-            "clientId": 123,
-            "clientSecret": "xxx"
-        },
-        "twitter": {
-            "account": "MakDevTest",
-            "consumerKey": "FJDzr3KBzRsqjCNIBtYPCAJbL",
-            "consumerSecret": "8cVpCb4Tww4kqenT6PNoqgh7SJvrX2Vx7Oga38gZ3IQlnCk1RA",
-            "accessToken": "757439206155182082-926OcimmkVYjm8VEpFkF77ibOFsH61m",
-            "accessTokenSecret": "taRKE0LC0lZBGbrKPzqgqlLna8NZHKVHEGIvuWkv1BdO3",
-            "callbackUrl": "http://local.makingdevelopers.com/auth/twitter/callback",
-            "requestTokenUrl": "https://api.twitter.com/oauth/request_token",
-            "accessTokenUrl": "https://api.twitter.com/oauth/access_token",
-            "authenticateUrl": "https://twitter.com/oauth/authenticate",
-            "apiUrl": "https://api.twitter.com/1.1/",
-            "apiVersion": "1.0A",
-            "signMethod": "HMAC-SHA1"
-        }
+    "extensions": ["", ".js", ".jsx"],
+    "devtool": "eval-source-map"
+  },
+  "cache": {
+    "enable": true,
+    "host": "127.0.0.1",
+    "port": 6379,
+    "expirationTime": 3600
+  },
+  "views": {
+    "engine": ".hbs",
+    "extension": ".hbs",
+    "layout": "main"
+  },
+  "html": {
+    "minify": true,
+    "css": {
+      "stylusPrecompile": true,
+      "compress": true
     }
+  },
+  "languages": {
+    "default": "en",
+    "list": ["en", "es"]
+  },
+  "security": {
+    "secret": "m4k1ingd3v3lop3ers.com",
+    "validateSecurityToken": true,
+    "refreshSecurityToken": true
+  },
+  "session": {
+    "cookieDomain": ".makingdevelopers.com",
+    "maxAge": 259200,
+    "cookiePrefix": "mdSession_",
+    "path": "/",
+    "httpOnly": true
+  },
+  "db": {
+    "mysql": {
+      "host": "localhost",
+      "user": "root",
+      "password": "",
+      "database": "",
+      "port": 3306,
+      "debug": true,
+      "socket": "/var/mysql/mysql.sock"
+    }
+  },
+  "social": {
+    "facebook": {
+      "account": "MakingDevelopers",
+      "clientId": 123,
+      "clientSecret": "xxx"
+    },
+    "twitter": {
+      "account": "MakDevTest",
+      "consumerKey": "FJDzr3KBzRsqjCNIBtYPCAJbL",
+      "consumerSecret": "8cVpCb4Tww4kqenT6PNoqgh7SJvrX2Vx7Oga38gZ3IQlnCk1RA",
+      "accessToken": "757439206155182082-926OcimmkVYjm8VEpFkF77ibOFsH61m",
+      "accessTokenSecret": "taRKE0LC0lZBGbrKPzqgqlLna8NZHKVHEGIvuWkv1BdO3",
+      "callbackUrl": "http://local.makingdevelopers.com/auth/twitter/callback",
+      "requestTokenUrl": "https://api.twitter.com/oauth/request_token",
+      "accessTokenUrl": "https://api.twitter.com/oauth/access_token",
+      "authenticateUrl": "https://twitter.com/oauth/authenticate",
+      "apiUrl": "https://api.twitter.com/1.1/",
+      "apiVersion": "1.0A",
+      "signMethod": "HMAC-SHA1"
+    }
+  }
 }
