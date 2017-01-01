@@ -19,6 +19,9 @@ You can see the videos that we have done so far and get involve in the project!
 * Video 13: https://www.youtube.com/watch?v=0gcqCDh0Mto
 * Video 14: https://www.youtube.com/watch?v=XdITZWwxkt8
 * Video 15: https://www.youtube.com/watch?v=jDDT9KBKy3A
+* Video 16: https://www.youtube.com/watch?v=3xZ44vlYjIM
+* Video 17: https://www.youtube.com/watch?v=RaykxPGzemw
+* Video 18: https://www.youtube.com/watch?v=jYHX8Ie_gLo
 
 Subscribe to <a href="https://www.youtube.com/codejobs?sub_confirmation=1" target="_blank" title="Codejobs Youtube Channel!">Codejobs Youtube Channel!</a>
 
