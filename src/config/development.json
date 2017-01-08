@@ -8,7 +8,7 @@
     "url": "http://local.makingdevelopers.com/api/"
   },
   "dashboard": {
-    "title": "Making Developers"
+    "title": "MakingDevelopers"
   },
   "webpack": {
     "port": 3001,
@@ -16,7 +16,11 @@
       "app": "src/main",
       "build": "src/public"
     },
-    "extensions": ["", ".js", ".jsx"],
+    "extensions": [
+      "",
+      ".js",
+      ".jsx"
+    ],
     "devtool": "eval-source-map"
   },
   "cache": {
@@ -31,6 +35,7 @@
     "layout": "main"
   },
   "html": {
+    "theme": "MakingDevelopers",
     "minify": true,
     "css": {
       "stylusPrecompile": false,
@@ -42,7 +47,7 @@
     "list": ["en", "es"]
   },
   "security": {
-    "secret": "m4k1ingd3v3lop3ers.com",
+    "secret": "CodUXpYQfj",
     "validateSecurityToken": true,
     "refreshSecurityToken": true
   },
@@ -72,11 +77,11 @@
     },
     "twitter": {
       "account": "MakDevTest",
-      "consumerKey": "FJDzr3KBzRsqjCNIBtYPCAJbL",
-      "consumerSecret": "8cVpCb4Tww4kqenT6PNoqgh7SJvrX2Vx7Oga38gZ3IQlnCk1RA",
-      "accessToken": "757439206155182082-926OcimmkVYjm8VEpFkF77ibOFsH61m",
-      "accessTokenSecret": "taRKE0LC0lZBGbrKPzqgqlLna8NZHKVHEGIvuWkv1BdO3",
-      "callbackUrl": "http://local.makingdevelopers.com/auth/twitter/callback",
+      "consumerKey": "tKp1KNF8oPu4v8bCO7JFsVU3S",
+      "consumerSecret": "m7mK8hdiyv3qgh3Id3bNbesGbP2aeA7ubynG4sm5S7kUbcYNUc",
+      "accessToken": "461804603-BU48jspkEnOx2FXXIeOpY7I3tCTMpjJjs3xGtzCH",
+      "accessTokenSecret": "2oXa1cPSr30QzUCLgJvC6OIXgUDdRk4VnwXgjvG8WO6aw",
+      "callbackUrl": "auth/twitter/callback",
       "requestTokenUrl": "https://api.twitter.com/oauth/request_token",
       "accessTokenUrl": "https://api.twitter.com/oauth/access_token",
       "authenticateUrl": "https://twitter.com/oauth/authenticate",

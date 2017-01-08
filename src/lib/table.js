@@ -7,6 +7,7 @@ import { openForm, closeForm } from './form';
 import { icon, submit } from './handlebars';
 
 const ignoredFields = ['language'];
+const specialApps = ['configuration'];
 
 export function createTable(tableSchema) {
   const {
@@ -63,13 +64,15 @@ export function createTable(tableSchema) {
     html += `<div class="noData">${content('Dashboard.table.noData', __)}</div>`;
   }
 
-  html += `
-    <div class="actions">
-      ${submit(deleteOptions)}
-      ${submit(removeOptions)}
-      ${submit(restoreOptions)}
-    </div>
-  `;
+  if (!exists(currentDashboardApp, specialApps)) {
+    html += `
+      <div class="actions">
+        ${submit(deleteOptions)}
+        ${submit(removeOptions)}
+        ${submit(restoreOptions)}
+      </div>
+    `;
+  }
 
   html += closeForm();
 
@@ -108,6 +111,7 @@ export function _getTBody(data, fields, basePath, currentDashboardApp, __) {
   let remove;
   let restore;
   let update;
+  let deleteIcon = '';
 
   html = '<tbody>';
 
@@ -151,14 +155,14 @@ export function _getTBody(data, fields, basePath, currentDashboardApp, __) {
         className = 'center';
       }
 
-      if (field === 'state' && row[field] === 'deleted') {
+      if (field === 'state' && row[field] === 'Deleted') {
         restore = icon('undo');
         remove = icon('times');
         deleteAction = 'remove';
         update = '';
 
         // Translating the state...
-        row[field] = content(`Dashboard.table.${row[field]}`, __);
+        row[field] = content(`Dashboard.table.${row[field].toLowerCase()}`, __);
       }
 
       if (field === 'title' && isDefined(row.language)) {
@@ -170,19 +174,27 @@ export function _getTBody(data, fields, basePath, currentDashboardApp, __) {
       }
     });
 
+    deleteIcon = `
+      <a
+        class="${deleteAction}"
+        title="${content('Dashboard.table.delete', __)}"
+        href="${dashboardUrl}/${deleteAction}/${id}"
+      >
+        ${remove}
+      </a>
+    `;
+
+    if (exists(currentDashboardApp, specialApps)) {
+      deleteIcon = '';
+    }
+
     html += `
       <td class="center">
         <a title="${content('Dashboard.table.edit', __)}" href="${dashboardUrl}/update/${id}">
           ${update}
         </a>
         ${!restore ? '&nbsp;' : ''}
-        <a
-          class="${deleteAction}"
-          title="${content('Dashboard.table.delete', __)}"
-          href="${dashboardUrl}/${deleteAction}/${id}"
-        >
-          ${remove}
-        </a>
+        ${deleteIcon}
         ${restore ? '&nbsp;' : ''}
         <a title="${content('Dashboard.table.restore', __)}" href="${dashboardUrl}/restore/${id}">
           ${restore}

@@ -4,7 +4,7 @@ import * as types from '../../actions/actionTypes';
 // Api
 import blogApi from './api';
 
-export function loadAllPosts(language) {
+export function loadPosts(language) {
   return {
     type: types.BLOG_LIST_POSTS,
     payload: blogApi.getAllPosts(language)

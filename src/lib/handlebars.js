@@ -145,6 +145,7 @@ export function renderSchema(options) {
   const __ = options.hash.__;
   const action = options.hash.action || 'create';
   const connectedUser = options.hash.connectedUser;
+  const currentDashboardApp = options.hash.currentDashboardApp;
   const flashData = options.hash.flashData;
   const securityToken = options.hash.securityToken;
   const schema = options.hash.schema;
@@ -152,7 +153,7 @@ export function renderSchema(options) {
   const hiddenElements = schema && schema.hiddenElements || {};
 
   let html = openForm({
-    action: `${basePath}/dashboard/blog/create`,
+    action: `${basePath}/dashboard/${currentDashboardApp}/create`,
     method: 'post'
   });
 

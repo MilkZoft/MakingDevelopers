@@ -40,9 +40,11 @@ function loadCKEditor() {
   $('.editor').each(function() {
     const id = $(this).attr('id');
 
-    if (id !== 'codes') {
+    if (id !== 'codes' && id !== 'value') {
       config.height = id === 'excerpt' ? '150px' : '400px';
       CKEDITOR.replace(id, config);
+    } else if (id === 'value') {
+      $(this).css('height', '140px');
     }
   });
 }

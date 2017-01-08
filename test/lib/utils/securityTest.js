@@ -13,7 +13,7 @@ describe('@Security', () => {
     });
 
     it('should return a encrypted salted string', () => {
-      const expectedResult = '46ca42396183e65569beb1d62c36afb171d1d300';
+      const expectedResult = 'ef790abbe1e8f4ddc8bb8fe1af981dfcea7c3ef1';
       const actualResult = encrypt('foo');
 
       assert.isTrue(actualResult === expectedResult, 'should be a hash');

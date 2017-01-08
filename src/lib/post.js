@@ -97,10 +97,10 @@ export function Post(req, res) {
           });
 
           if (exists.length === 0) {
-            values[key] = postData[key];
+            values[key] = postData[key].trim();
           }
         } else {
-          values[key] = postData[key];
+          values[key] = postData[key].trim();
         }
       });
 

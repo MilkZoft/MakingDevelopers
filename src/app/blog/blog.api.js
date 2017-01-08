@@ -6,9 +6,9 @@ export default (req, res, next) => {
   };
 
   function post(query, callback) {
-    query.state = 'published';
+    query.state = 'Active';
 
-    res.BlogModel.cms().post({
+    res.blogModel.cms().post({
       query
     }, (cache, results) => {
       return callback(cache, results);
@@ -19,11 +19,11 @@ export default (req, res, next) => {
     const {
       page = 1,
       language = 'en',
-      state = 'published'
+      state = 'Active'
     } = query;
 
-    res.BlogModel.cms().countPosts(total => {
-      res.BlogModel.cms().posts({
+    res.blogModel.cms().count(total => {
+      res.blogModel.cms().posts({
         total,
         page,
         language,

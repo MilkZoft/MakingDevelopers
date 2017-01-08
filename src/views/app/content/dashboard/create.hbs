@@ -1,0 +1,19 @@
+<div class="Create">
+    <h2>{{{ icon "plus" }}} {{ section }}</h2>
+
+    {{#if message }}
+        <h3>{{{ message }}}</h3>
+    {{/if}}
+
+    {{{
+        renderSchema
+            __ = __
+            action = action
+            basePath = basePath
+            connectedUser = connectedUser
+            currentDashboardApp = currentDashboardApp
+            flashData = flashData
+            schema = schema
+            securityToken = securityToken
+    }}}
+</div>

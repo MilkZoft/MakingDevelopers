@@ -13,7 +13,7 @@ import { getCurrentApp } from '../lib/utils/url';
 import { stringify } from '../lib/utils/object';
 
 // Configuration
-import { $baseUrl, $dashboard } from '../lib/config';
+import { $baseUrl, $dashboard, $html } from '../lib/config';
 
 // Importing controllers
 import apiController from '../app/api/api.controller';
@@ -44,11 +44,31 @@ export default (app) => {
 
   // i18n
   app.use((req, res, next) => {
-    res.__ = res.locals.__ = loadLanguage(getCurrentLanguage(req.url));
-    res.locals.content = stringify(res.__);
-    res.locals.currentLanguage = getCurrentLanguage(req.url);
+    const currentLanguage = getCurrentLanguage(req.url);
+    const cacheKey = `content(${currentLanguage})`;
 
-    return next();
+    // Returning cache if exists...
+    res.cache.exists(cacheKey, exists => {
+      if (exists) {
+        res.cache.get(cacheKey, data => {
+          res.__ = res.locals.__ = data;
+          res.locals.content = stringify(res.__);
+          res.locals.currentLanguage = currentLanguage;
+
+          return next();
+        });
+      } else {
+        loadLanguage(currentLanguage, data => {
+          res.cache.set(cacheKey, data);
+
+          res.__ = res.locals.__ = data;
+          res.locals.content = stringify(res.__);
+          res.locals.currentLanguage = currentLanguage;
+
+          return next();
+        });
+      }
+    });
   });
 
   // base Url && basePath && currentUrl && currentApp
@@ -58,6 +78,7 @@ export default (app) => {
     res.locals.currentUrl = res.currentUrl = $baseUrl() + req.originalUrl;
     res.locals.baseUrl = res.baseUrl = $baseUrl();
     res.locals.basePath = res.basePath = `${$baseUrl()}${getLanguagePath(req.url)}`;
+    res.locals.currentTheme = res.currentTheme = $html().theme;
 
     return next();
   });

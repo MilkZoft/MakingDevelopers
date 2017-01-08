@@ -1,7 +1,7 @@
 .btn
-    cursor(pointer)
-    font(Arial, 13px)
-    fontBold()
+    $cursor(pointer)
+    $font(Arial, 13px)
+    $fontBold()
     color $white
     display inline-block
     padding 6px 12px
@@ -12,23 +12,42 @@
         top 1px
 
     &.default
+        $btn($defaultStartColor, $defaultEndColor, $defaultBorderColor, $defaultShadowColor)
         color $darkGray
-        btn($defaultStartColor, $defaultEndColor, $defaultBorderColor, $defaultShadowColor)
 
     &.success
-        btn($sucessStartColor, $successEndColor, $successBorderColor, $sucessShadowColor)
+        $btn($sucessStartColor, $successEndColor, $successBorderColor, $sucessShadowColor)
 
     &.primary
-        btn($primaryStartColor, $primaryEndColor, $primaryBorderColor, $primaryShadowColor)
+        $btn($primaryStartColor, $primaryEndColor, $primaryBorderColor, $primaryShadowColor)
 
     &.danger
-        btn($dangerStartColor, $dangerEndColor, $dangerBorderColor, $dangerShadowColor)
+        $btn($dangerStartColor, $dangerEndColor, $dangerBorderColor, $dangerShadowColor)
 
     &.warning
-        btn($warningStartColor, $warningEndColor, $warningBorderColor, $warningShadowColor)
+        $btn($warningStartColor, $warningEndColor, $warningBorderColor, $warningShadowColor)
 
     &.dark
-        btn($darkStartColor, $darkEndColor, $darkBorderColor, $darkShadowColor)
+        $btn($darkStartColor, $darkEndColor, $darkBorderColor, $darkShadowColor)
 
     &.black
         color $darkGray
+
+    &.signIn
+        // Move colors to vars
+        $border(#9498bb)
+        background-color #2e293c
+        border-radius 4px
+        color $white
+        display inline
+        float right
+        line-height 20px
+        margin-top 12px
+        padding 8px 10px
+        text-align center
+        width 60%
+
+        &:hover
+            color #b2b9d6 // Move color to vars
+
+

@@ -1,6 +1,9 @@
 // Dependencies
 import express from 'express';
 
+// Helpers
+import { getMedia } from '../../lib/media';
+
 // Express Router
 const Router = express.Router();
 
@@ -23,7 +26,37 @@ Router.get('/', (req, res) => {
  * Dashboard: Blog Actions
  */
 Router.use('/blog/:action*?', (req, res) => {
+  // Setting layout & media
+  res.renderScope.default({
+    layout: 'dashboard.hbs',
+    media: getMedia()
+  });
+
   res.blogDashboard[res.action()]();
+});
+
+/**
+ * Dashboard: Configuration Actions
+ */
+Router.use('/configuration/:action*?', (req, res) => {
+  // Setting layout
+  res.renderScope.default({
+    layout: 'dashboard.hbs'
+  });
+
+  res.configurationDashboard[res.action()]();
+});
+
+/**
+ * Dashboard: Content Actions
+ */
+Router.use('/content/:action*?', (req, res) => {
+  // Setting layout
+  res.renderScope.default({
+    layout: 'dashboard.hbs'
+  });
+
+  res.contentDashboard[res.action()]();
 });
 
 /**
@@ -33,5 +66,17 @@ Router.use('/media/upload', (req, res) => {
   res.mediaDashboard.upload();
 });
 
+/**
+ * Dashboard: Pages Actions
+ */
+Router.use('/pages/:action*?', (req, res) => {
+  // Setting layout & media
+  res.renderScope.default({
+    layout: 'dashboard.hbs',
+    media: getMedia()
+  });
+
+  res.pagesDashboard[res.action()]();
+});
 
 export default Router;

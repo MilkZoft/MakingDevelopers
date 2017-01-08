@@ -1,8 +1,12 @@
+// Dependencies
+import http from 'http';
+
 // Utils
+import { parseJson } from './utils/object';
 import { getParamsFromUrl } from './utils/url';
 
 // Configuration
-import { $languages } from './config';
+import { $baseUrl, $languages } from './config';
 
 /**
  * Returns languages like string: 'es|en'
@@ -64,20 +68,26 @@ export function isLanguage(lang) {
  * Loads a language json file
  *
  * @param {string} language Language
+ * @param {function} callback Callback
  * @returns {object} Language json
  */
-export function loadLanguage(language) {
-  let content;
-
-  if (isLanguage(language)) {
-    try {
-      content = require(`../content/i18n/${language}`);
-    } catch (e) {
-      content = require(`../content/i18n/${defaultLanguage()}`);
-    }
-  } else {
-    content = require(`../content/i18n/${defaultLanguage()}`);
+export function loadLanguage(language, callback) {
+  if (!isLanguage(language)) {
+    language = $language().default;
   }
 
-  return content;
+  http.get(`${$baseUrl()}/content/${language}.json`, res => {
+    let rawData = '';
+
+    res.setEncoding('utf8');
+
+    res.on('data', chunk => rawData += chunk);
+    res.on('end', () => {
+      try {
+        return callback(parseJson(rawData));
+      } catch (e) {
+        throw e;
+      }
+    });
+  });
 }

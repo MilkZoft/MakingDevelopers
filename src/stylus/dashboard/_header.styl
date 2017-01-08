@@ -1,7 +1,7 @@
 .MainHeader
-    bg($headerDarkBlue)
-    font(Oswald)
-    uppercase()
+    $background($headerDarkBlue)
+    $font(Oswald)
+    $uppercase()
     color $white
     height 40px
     position relative
@@ -12,26 +12,26 @@
         position fixed
 
     .logo
-        position(absolute)
+        $position(absolute)
         margin-left 10px
         margin-top 10px
         text-transform uppercase
 
         a
-            resetLink($almostWhite)
+            $resetLink($almostWhite)
 
             &:hover
                 color $blue
 
     .credits
-        centerAbsolute(130px, 12px)
-        fontSize(12px)
+        $centerAbsolute(130px, 12px)
+        $fontSize(12px)
 
         @media Mobile
             left 40px
 
         a
-            resetLink($blue)
+            $resetLink($blue)
             font-weight bold
 
             &:hover
@@ -41,8 +41,8 @@
             display none
 
     .creditsMobile
-        centerAbsolute(130px, 12px)
-        fontSize(12px)
+        $centerAbsolute(130px, 12px)
+        $fontSize(12px)
         display none
 
         @media Mobile
@@ -52,7 +52,7 @@
             left 80px
 
         a
-            resetLink($blue)
+            $resetLink($blue)
             font-weight bold
 
             &:hover
@@ -62,32 +62,32 @@
             display block
 
     .user
-        fontSize(14px)
-        position(absolute)
+        $fontSize(14px)
+        $position(absolute)
         right 10px
         top 12px
 
         a
-            resetLink($almostWhite)
+            $resetLink($almostWhite)
 
             &:hover
                 color $blue
 
     .menu
         ul
-            resetList()
+            $resetList()
             padding-top 20px
 
             li
-                fontSize(16px, bold)
-                uppercase()
+                $fontSize(16px, bold)
+                $uppercase()
                 height 40px
                 line-height 40px
                 position relative
                 text-indent 10px
 
                 a
-                    resetLink($white)
+                    $resetLink($white)
                     padding 10px
 
                     .fa
@@ -96,13 +96,13 @@
                     &:hover
                     &:focus
                     &:active
-                        bg($white)
+                        $background($white)
                         color $black
 
 
         @media Tablet
-            bg($almostBlack)
-            position(absolute)
+            $background($headerDarkBlue)
+            $position(absolute)
             padding-bottom 20px
             top 40px
             width 100%
@@ -114,14 +114,15 @@
 
         @media Tablet
             z-index 1000
+
             &.opened
-                centerAbsolute(28px, false, -445px)
+                $centerAbsolute(28px, false, -445px)
             &.closed
-                centerAbsolute(28px, false, -45px)
+                $centerAbsolute(28px, false, -45px)
             .fa-caret-down
-                cursor(pointer)
-                fontSize(80px)
+                $cursor(pointer)
+                $fontSize(80px)
+                color $headerDarkBlue
                 display block
-                color $almostBlack
 
 

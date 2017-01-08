@@ -1,5 +1,5 @@
 // Helpers
-import * as Blog from '../../lib/model';
+import * as Model from '../../lib/model';
 import { getPaginationLimit } from '../../lib/pagination';
 
 // Utils
@@ -7,23 +7,14 @@ import { year, month, day } from '../../lib/utils/date';
 import { forEach, keys, parseObject } from '../../lib/utils/object';
 
 export default (req, res, next) => {
-  // Methods
-  res.BlogModel = {
-    cms,
-    dashboard
-  };
-
-  // Global vars
+  // * Global vars
   const table = 'blog';
+  const modelName = `${table}Model`;
+  const fields = 'id, title, language, author, state';
+  const order = 'id desc';
+  const searchBy = ['title'];
 
-  // Response data for table schema
-  const resData = {
-    __: res.__,
-    basePath: res.basePath,
-    currentDashboardApp: res.currentDashboardApp
-  };
-
-  // Required fields
+  // * Required fields
   res.content('Dashboard.forms.fields.error', true);
 
   const requiredFields = {
@@ -34,7 +25,7 @@ export default (req, res, next) => {
     author: res.content('author')
   };
 
-  // Hidden Elements
+  // * Hidden Elements
   const hiddenElements = {
     createdAt: `${year()}/${month()}/${day()}`,
     year: year(),
@@ -42,15 +33,39 @@ export default (req, res, next) => {
     day: day()
   };
 
+  // Response data for table schema
+  const resData = {
+    __: res.__,
+    basePath: res.basePath,
+    currentDashboardApp: res.currentDashboardApp
+  };
+
+  // * Validate if exists
+  const validateIfExists = data => {
+    return {
+      title: data.title,
+      slug: data.slug,
+      day: data.day,
+      month: data.month,
+      year: data.year
+    };
+  };
+
+  // Methods
+  res[modelName] = {
+    cms,
+    dashboard
+  };
+
   function cms() {
     return {
-      countPosts,
+      count,
       posts,
       post
     };
 
-    function countPosts(callback) {
-      Blog.countAllRowsFrom(table, (total) => {
+    function count(callback) {
+      Model.countAllRowsFrom(table, total => {
         return callback(total);
       });
     }
@@ -72,13 +87,13 @@ export default (req, res, next) => {
       const cacheKey = `post(${slug}, ${day}, ${month}, ${year}, ${language})`;
 
       // Returning cache if exists...
-      res.cache.exists(cacheKey, (exists) => {
+      res.cache.exists(cacheKey, exists => {
         if (exists) {
-          res.cache.get(cacheKey, (reply) => {
+          res.cache.get(cacheKey, reply => {
             return callback(true, reply);
           });
         } else {
-          Blog.findByQuery(data, (error, result) => {
+          Model.findByQuery(data, (error, result) => {
             res.cache.set(cacheKey, result);
 
             return callback(false, result);
@@ -100,7 +115,7 @@ export default (req, res, next) => {
       const data = {
         table,
         fields: '*',
-        order: 'id desc',
+        order,
         limit,
         query: {
           language,
@@ -111,13 +126,13 @@ export default (req, res, next) => {
       const cacheKey = `posts(${language}, ${limit})`;
 
       // Returning cache if exists...
-      res.cache.exists(cacheKey, (exists) => {
+      res.cache.exists(cacheKey, exists => {
         if (exists) {
-          res.cache.get(cacheKey, (reply) => {
+          res.cache.get(cacheKey, reply => {
             return callback(true, reply);
           });
         } else {
-          Blog.findByQuery(data, (error, result) => {
+          Model.findByQuery(data, (error, result) => {
             res.cache.set(cacheKey, result);
 
             return callback(false, result);
@@ -129,63 +144,63 @@ export default (req, res, next) => {
 
   function dashboard() {
     return {
-      countAllPosts,
+      count,
       deleteAction,
-      deletePost,
-      getAllPosts,
-      getPost,
+      deleteRow,
+      getRows,
+      getRow,
       getSchema,
       removeAction,
-      removePost,
+      removeRow,
       restoreAction,
-      restorePost,
-      savePost,
+      restoreRow,
+      saveRow,
       search,
-      updatePost
+      updateRow
     };
 
-    function countAllPosts(callback) {
-      Blog.countAllRowsFrom(table, (total) => {
+    function count(callback) {
+      Model.countAllRowsFrom(table, total => {
         return callback(total);
       });
     }
 
     function deleteAction(rows, callback) {
-      Blog.deleteRows(table, rows, () => {
+      Model.deleteRows(table, rows, () => {
         return callback();
       });
     }
 
-    function deletePost(id, callback) {
-      Blog.deleteRow(table, id, () => {
+    function deleteRow(id, callback) {
+      Model.deleteRow(table, id, () => {
         return callback();
       });
     }
 
-    function getAllPosts(total, callback) {
+    function getRows(total, callback) {
       const limit = getPaginationLimit(req.params, total);
 
       const data = {
         table,
-        fields: 'id, title, language, author, state',
-        order: 'id desc',
+        fields,
+        order,
         limit
       };
 
-      Blog.findAll(data, (error, result) => {
-        const tableSchema = Blog.getTableSchema(result, resData);
+      Model.findAll(data, (error, result) => {
+        const tableSchema = Model.getTableSchema(result, resData);
 
         return callback(tableSchema);
       });
     }
 
-    function getPost(id, callback) {
+    function getRow(id, callback) {
       const data = {
         table,
         id
       };
 
-      Blog.find(data, (error, result) => {
+      Model.find(data, (error, result) => {
         return callback(parseObject(result[0]));
       });
     }
@@ -197,46 +212,39 @@ export default (req, res, next) => {
         hiddenElements
       };
 
-      Blog.getSchemaFrom(data, callback, (schema, noRender, callback) => {
+      Model.getSchemaFrom(data, callback, (schema, noRender, callback) => {
         return callback(schema);
       });
     }
 
     function removeAction(rows, callback) {
-      Blog.removeRows(table, rows, () => {
+      Model.removeRows(table, rows, () => {
         return callback();
       });
     }
 
-    function removePost(id, callback) {
-      Blog.removeRow(table, id, () => {
+    function removeRow(id, callback) {
+      Model.removeRow(table, id, () => {
         return callback();
       });
     }
 
     function restoreAction(rows, callback) {
-      Blog.restoreRows(table, 'draft', rows, () => {
+      Model.restoreRows(table, 'Active', rows, () => {
         return callback();
       });
     }
 
-    function restorePost(id, callback) {
-      Blog.restoreRow(table, 'draft', id, () => {
+    function restoreRow(id, callback) {
+      Model.restoreRow(table, 'Active', id, () => {
         return callback();
       });
     }
 
-    function savePost(data, callback) {
+    function saveRow(data, callback) {
       const fields = keys(data);
       let save = true;
       const errorMessages = {};
-      const validateIfExists = {
-        title: data.title,
-        slug: data.slug,
-        day: data.day,
-        month: data.month,
-        year: data.year
-      };
 
       forEach(fields, field => {
         if (requiredFields[field] && data[field] === '') {
@@ -246,9 +254,9 @@ export default (req, res, next) => {
       });
 
       if (save) {
-        Blog.existsRow(table, validateIfExists, (exists) => {
+        Model.existsRow(table, validateIfExists(data), exists => {
           if (!exists) {
-            Blog.insertRow(table, data, callback, (result, callback) => {
+            Model.insertRow(table, data, callback, (result, callback) => {
               return callback(result);
             });
           } else {
@@ -263,19 +271,19 @@ export default (req, res, next) => {
     function search(searchTerm, callback) {
       const data = {
         table,
-        fields: 'id, title, language, author, state',
-        searchBy: 'title',
+        fields,
+        searchBy,
         searchTerm
       };
 
-      Blog.search(data, (result) => {
-        const tableSchema = Blog.getTableSchema(result, resData);
+      Model.search(data, result => {
+        const tableSchema = Model.getTableSchema(result, resData);
 
         return callback(tableSchema);
       });
     }
 
-    function updatePost(data, callback) {
+    function updateRow(data, callback) {
       const fields = keys(data);
       let edit = true;
       const errorMessages = {};
@@ -300,9 +308,9 @@ export default (req, res, next) => {
       });
 
       if (edit) {
-        Blog.existsRow(table, validateIfExists, (exists) => {
+        Model.existsRow(table, validateIfExists, exists => {
           if (exists) {
-            Blog.updateRow(table, data, res.currentId, callback, (result, callback) => {
+            Model.updateRow(table, data, res.currentId, callback, (result, callback) => {
               return callback(result);
             });
           } else {

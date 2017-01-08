@@ -13,7 +13,7 @@ class BlogApi {
     return apiFetch(API.BLOG.POSTS, {}, query);
   }
 
-  static getSinglePost(day, month, year, slug, language) {
+  static getSinglePost(year, month, day, slug, language) {
     const query = {
       slug,
       day,

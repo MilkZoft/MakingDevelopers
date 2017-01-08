@@ -1,5 +1,5 @@
 .alert
-    fontSize(13.5px)
+    $fontSize(13.5px)
     display inline-block
     border 1px solid transparent
     margin-bottom 20px
@@ -18,16 +18,16 @@
             margin-top 5px
 
     &.success
-        alert($successColor, $successBg, $successBc, $successTopBorder, $successLink)
+        $alert($successColor, $successBg, $successBc, $successTopBorder, $successLink)
 
     &.info
-        alert($infoColor, $infoBg, $infoBc, $infoTopBorder, $infoLink)
+        $alert($infoColor, $infoBg, $infoBc, $infoTopBorder, $infoLink)
 
     &.warning
-        alert($warningColor, $warningBg, $warningBc, $warningTopBorder, $warningLink)
+        $alert($warningColor, $warningBg, $warningBc, $warningTopBorder, $warningLink)
 
     &.danger
-        alert($dangerColor, $dangerBg, $dangerBc, $dangerTopBorder, $dangerLink)
+        $alert($dangerColor, $dangerBg, $dangerBc, $dangerTopBorder, $dangerLink)
 
 .alert
     & > p

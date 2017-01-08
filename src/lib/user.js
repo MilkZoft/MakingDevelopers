@@ -5,10 +5,21 @@ import { isArray, isDefined } from './utils/is';
 import * as Users from '../app/users/users.model';
 
 export default (req, res, next) => {
+  const {
+    profileAllowed
+  } = User(req, res);
+
   // Methods
   res.profileAllowed = profileAllowed;
 
   return next();
+};
+
+export function User(req, res) {
+  // Methods
+  return {
+    profileAllowed
+  };
 
   /**
    * Returns user information if is a profileAllowed
@@ -40,4 +51,4 @@ export default (req, res, next) => {
       return res.redirect('/');
     }
   }
-};
+}

@@ -1,0 +1,37 @@
+<div class="readAction">
+    <h1>{{ __.Dashboard.modules.content.list }}</h1>
+
+    <p>
+        <a
+            href="{{ basePath }}/dashboard/{{ currentDashboardApp }}/create"
+            title="{{ __.Dashboard.modules.content.create }}"
+        >
+            {{{ icon "plus" }}} {{ __.Dashboard.modules.content.create }}
+        </a>
+        &nbsp;
+        <a
+            href="{{ baseUrl }}/content/content.sql"
+            title="{{ __.Dashboard.modules.content.backup }}"
+            target="_blank"
+        >
+            {{{ icon "database" }}} {{ __.Dashboard.modules.content.backup }}
+        </a>
+    </p>
+
+    {{{
+        renderSearch
+            __ = __
+            currentDashboardApp = currentDashboardApp
+            basePath = basePath
+            searching = searching
+    }}}
+
+    {{{
+        renderTable
+            tableSchema = tableSchema
+    }}}
+
+    {{{
+        pagination
+    }}}
+</div>
