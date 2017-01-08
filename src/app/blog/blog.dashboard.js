@@ -1,14 +1,14 @@
 // Helpers
 import { getPagination } from '../../lib/pagination';
-import { getMedia } from '../../lib/media';
 
 // Utils
 import { forEach } from '../../lib/utils/object';
 import { getCurrentApp } from '../../lib/utils/url';
 
 export default (req, res, next) => {
-  // Application name
+  // * Application name & model
   const app = 'blog';
+  const appModel = `${app}Model`;
 
   // CRUD Views
   const createView = `app/${app}/dashboard/create`;
@@ -16,17 +16,12 @@ export default (req, res, next) => {
   const updateView = `app/${app}/dashboard/update`;
 
   // Urls
-  const dashboardAppUrl = `${res.basePath}/dashboard/${getCurrentApp(req.originalUrl, true)}`;
+  const currentApp = getCurrentApp(req.originalUrl, true);
+  const dashboardAppUrl = `${res.basePath}/dashboard/${currentApp}`;
   const paginationUrl = `${dashboardAppUrl}/page/`;
 
-  // Setting layout
-  res.renderScope.default({
-    layout: 'dashboard.hbs',
-    media: getMedia()
-  });
-
-  // Methods
-  res.blogDashboard = {
+  // * Methods
+  res[`${app}Dashboard`] = {
     createAction,
     readAction,
     updateAction,
@@ -44,7 +39,7 @@ export default (req, res, next) => {
    */
   function createAction() {
     res.profileAllowed(connectedUser => {
-      res.content('Dashboard.modules.blog', true);
+      res.content(`Dashboard.modules.${currentApp}`, true);
 
       // Setting some vars
       res.renderScope.set('section', res.content('name'));
@@ -54,10 +49,10 @@ export default (req, res, next) => {
         const post = res.getAllPost();
 
         // Trying to save the post
-        res.BlogModel.dashboard().savePost(post, (result, errors) => {
+        res[appModel].dashboard().saveRow(post, (result, errors) => {
           // Do we have some errors?
           if (errors === 'exists') {
-            res.BlogModel.dashboard().getSchema(schema => {
+            res[appModel].dashboard().getSchema(schema => {
               // The post was added correclty
               schema.alert = {
                 type: 'warning',
@@ -70,7 +65,7 @@ export default (req, res, next) => {
             });
           } else if (errors) {
             // Getting the schema to re-render the form.
-            res.BlogModel.dashboard().getSchema(schema => {
+            res[appModel].dashboard().getSchema(schema => {
               schema.alert = {
                 type: 'danger',
                 icon: 'times',
@@ -90,7 +85,7 @@ export default (req, res, next) => {
             });
           } else if (result) {
             // Getting the schema to re-render the form.
-            res.BlogModel.dashboard().getSchema(schema => {
+            res[appModel].dashboard().getSchema(schema => {
               // The post was added correclty
               schema.alert = {
                 type: 'info',
@@ -104,7 +99,7 @@ export default (req, res, next) => {
           }
         });
       } else {
-        res.BlogModel.dashboard().getSchema(schema => {
+        res[appModel].dashboard().getSchema(schema => {
           res.renderScope.set('schema', schema);
           res.render(createView, res.renderScope.get());
         });
@@ -134,11 +129,11 @@ export default (req, res, next) => {
             : 'restoreAction';
 
         if (rows && deleteAction || removeAction || restoreAction) {
-          res.BlogModel.dashboard()[action](rows, () => {
+          res[appModel].dashboard()[action](rows, () => {
             res.redirect(dashboardAppUrl);
           });
         } else {
-          res.BlogModel.dashboard().search(searchTerm, tableSchema => {
+          res[appModel].dashboard().search(searchTerm, tableSchema => {
             res.renderScope.set('tableSchema', tableSchema);
             res.renderScope.set('searching', searchTerm);
 
@@ -146,8 +141,8 @@ export default (req, res, next) => {
           });
         }
       } else {
-        res.BlogModel.dashboard().countAllPosts(total => {
-          res.BlogModel.dashboard().getAllPosts(total, tableSchema => {
+        res[appModel].dashboard().count(total => {
+          res[appModel].dashboard().getRows(total, tableSchema => {
             res.renderScope.set('tableSchema', tableSchema);
             res.renderScope.set('pagination', getPagination(req.params, total, paginationUrl));
 
@@ -165,7 +160,7 @@ export default (req, res, next) => {
    */
   function updateAction() {
     res.profileAllowed(connectedUser => {
-      res.content('Dashboard.modules.blog', true);
+      res.content(`Dashboard.modules.${currentApp}`, true);
 
       // Setting some vars
       res.renderScope.set('section', res.content('name'));
@@ -175,10 +170,10 @@ export default (req, res, next) => {
         const post = res.getAllPost();
 
         // Trying to update the post
-        res.BlogModel.dashboard().updatePost(post, (result, errors) => {
+        res[appModel].dashboard().updateRow(post, (result, errors) => {
           if (errors) {
             // Getting the schema to re-render the form.
-            res.BlogModel.dashboard().getSchema(schema => {
+            res[appModel].dashboard().getSchema(schema => {
               schema.alert = {
                 type: 'danger',
                 icon: 'times',
@@ -200,7 +195,7 @@ export default (req, res, next) => {
             });
           } else if (result) {
             // Getting the schema to re-render the form.
-            res.BlogModel.dashboard().getSchema(schema => {
+            res[appModel].dashboard().getSchema(schema => {
               // The post was added correclty
               schema.alert = {
                 type: 'info',
@@ -217,8 +212,8 @@ export default (req, res, next) => {
           }
         });
       } else {
-        res.BlogModel.dashboard().getPost(res.currentId, post => {
-          res.BlogModel.dashboard().getSchema(schema => {
+        res[appModel].dashboard().getRow(res.currentId, post => {
+          res[appModel].dashboard().getSchema(schema => {
             res.renderScope.set('currentId', res.currentId);
             res.renderScope.set('flashData', post);
             res.renderScope.set('schema', schema);
@@ -239,8 +234,8 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       const id = res.currentId;
 
-      res.BlogModel.dashboard().deletePost(id, () => {
-        res.redirect(`${res.basePath}/dashboard/blog`);
+      res[appModel].dashboard().deleteRow(id, () => {
+        res.redirect(`${res.basePath}/dashboard/${currentApp}`);
       });
     });
   }
@@ -249,8 +244,8 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       const id = res.currentId;
 
-      res.BlogModel.dashboard().removePost(id, () => {
-        res.redirect(`${res.basePath}/dashboard/blog`);
+      res[appModel].dashboard().removeRow(id, () => {
+        res.redirect(`${res.basePath}/dashboard/${currentApp}`);
       });
     });
   }
@@ -259,8 +254,8 @@ export default (req, res, next) => {
     res.profileAllowed(connectedUser => {
       const id = res.currentId;
 
-      res.BlogModel.dashboard().restorePost(id, () => {
-        res.redirect(`${res.basePath}/dashboard/blog`);
+      res[appModel].dashboard().restoreRow(id, () => {
+        res.redirect(`${res.basePath}/dashboard/${currentApp}`);
       });
     });
   }

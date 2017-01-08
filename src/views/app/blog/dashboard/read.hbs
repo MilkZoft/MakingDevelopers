@@ -2,8 +2,11 @@
     <h1>{{ __.Dashboard.modules.blog.list }}</h1>
 
     <p>
-        <a href="{{ basePath }}/dashboard/blog/create" title="{{ __.Dashboard.modules.blog.createNewPost }}">
-            {{{ icon "plus" }}} {{ __.Dashboard.modules.blog.createNewPost }}
+        <a
+            href="{{ basePath }}/dashboard/{{ currentDashboardApp }}/create"
+            title="{{ __.Dashboard.modules.blog.create }}"
+        >
+            {{{ icon "plus" }}} {{ __.Dashboard.modules.blog.create }}
         </a>
     </p>
 

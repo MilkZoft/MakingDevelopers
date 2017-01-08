@@ -6,8 +6,11 @@ import { getFileInfo } from '../../lib/utils/files';
 import { randomCode } from '../../lib/utils/security';
 
 export default (req, res, next) => {
+  // * Application name
+  const app = 'media';
+
   // Methods
-  res.mediaDashboard = {
+  res[`${app}Dashboard`] = {
     upload
   };
 

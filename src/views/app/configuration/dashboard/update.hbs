@@ -1,0 +1,19 @@
+<div class="Update">
+    <form action="{{ basePath }}/dashboard/{{ currentDashboardApp }}/update/{{ currentId }}" method="post">
+        <h2>{{{ icon "pencil" }}} {{ section }}</h2>
+
+        {{#if message }}
+            <h3>{{{ message }}}</h3>
+        {{/if}}
+
+        {{{
+            renderSchema
+                __ = __
+                action = action
+                connectedUser = connectedUser
+                flashData = flashData
+                schema = schema
+                securityToken = securityToken
+        }}}
+    </form>
+</div>

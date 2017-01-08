@@ -47,11 +47,26 @@ export function buildWhereQuery(data) {
 }
 
 export function getSearchQuery(data) {
+  const count = data.searchBy.length - 1;
+  let where = 'WHERE (';
+  let i = 0;
+
+  forEach(data.searchBy, field => {
+    if (i === count) {
+      where += `${field} LIKE '%${data.searchTerm}%'`;
+    } else {
+      where += `${field} LIKE '%${data.searchTerm}%' OR `;
+    }
+
+    i++;
+  });
+
+  where += ')';
+
   const query = `
     SELECT ${data.fields || '*'}
       FROM ${data.table}
-      WHERE ${data.searchBy}
-      LIKE '%${data.searchTerm}%'
+      ${where}
       ORDER BY id DESC
     `;
 
@@ -118,7 +133,7 @@ export function getInsertQuery(table, data) {
 }
 
 export function getDeleteQuery(table, id) {
-  const query = `UPDATE ${table} SET state = 'deleted' WHERE id = ${id}`;
+  const query = `UPDATE ${table} SET state = 'Deleted' WHERE id = ${id}`;
 
   return query;
 }
@@ -137,7 +152,7 @@ export function getRestoreQuery(table, state, id) {
 
 export function getDeleteRowsQuery(table, rows) {
   const ids = isArray(rows) ? rows.join(', ') : rows;
-  const query = `UPDATE ${table} SET state = 'deleted' WHERE id IN (${ids})`;
+  const query = `UPDATE ${table} SET state = 'Deleted' WHERE id IN (${ids})`;
 
   return query;
 }

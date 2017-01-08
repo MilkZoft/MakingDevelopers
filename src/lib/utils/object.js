@@ -18,7 +18,7 @@ export function content(contentKey, __) {
 export function buildContentJson(nodes, raw) {
   const rows = {};
 
-  nodes.forEach(node => {
+  forEach(nodes, node => {
     rows[node.name] = node.value;
   });
 
@@ -50,6 +50,8 @@ export function forEach(obj, callback) {
     return obj.forEach(callback);
   } else if (isArray(obj)) {
     return obj.forEach(callback);
+  } else if (!isDefined(obj)) {
+    return false;
   }
 
   return keys(obj).forEach(callback);

@@ -12,6 +12,8 @@ export default (
   <Route component={App} path="/">
     {/* Index */}
     <IndexRoute component={Home} />
+    <Route component={Home} path="/en" />
+    <Route component={Home} path="/es" />
 
     {/* Blog Routes */}
     <Route component={Blog} path="/blog" />

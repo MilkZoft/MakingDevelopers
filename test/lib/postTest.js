@@ -10,7 +10,8 @@ const {
   post,
   refreshSecurityToken,
   validate,
-  validateSecurityToken
+  validateSecurityToken,
+  _getPostsFromArray
 } = Post();
 
 describe('@Post', () => {
@@ -65,6 +66,12 @@ describe('@Post', () => {
   describe('#validateSecurityToken', () => {
     it('should be a function', () => {
       assert.typeOf(validateSecurityToken, 'function', 'validateSecurityToken should be a function');
+    });
+  });
+
+  describe('#_getPostsFromArray', () => {
+    it('should be a function', () => {
+      assert.typeOf(_getPostsFromArray, 'function', '_getPostsFromArray should be a function');
     });
   });
 });

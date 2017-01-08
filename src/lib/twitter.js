@@ -5,7 +5,7 @@ import { OAuth } from 'oauth';
 import { parseJson } from './utils/object';
 
 // Configuration
-import { $social } from './config';
+import { $baseUrl, $social } from './config';
 
 // Global vars
 const oauth = new OAuth(
@@ -14,7 +14,7 @@ const oauth = new OAuth(
   $social().twitter.consumerKey,
   $social().twitter.consumerSecret,
   $social().twitter.apiVersion,
-  $social().twitter.callbackUrl,
+  `${$baseUrl()}/${$social().twitter.callbackUrl}`,
   $social().twitter.signMethod
 );
 

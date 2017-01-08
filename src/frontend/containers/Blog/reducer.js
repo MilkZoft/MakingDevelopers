@@ -2,15 +2,17 @@ import PostRecord from './model';
 import { Record } from 'immutable';
 
 const InitialState = Record({
-  list: []
+  posts: [],
+  post: []
 });
 
 const initialState = new InitialState;
 
 const jsonToList = list => list && list.map(json => new PostRecord(json));
 
-const revive = ({ list }) => initialState.merge({
-  list: jsonToList(list)
+const revive = ({ posts, post }) => initialState.merge({
+  posts: jsonToList(posts),
+  post: new PostRecord(post)
 });
 
 export default function blogReducer(state = initialState, action) {
@@ -21,16 +23,16 @@ export default function blogReducer(state = initialState, action) {
   switch (action.type) {
     case 'BLOG_LIST_POSTS_SUCCESS': {
       const response = action.payload ? action.payload.response : [];
-      const newList = jsonToList(response);
+      const posts = jsonToList(response);
 
-      return state.set('list', newList);
+      return state.set('posts', posts);
     }
 
     case 'BLOG_SHOW_SINGLE_POST_SUCCESS': {
       const response = action.payload ? action.payload.response : [];
-      const newList = jsonToList(response);
+      const post = jsonToList(response);
 
-      return state.set('list', newList);
+      return state.set('post', post);
     }
 
     default:

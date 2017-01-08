@@ -175,13 +175,13 @@ export function getTableSchema(data, resData) {
 
     if (isDefined(obj.state)) {
       switch (obj.state) {
-        case 'deleted':
+        case 'Deleted':
           obj.bg = 'danger';
           break;
-        case 'pending':
+        case 'Pending':
           obj.bg = 'info';
           break;
-        case 'draft':
+        case 'Inactive':
           obj.bg = 'warning';
           break;
         default:
@@ -207,51 +207,53 @@ export function getTableSchema(data, resData) {
  * @returns {callback} Callback
  */
 export function getProcedure(procedureName, values, fields, filter) {
-  const total = fields.length - 1;
+  const total = fields && fields.length - 1;
   let i = 0;
   let params = '';
   let value;
 
-  fields.forEach(field => {
-    const getValue = () => {
-      let value = values[field];
+  if (fields && values) {
+    fields.forEach(field => {
+      const getValue = () => {
+        let value = values[field];
 
-      if (!isDefined(value)) {
-        value = '';
-      }
+        if (!isDefined(value)) {
+          value = '';
+        }
 
-      if (field === 'networkId') {
-        value = `${clean(value.toString())}`;
-      }
+        if (field === 'networkId') {
+          value = `${clean(value.toString())}`;
+        }
 
-      if (!isNumber(value)) {
-        if (!isDefined(filter)) {
-          value = `'${value}'`;
-        } else {
-          value = `'${clean(value)}'`;
+        if (!isNumber(value)) {
+          if (!isDefined(filter)) {
+            value = `'${value}'`;
+          } else {
+            value = `'${clean(value)}'`;
+          }
+        }
+
+        if (value === false) {
+          value = '\'\'';
+        }
+
+        return value;
+      };
+
+      value = getValue();
+
+      if (i === total) {
+        if (value !== '') {
+          params += value;
+        }
+      } else {
+        if (value !== '') {
+          params += `${value}, `;
+          i++;
         }
       }
-
-      if (value === false) {
-        value = '\'\'';
-      }
-
-      return value;
-    };
-
-    value = getValue();
-
-    if (i === total) {
-      if (value !== '') {
-        params += value;
-      }
-    } else {
-      if (value !== '') {
-        params += `${value}, `;
-        i++;
-      }
-    }
-  });
+    });
+  }
 
   let procedure = `CALL ${procedureName} (${params});`;
 

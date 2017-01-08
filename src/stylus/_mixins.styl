@@ -1,4 +1,4 @@
-alert($color, $bg, $bc, $topBorder, $link)
+$alert($color, $bg, $bc, $topBorder, $link)
     color $color
     background-color $bg
     border-color $bc
@@ -9,10 +9,10 @@ alert($color, $bg, $bc, $topBorder, $link)
     .link
         color $link
 
-bg($color)
-    background-color $color
+$background($bgColor)
+    background-color $bgColor
 
-bgGradient($startColor, $endColor)
+$bgGradient($startColor, $endColor)
     background -moz-linear-gradient(top, $startColor 5%, $endColor 100%)
     background -ms-linear-gradient(top, $startColor 5%, $endColor 100%)
     background -o-linear-gradient(top, $startColor 5%, $endColor 100%)
@@ -20,18 +20,18 @@ bgGradient($startColor, $endColor)
     background -webkit-linear-gradient(top, $startColor 5%, $endColor 100%)
     background linear-gradient(to bottom, $startColor 5%, $endColor 100%)
 
-border($color = red, $size = 1px, $type = solid)
+$border($color = red, $size = 1px, $type = solid)
     border $size $type $color
 
-btn($startColor, $endColor, $borderColor, $shadowColor)
-    bg($startColor)
-    bgGradient($startColor, $endColor)
-    border($borderColor)
-    prefix(box-shadow, inset 0px 1px 0px 0px $shadowColor)
+$btn($startColor, $endColor, $borderColor, $shadowColor)
+    $background($startColor)
+    $bgGradient($startColor, $endColor)
+    $border($borderColor)
+    $prefix(box-shadow, inset 0px 1px 0px 0px $shadowColor)
 
     &:hover
-        bg($endColor)
-        bgGradient($endColor, $startColor)
+        $background($endColor)
+        $bgGradient($endColor, $startColor)
 
 breakpoint($minSize, $maxSize)
     @media only screen and (min-width: $minSize) and (max-width: $maxSize)
@@ -45,26 +45,28 @@ minBreakpoint($size)
     @media only screen and (min-width: $size)
         {block}
 
-center($margin = 0, $width = false, $display = false)
+$center($margin = 0, $width = false, $display = false)
+    margin $margin auto
+
     if $display != false
         display $display
-    margin $margin auto
     if $width != false
         width $width
 
-centerAbsolute($width, $top = false, $bottom = false)
+$centerAbsolute($width, $top = false, $bottom = false)
     position absolute
     left 0
     right 0
     margin-left auto
     margin-right auto
     width $width
+
     if $top != false
         top $top
     if $bottom != false
         bottom $bottom
 
-clearfix()
+$clearfix()
     *zoom 1
     &:after
         content ''
@@ -72,23 +74,29 @@ clearfix()
         clear both
         height 0
 
-cursor($type = pointer)
+$cursor($type = pointer)
     cursor $type
 
-font($font, $size = false, $color = false)
+$colorOpacity($a = 0.5, $r = 255, $g = 255, $b = 255)
+    color rgba($r, $g, $b, $a)
+
+$font($font, $size = false, $weight = false, $color = false)
+    font-family $font, sans-serif
+
+    if $weight != false
+        font-weight $weight
     if $color != false
         color $color
-    font-family $font, sans-serif
     if $size != false
-        fontSize($size)
+        $fontSize($size)
 
-fontBold()
+$fontBold()
     font-weight $fontWeightBold
 
-fontItalic()
+$fontItalic()
     font-style italic
 
-fontFace($fontFamily, $fontFile)
+$fontFace($fontFamily, $fontFile)
     @font-face
         font-family $fontFamily
         src url('../assets/fonts/' + $fontFamily + '/' + $fontFile + '.eot')
@@ -100,20 +108,20 @@ fontFace($fontFamily, $fontFile)
         font-weight $fontWeightNormal
         font-style normal
 
-fontNormal()
+$fontNormal()
     font-weight $fontWeightNormal
 
-fontLight()
+$fontLight()
     font-weight $fontWeightLight
 
-fontSize($size, $weight = false)
+$fontSize($size, $weight = false)
     font-size $size
-    font-size rem-calc($size)
+    font-size unit($size / 16, rem)
+
     if $weight != false
         font-weight $weight
 
-
-icon($code, $color = $white, $size = 2em, $top = 14px, $right = 0px, $left = 15px, $width = 50px)
+$faIcon($code, $color = $white, $size = 2em, $top = 14px, $right = 0px, $left = 15px, $width = 50px)
     color $color
     content '\' + $code
     font-family FontAwesome
@@ -124,7 +132,7 @@ icon($code, $color = $white, $size = 2em, $top = 14px, $right = 0px, $left = 15p
     top $top
     width $width
 
-position($position, $args...)
+$position($position, $args...)
     position $position
     if length($args) == 4
         if $args[0] != false
@@ -151,21 +159,21 @@ position($position, $args...)
         if $args[0] != false
             top $args[0]
 
-prefix($property, $value)
+$prefix($property, $value)
     -webkit-{$property} $value
     -moz-{$property} $value
     -o-{$property} $value
     -ms-{$property} $value
     {$property} $value
 
-resetLink($color)
+$resetLink($color)
     color $color
     text-decoration none
 
-resetList()
+$resetList()
     list-style none
     margin 0
     padding 0
 
-uppercase()
+$uppercase()
     text-transform uppercase

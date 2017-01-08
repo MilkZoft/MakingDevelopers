@@ -1,5 +1,5 @@
 .media
-    bg($headerDarkBlue)
+    $background($headerDarkBlue)
     height 700px
     overflow-y scroll
     left 0
@@ -22,15 +22,15 @@
         top 10px
 
     .closeMedia
-        cursor()
-        fontSize(24px)
+        $cursor()
+        $fontSize(24px)
         color $white
         position absolute
         right 10px
         top 10px
 
     .uploadForm
-        fontSize(13px)
+        $fontSize(13px)
         color $white
         left 15px
         position absolute
@@ -46,8 +46,8 @@
             top 90px
 
         input
-            fontSize(14px)
-            border($white)
+            $border($white)
+            $fontSize(14px)
             padding 10px
             width 180px
 
@@ -65,10 +65,10 @@
         left -20px
 
     .fakeLink
-        cursor()
+        $cursor()
 
     .options
-        fontSize(14px)
+        $fontSize(14px)
         display none
         background-color $black
         position absolute
@@ -85,7 +85,7 @@
             text-decoration none
 
             &.insert
-                cursor()
+                $cursor()
                 float left
                 width 50%
 
@@ -100,7 +100,7 @@
                     background-color #002642
 
     .file
-        border($white, 2px, solid)
+        $border($white, 2px, solid)
         background-position 50% 50%
         background-repeat no-repeat
         background-size cover
@@ -132,11 +132,11 @@
             width 92.8%
 
         &:hover
-            border($blue, 2px)
+            $border($blue, 2px)
 
         i
-            centerAbsolute(50px)
-            fontSize(40px)
+            $centerAbsolute(50px)
+            $fontSize(40px)
             color $white
 
             &.code
@@ -155,11 +155,10 @@
                 color $yellow
 
         p
-            fontSize(12px)
+            $fontSize(12px)
             color $white
             margin-top 50px
             text-align center
 
             @media Mobile
-                fontSize(10px)
-
+                $fontSize(10px)

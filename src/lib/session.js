@@ -1,11 +1,26 @@
 // Utils
 import { isArray, isJson, isString, isUndefined } from './utils/is';
-import { parseJson, stringify } from './utils/object';
+import { forEach, parseJson, stringify } from './utils/object';
 
 // Configuration
 import { $session } from './config';
 
 export default (req, res, next) => {
+  const {
+    clearSession,
+    destroySessions,
+    session
+  } = Session(req, res);
+
+  // Methods
+  res.session = session;
+  res.clearSession = clearSession;
+  res.destroySessions = destroySessions;
+
+  return next();
+};
+
+export function Session(req, res) {
   // Global vars
   const cookiePrefix = $session().cookiePrefix;
   const sessionData = parseSession();
@@ -24,11 +39,12 @@ export default (req, res, next) => {
   };
 
   // Methods
-  res.session = session;
-  res.clearSession = clearSession;
-  res.destroySessions = destroySessions;
-
-  return next();
+  return {
+    clearSession,
+    destroySessions,
+    parseSession,
+    session
+  };
 
   /**
    * Parses the session and returns a JSon Object
@@ -38,8 +54,8 @@ export default (req, res, next) => {
   function parseSession() {
     const rVal = {};
 
-    if (req.cookies) {
-      Object.keys(req.cookies).forEach(key => {
+    if (req && req.cookies) {
+      forEach(req.cookies, key => {
         const sessionPrefix = new RegExp(`^${cookiePrefix}`);
         const isSessionCookie = key.search(sessionPrefix) !== -1;
         let value = req.cookies[key];
@@ -121,7 +137,7 @@ export default (req, res, next) => {
     let cookieKey;
 
     if (sessionData) {
-      Object.keys(sessionData).forEach(key => {
+      forEach(sessionData, key => {
         delete sessionData[key];
 
         cookieKey = `${cookiePrefix}${key}`;
@@ -131,4 +147,4 @@ export default (req, res, next) => {
 
     return null;
   }
-};
+}

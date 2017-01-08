@@ -34,15 +34,6 @@ gulp.task('all', () => {
   .pipe(gulp.dest('./src/public/js/'));
 });
 
-// Content task
-gulp.task('content', () => {
-  remoteSrc(['en.json', 'es.json'], {
-    base: `${$baseUrl('development')}/content/`
-  })
-  .pipe(jsonFormat(2))
-  .pipe(gulp.dest('./src/content/i18n/'));
-});
-
 // Mocha task
 gulp.task('test', () => {
   return gulp.src([
@@ -106,13 +97,7 @@ gulp.task('start', () => {
 });
 
 gulp.task('init', () => {
-  setTimeout(() => {
-    try {
-      runSequence('vendor', 'all', 'content');
-    } catch (e) {
-      console.log(e); // eslint-disable-line no-console
-    }
-  }, 8000);
+  runSequence('vendor', 'all');
 });
 
 // Default task

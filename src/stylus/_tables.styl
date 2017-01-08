@@ -3,8 +3,8 @@ table
     border-spacing 0
 
 .noData
-    bg($black)
-    font(Oswald, 16px)
+    $background($black)
+    $font(Oswald, 16px)
     color $white
     margin-top 70px
     padding 5px
@@ -29,41 +29,41 @@ table
 
     thead
         th
-            fontSize(15px, bold)
+            $fontSize(15px, bold)
             padding 10px 8px
             text-transform none
 
             @media Tablet
-                fontSize(13px, bold)
+                $fontSize(13px, bold)
 
             @media Mobile
-                fontSize(12px, bold)
+                $fontSize(12px, bold)
 
             @media iPhone5S
-                fontSize(10px, bold)
+                $fontSize(10px, bold)
 
     tbody
         tr
             td
-                fontSize(14px)
+                $fontSize(14px)
                 padding 14px
 
                 a
                     color $darkGray
 
                 @media Tablet
-                    fontSize(12px)
+                    $fontSize(12px)
 
                 @media Mobile
-                    fontSize(10.5px)
+                    $fontSize(10.5px)
                     padding 9px
 
                 @media iPhone5S
-                    fontSize(9px, bold)
+                    $fontSize(9px, bold)
                     padding 6px
 
                 @media iPhone5SLandscape
-                    fontSize(10px, bold)
+                    $fontSize(10px, bold)
                     padding 10px
 
     .center

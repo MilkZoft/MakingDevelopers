@@ -1,0 +1,29 @@
+<div class="readAction">
+    <h1>{{ __.Dashboard.modules.pages.list }}</h1>
+
+    <p>
+        <a
+            href="{{ basePath }}/dashboard/{{ currentDashboardApp }}/create"
+            title="{{ __.Dashboard.modules.pages.create }}"
+        >
+            {{{ icon "plus" }}} {{ __.Dashboard.modules.pages.create }}
+        </a>
+    </p>
+
+    {{{
+        renderSearch
+            __ = __
+            currentDashboardApp = currentDashboardApp
+            basePath = basePath
+            searching = searching
+    }}}
+
+    {{{
+        renderTable
+            tableSchema = tableSchema
+    }}}
+
+    {{{
+        pagination
+    }}}
+</div>

@@ -4,8 +4,8 @@
       "id": 18,
       "title": "Test17-mock",
       "slug": "test17",
-      "excerpt": "<p>Test17</p>\r\n",
-      "content": "<p>Test17</p>\r\n",
+      "excerpt": "<p>Test17-excerpt2</p>\r\n",
+      "content": "<p>Test17-content2</p>\r\n",
       "codes": "",
       "tags": "",
       "author": "MakDevTest",
@@ -15,7 +15,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     },
     {
       "id": 17,
@@ -32,7 +32,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     },
     {
       "id": 16,
@@ -49,7 +49,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     },
     {
       "id": 15,
@@ -66,7 +66,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     },
     {
       "id": 14,
@@ -83,7 +83,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     },
     {
       "id": 13,
@@ -100,7 +100,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     },
     {
       "id": 12,
@@ -117,7 +117,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     },
     {
       "id": 11,
@@ -134,7 +134,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     },
     {
       "id": 10,
@@ -151,7 +151,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     },
     {
       "id": 9,
@@ -168,7 +168,7 @@
       "year": "2016",
       "language": "en",
       "activeComments": 1,
-      "state": "published"
+      "state": "Active"
     }
   ]
 }

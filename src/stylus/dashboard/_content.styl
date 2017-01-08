@@ -1,14 +1,14 @@
 .Content
-    position(absolute, false, false, false, 220px)
+    $position(absolute, false, false, false, 220px)
     min-width 80%
     margin-bottom 40px
 
     h1
-        font(Oswald)
-        uppercase()
+        $font(Oswald)
+        $uppercase()
 
     @media Tablet
-        position(absolute, 10%, false, false, 8%)
+        $position(absolute, 10%, false, false, 8%)
         min-width 95%
 
         h1
@@ -16,15 +16,15 @@
 
     &.readAction
         @media Tablet
-            position(absolute, 9%, false, false, 3%)
+            $position(absolute, 9%, false, false, 3%)
 
         @media iPhone5S
-            position(absolute, 9%, false, false, 2%)
+            $position(absolute, 9%, false, false, 2%)
 
         a
-            font(Oswald)
-            resetLink($darkGray)
-            uppercase()
+            $font(Oswald)
+            $resetLink($darkGray)
+            $uppercase()
 
             &:hover
                 color $blue
@@ -35,7 +35,7 @@
             width 80%
 
             input[type="text"]
-                fontSize(13px)
+                $fontSize(13px)
                 position absolute
                 color $darkGray
                 height 23px
@@ -49,21 +49,21 @@
                 left 190px
 
             .searching
-                fontSize(13px)
+                $fontSize(13px)
                 position absolute
                 top 35px
 
     .Create
     .Update
         h2
-            font(Oswald)
-            uppercase()
+            $font(Oswald)
+            $uppercase()
 
         .errorBorder
             border 1px solid red
 
         .pointer
-            cursor(pointer)
+            $cursor(pointer)
 
         .leftBlock
             float left
@@ -79,10 +79,10 @@
 
         .inputBlock
             label
-                bold()
+                $bold()
 
                 .errorMessage
-                    fontSize(12px)
+                    $fontSize(12px)
                     color red
 
         .input
@@ -91,17 +91,17 @@
             width 90%
 
         .textarea
-            border($lightGray)
+            $border($lightGray)
             height 400px
             padding 5px
             width 90%
 
         .select
-            bg($white)
-            border($lightGray)
-            fontNormal()
-            fontSize(16px)
-            prefix(box-sizing, border-box)
+            $background($white)
+            $border($lightGray)
+            $fontNormal()
+            $fontSize(16px)
+            $prefix(box-sizing, border-box)
             height 54px
             line-height 54px
             padding-left 5px
@@ -119,4 +119,4 @@
                 width 25%
 
         #codes
-            font('Source Code Pro', 12px)
+            $font('Source Code Pro', 12px)
