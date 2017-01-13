@@ -35,7 +35,7 @@
     "layout": "main"
   },
   "html": {
-    "theme": "MakingDevelopers",
+    "theme": "Default",
     "minify": true,
     "css": {
       "stylusPrecompile": false,
@@ -54,7 +54,7 @@
   "session": {
     "cookieDomain": ".makingdevelopers.com",
     "maxAge": 259200,
-    "cookiePrefix": "mdSession_",
+    "cookiePrefix": "cjSession_",
     "path": "/",
     "httpOnly": true
   },
@@ -71,7 +71,7 @@
   },
   "social": {
     "facebook": {
-      "account": "MakingDevelopers",
+      "account": "makingdevelopers",
       "clientId": 123,
       "clientSecret": "xxx"
     },

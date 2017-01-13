@@ -5,7 +5,7 @@ class Logo extends React.Component {
   render() {
     return (
       <div className="Logo">
-        Logo
+        <img src="themes/Default/images/logo.png" alt="Logo" />
       </div>
     );
   }

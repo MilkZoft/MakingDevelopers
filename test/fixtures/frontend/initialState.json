@@ -1,0 +1,223 @@
+{  
+  "content":{  
+    "__":{  
+      "Api":{  
+        "errors":{  
+          "invalidMethod":"Invalid Method",
+          "noData":"No data found"
+        }
+      },
+      "Dashboard":{  
+        "forms":{  
+          "fields":{  
+            "activeComments":"Active Comments?",
+            "application":"Main Application",
+            "author":"Author",
+            "codes":"Codes",
+            "comments":"Comments Validation",
+            "content":"Content",
+            "edit":"Edit",
+            "email":"Email",
+            "error":{  
+              "author":"Who is writing this post?",
+              "content":"Write some content",
+              "excerpt":"The excerpt is missing",
+              "name":"The key name is required",
+              "slug":"The friendly url is missing",
+              "title":"You need to write a title",
+              "value":"The content value is required"
+            },
+            "excerpt":"Excerpt",
+            "language":"Language",
+            "languages":"Available Languages",
+            "name":"Name",
+            "save":"Save",
+            "selects":{  
+              "decision":"1:Yes|0:No",
+              "languages":"en:English|es:Spanish",
+              "state":"Active:Active|Inactive:Inactive"
+            },
+            "slug":"Friendly URL",
+            "state":"State",
+            "tags":"Tags",
+            "theme":"Theme",
+            "title":"Title",
+            "value":"Value"
+          }
+        },
+        "media":{  
+          "close":"Close Media",
+          "download":"Download",
+          "insert":"Insert",
+          "title":"Media",
+          "upload":{  
+            "search":{  
+              "placeholder":"Search files..."
+            },
+            "submit":"Upload"
+          }
+        },
+        "modules":{  
+          "blog":{  
+            "action":"Add new post",
+            "create":"Create New Post",
+            "list":"List of Posts",
+            "messages":{  
+              "add":{  
+                "exists":"The post already exists",
+                "fail":"There was a problem trying to create the post",
+                "success":"The post was created correctly"
+              },
+              "update":{  
+                "fail":"There was a problem trying to update the post",
+                "success":"The post was updated correctly"
+              }
+            },
+            "name":"Blog"
+          },
+          "config":{  
+            "name":"Configuration"
+          },
+          "configuration":{  
+            "list":"Configuration",
+            "messages":{  
+              "update":{  
+                "success":"The configuration was updated correctly"
+              }
+            }
+          },
+          "content":{  
+            "backup":"Backup",
+            "create":"Add Content",
+            "list":"List of Content",
+            "messages":{  
+              "add":{  
+                "exists":"This content already exists (try to change the language)",
+                "fail":"There was a problem trying to add the content",
+                "success":"The content was added correctly"
+              },
+              "update":{  
+                "success":"The content was updated correctly"
+              }
+            },
+            "name":"Content"
+          },
+          "dashboard":{  
+            "name":"Dashboard"
+          },
+          "feedback":{  
+            "name":"Feedback"
+          },
+          "logout":{  
+            "name":"Logout"
+          },
+          "pages":{  
+            "create":"Create New Page",
+            "list":"List of Pages",
+            "messages":{  
+              "add":{  
+                "exists":"This page already exists (try to change the language)",
+                "fail":"There was a problem trying to create the page"
+              },
+              "update":{  
+                "success":"The page was updated correctly"
+              }
+            },
+            "name":"Pages"
+          },
+          "users":{  
+            "name":"Users"
+          }
+        },
+        "search":{  
+          "label":"Search",
+          "placeholder":"Type your search...",
+          "searching":"Searching"
+        },
+        "table":{  
+          "action":"Action",
+          "actions":{  
+            "delete":{  
+              "question":"Do you want to send these records to the trash?"
+            },
+            "remove":{  
+              "question":"Do you want to remove permanently these records?"
+            },
+            "restore":{  
+              "question":"Do you want to restore these records?"
+            }
+          },
+          "active":"Active",
+          "application":"Main Application",
+          "author":"Author",
+          "delete":"Delete",
+          "deleted":"Deleted",
+          "edit":"Edit",
+          "id":"ID",
+          "inactive":"Inactive",
+          "name":"Name",
+          "noData":"No Data Found",
+          "pending":"Pending",
+          "remove":"Remove",
+          "restore":"Restore",
+          "state":"State",
+          "theme":"Theme",
+          "title":"Title",
+          "value":"Value"
+        }
+      },
+      "Db":{  
+        "errors":{  
+          "exists:email":"The email is already registered",
+          "exists:social:networkId":"This social user already exists",
+          "exists:username":"The username already exists",
+          "invalid:email":"Invalid Email",
+          "invalid:number:subscribed":"Subscribed should be 1 or 0",
+          "undefined:avatar":"Avatar is undefined",
+          "undefined:networkId":"NetworkId is undefined",
+          "undefined:username":"Username is undefined"
+        },
+        "success":{  
+          "inserted:social:username":"Social User created successfuly",
+          "inserted:website:username":"User created successfuly"
+        }
+      },
+      "Header":{  
+        "signIn":{  
+          "label":"Sign In"
+        }
+      },
+      "Site":{  
+        "errors":{  
+          "error404":"Error 404: Page Not Found"
+        },
+        "language":"en",
+        "meta":{  
+          "abstract":"Learn to code",
+          "description":"Learn to code",
+          "keywords":"HTML5, JavaScript, Node.js"
+        },
+        "title":"MakingDevelopers"
+      },
+      "Users":{  
+        "email":{  
+          "label":"Email",
+          "placeholder":"email@example.com"
+        },
+        "hello":"Hello",
+        "register":{  
+          "fail":"There was a problem trying to create your account, please try again.",
+          "label":"Register",
+          "success":"Your account have been created correctly, enjoy our site!"
+        },
+        "subscribe":"Subscribe"
+      }
+    }
+  },
+  "device":{  
+    "isMobile":false
+  },
+  "language":{  
+    "currentLanguage":"en"
+  }
+}

@@ -30,7 +30,7 @@
     "layout": "main"
   },
   "html": {
-    "theme": "MakingDevelopers",
+    "theme": "Default",
     "minify": true,
     "css": {
       "stylusPrecompile": true,
@@ -42,14 +42,14 @@
     "list": ["en", "es"]
   },
   "security": {
-    "secret": "m4k1ingd3v3lop3ers.com",
+    "secret": "CodUXpYQfj",
     "validateSecurityToken": true,
     "refreshSecurityToken": true
   },
   "session": {
     "cookieDomain": ".makingdevelopers.com",
     "maxAge": 259200,
-    "cookiePrefix": "mdSession_",
+    "cookiePrefix": "cjSession_",
     "path": "/",
     "httpOnly": true
   },
