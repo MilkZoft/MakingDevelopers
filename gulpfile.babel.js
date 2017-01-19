@@ -10,9 +10,6 @@ import jsonFormat from 'gulp-json-format';
 import concat from 'gulp-concat';
 import runSequence from 'run-sequence';
 
-// Configuration
-import { $baseUrl } from './src/lib/config';
-
 // Vendor task
 gulp.task('vendor', () => {
   return gulp.src([
