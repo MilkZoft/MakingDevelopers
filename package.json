@@ -7,13 +7,11 @@
     "type": "git",
     "url": "git://github.com/MilkZoft/MakingDevelopers.git"
   },
-  "config": {
-    "scripts": {
-      "pre-commit": "gulp analyze",
-      "pre-push": "gulp test",
-      "post-merge": "yarn",
-      "post-rewrite": "yarn"
-    }
+  "scripts": {
+    "pre-commit": "gulp analyze",
+    "pre-push": "gulp test",
+    "post-merge": "yarn",
+    "post-rewrite": "yarn"
   },
   "dependencies": {
     "babel-core": "^6.22.1",
