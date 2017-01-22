@@ -8,10 +8,10 @@
     "url": "git://github.com/MilkZoft/MakingDevelopers.git"
   },
   "scripts": {
-    "pre-commit": "gulp analyze",
-    "pre-push": "gulp test",
-    "post-merge": "yarn",
-    "post-rewrite": "yarn"
+    "precommit": "gulp analyze",
+    "prepush": "gulp test",
+    "postmerge": "yarn",
+    "postrewrite": "yarn"
   },
   "dependencies": {
     "babel-core": "^6.22.1",
