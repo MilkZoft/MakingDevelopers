@@ -10,21 +10,17 @@ const Posts = loadComponent('Blog/Posts');
 
 class Blog extends React.Component {
   static propTypes = {
-    __: PropTypes.object.isRequired,
     isMobile: PropTypes.bool
   };
 
   render() {
     const {
-      __,
       isMobile,
       router
     } = this.props;
 
     return (
       <div className={`Blog ${isMobile ? 'mobile' : ''}`}>
-        <h1>Blog - {__.Site.language}</h1>
-
         <Posts params={router.params} />
       </div>
     );
@@ -32,6 +28,5 @@ class Blog extends React.Component {
 }
 
 export default connect(state => ({
-  __: state.content.__,
   isMobile: state.device.isMobile
 }), null)(Blog);

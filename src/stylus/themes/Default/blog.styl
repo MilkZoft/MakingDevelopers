@@ -1,0 +1,43 @@
+@import '_global'
+
+// Header styles
+@import './components/Global/Header/Header'
+@import './components/Global/Header/Logo'
+@import './components/Global/Header/MainNav'
+
+// Content styles
+@import './components/Global/Content/Content'
+
+// Footer styles
+@import './components/Global/Footer/Footer'
+
+// Blog styles
+@import './components/Blog/Post'
+
+a
+    color $blueSelected
+    border-bottom 3px solid transparent
+    font-weight $fontWeightBold
+    text-decoration none
+    transition border .2s,color .2s ease-out
+
+.Header
+    $Header()
+
+    .Logo
+        $Logo()
+
+    .MainNav
+        $MainNav()
+
+.Content
+    $Content()
+
+    .Blog
+        .Posts
+            .Post
+                $Post()
+
+.Footer
+    $Footer()
+

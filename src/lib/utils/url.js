@@ -1,4 +1,9 @@
+// Configuration
+import { $app } from '../config';
+
+// Utils
 import { isDefined, isLanguage, isString } from './is';
+import { exists } from './object';
 
 /**
  * Return all the params from the url (splits slashes)
@@ -19,12 +24,15 @@ export function getParamsFromUrl(url) {
 
 export function getCurrentApp(url, dashboard) {
   const urlParams = getParamsFromUrl(url);
+  const allowedApps = $app().allowed;
 
   if (dashboard) {
     return isLanguage(urlParams[0]) && isDefined(urlParams[2]) ? urlParams[2] : urlParams[1];
   }
 
-  return isLanguage(urlParams[0]) ? urlParams[1] : urlParams[0];
+  const currentApp = isLanguage(urlParams[0]) ? urlParams[1] : urlParams[0];
+
+  return exists(currentApp, allowedApps) ? currentApp : $app().default;
 }
 
 export function getValueFromParam(param) {

@@ -9,6 +9,7 @@ import * as actions from '../../../containers/Blog/actions';
 import { isFirstRender, loadComponent } from '../../../../lib/utils/frontend';
 
 // Components
+const Helmet = loadComponent('Ui/Helmet');
 const Post = loadComponent('Blog/Post');
 
 class Posts extends React.Component {
@@ -20,7 +21,7 @@ class Posts extends React.Component {
   };
 
   componentWillMount() {
-    const { language = 'en', year, month, day, slug } = this.props.params;
+    const { language, year, month, day, slug } = this.props.params;
 
     if (!year && !month && !day && !slug) {
       this.props.loadPosts(language);
@@ -44,7 +45,8 @@ class Posts extends React.Component {
 
     if (this.isSinglePost(params)) {
       return (
-        <div className="posts">
+        <div className="Posts">
+
           <Post {...params} />
         </div>
       );
@@ -55,7 +57,13 @@ class Posts extends React.Component {
     }
 
     return (
-      <div className="posts">
+      <div className="Posts">
+        <Helmet
+          title="Making Developers Posts"
+          meta={[
+            { name: 'description', content: 'Test description' }
+          ]}
+        />
         {this.renderPosts(posts)}
       </div>
     );

@@ -1,0 +1,47 @@
+$MainNav()
+    $position(absolute, -10px, 20px)
+
+    .toggle
+        $position(absolute, 0, 5px)
+        display inline-block
+        opacity .6
+        padding 30px 10px 30px 15px
+        transition opacity .1s ease-out
+
+        i
+            color $almostBlack
+            font-size 1.5em
+            vertical-align middle
+
+    .menu
+        display inline-block
+        list-style none
+        margin 0
+        padding 0
+
+        @media Mobile
+            margin-top 25px
+            margin-right 45px
+
+        li
+            $position(relative)
+            display inline-block
+            margin 0
+            padding 0
+
+            &:last-child
+                @media Mobile
+                    display none
+
+            &:hover
+                a
+                    color $blackLinkHover
+
+            a
+                $fontSize(14px)
+                color $grayLink
+                display block
+                padding 35px 10px
+
+                @media Mobile
+                    padding 10px

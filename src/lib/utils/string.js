@@ -14,7 +14,7 @@ export function capitalize(str) {
  */
 export function clean(str) {
   if (isDefined(str)) {
-    return removeHTML(str).replace(/[`ª´·¨Ç~¿!#$%^&*()|+\-=?;'",<>\{\}\[\]\\]/gi, '');
+    return removeHTML(str).replace(/[`ª´·¨Ç~¿!#$%^&*()|+\=?;'",<>\{\}\[\]\\]/gi, '');
   }
 
   return false;

@@ -6,7 +6,6 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta http-equiv="content-language" content="{{ __.Site.language }}" />
-        <meta name="description" content="{{ __.Site.description }}" />
 
         {{#if isMobile}}
         <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
@@ -14,7 +13,7 @@
 
         <title>{{ dashboard.title }}</title>
 
-        <link href="/css/themes/{{ currentTheme }}/style.css" rel="stylesheet" />
+        <link href="/css/themes/{{ currentTheme }}/{{ currentApp }}.css" rel="stylesheet" />
         <link rel="shortcut icon" href="themes/{{ currentTheme }}/images/favicon.png">
     </head>
 

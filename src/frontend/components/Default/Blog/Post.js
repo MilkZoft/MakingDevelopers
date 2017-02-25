@@ -1,13 +1,16 @@
 // Dependencies
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 // Actions
 import * as actions from '../../../containers/Blog/actions';
 
 // Utils
-import { isFirstRender } from '../../../../lib/utils/frontend';
+import { isFirstRender, loadComponent } from '../../../../lib/utils/frontend';
+
+// Components
+const Helmet = loadComponent('Ui/Helmet');
+const Link = loadComponent('Ui/Link');
 
 class Post extends React.Component {
   static propTypes = {
@@ -46,27 +49,38 @@ class Post extends React.Component {
 
   getPostData(post, key, single = false) {
     const { year, month, day, slug, title, excerpt, content } = post;
-    const language = post.language === 'en' ? '' : post.language;
-    const url = `${language}/blog/${year}/${month}/${day}/${slug}`;
+    const url = `blog/${year}/${month}/${day}/${slug}`;
 
     return {
       title,
       url,
       content: single ? content : excerpt,
-      key
+      key,
+      single
     };
   }
 
   renderPostBody(post) {
-    const { title, url, content, key } = post;
+    const { title, url, content, key, single } = post;
+    let helmet;
+
+    if (single) {
+      helmet = <Helmet title={title} meta={[{ name: 'description', content: content } ]} />;
+    }
 
     return (
-      <div className="post" key={key}>
+      <div className="Post" key={key}>
+        {helmet}
+
         <h2>
           <Link to={url}>{title}</Link>
         </h2>
 
-        <p dangerouslySetInnerHTML={{ __html: content }} />
+        <p className="information">
+          Posted <span className="author">by <Link to="#">Codejobs</Link></span> on November 19th, 2017.
+        </p>
+
+        <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
       </div>
     );
   }
