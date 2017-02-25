@@ -38,6 +38,7 @@
     "express-handlebars": "^3.0.0",
     "html-minifier": "^3.3.0",
     "immutable": "^3.8.1",
+    "isomorphic-fetch": "^2.2.1",
     "jest-cli": "^18.1.0",
     "jsdom": "^9.9.1",
     "jsdom-global": "^2.1.1",
