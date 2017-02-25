@@ -6,6 +6,11 @@
     "enable": true,
     "url": "http://www.makingdevelopers.com/api/"
   },
+  "app": {
+    "default": "blog",
+    "allowed": ["blog", "home", "pages", "users"],
+    "mainTitle": "MakingDevelopers"
+  },
   "dashboard": {
     "title": "MakingDevelopers"
   },

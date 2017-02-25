@@ -21,3 +21,11 @@ export function loadComponent(componentPath, returnClass) {
     throw e;
   }
 }
+
+export function loadImage(imagePath) {
+  return `themes/${$html().theme}/images/${imagePath}`;
+}
+
+export function setClass(condition, className1, className2) {
+  return condition ? className1 : className2 ? className2 : '';
+}

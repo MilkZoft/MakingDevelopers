@@ -1,0 +1,42 @@
+$Post()
+    padding 50px 0
+
+    h2
+        $font('Domine')
+        $fontSize(32px, bold)
+        color $white
+        line-height 86px
+        text-shadow 0 0 30px rgba(0, 0, 0, .6)
+
+        @media Mobile
+            line-height 45px
+
+        a
+            $position(relative)
+            color $headerBlack
+            padding 10px 0
+
+            @media Desktop
+                transition border .2s,color .2s ease-out
+
+            &:hover
+                color $blueHover
+
+                @media Desktop
+                    border-bottom 3px solid $gray
+
+    .information
+        color $lightGray
+
+        .author
+            a
+                img
+                    border-radius 20px
+                    display inline-block
+                    margin 0 6px 0 11px
+                    vertical-align -4px
+                    width 20px
+
+    .content
+        margin 20px 0 0
+        overflow hidden

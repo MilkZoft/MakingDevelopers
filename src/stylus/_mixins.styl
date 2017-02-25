@@ -12,6 +12,10 @@ $alert($color, $bg, $bc, $topBorder, $link)
 $background($bgColor)
     background-color $bgColor
 
+$bgImage($url, $repeat = no-repeat)
+    background-image url($url)
+    background-repeat $repeat
+
 $bgGradient($startColor, $endColor)
     background -moz-linear-gradient(top, $startColor 5%, $endColor 100%)
     background -ms-linear-gradient(top, $startColor 5%, $endColor 100%)
@@ -22,6 +26,12 @@ $bgGradient($startColor, $endColor)
 
 $border($color = red, $size = 1px, $type = solid)
     border $size $type $color
+
+$boxShadow($h = 2px, $v = 2px, $blur = 2px, $opacity = 0.3, $inset = false)
+    if (!$inset)
+        box-shadow $h $v $blur rgba(0, 0, 0, $opacity)
+    else
+        box-shadow inset $h $v $blur rgba(0, 0, 0, $opacity)
 
 $btn($startColor, $endColor, $borderColor, $shadowColor)
     $background($startColor)
@@ -134,28 +144,35 @@ $faIcon($code, $color = $white, $size = 2em, $top = 14px, $right = 0px, $left = 
 
 $position($position, $args...)
     position $position
+
     if length($args) == 4
         if $args[0] != false
             top $args[0]
+
         if $args[1] != false
             right $args[1]
+
         if $args[2] != false
             bottom $args[2]
+
         if $args[3] != false
             left $args[3]
     else if length($args) == 3
         if $args[0] != false
             top $args[0]
+
         if $args[1] != false
             right $args[1]
+
         if $args[2] != false
             bottom $args[2]
     else if length($args) == 2
         if $args[0] != false
             top $args[0]
+
         if $args[1] != false
             right $args[1]
-    else
+    else if length($args) == 1
         if $args[0] != false
             top $args[0]
 
@@ -165,6 +182,9 @@ $prefix($property, $value)
     -o-{$property} $value
     -ms-{$property} $value
     {$property} $value
+
+$noDisplay()
+    display none
 
 $resetLink($color)
     color $color
@@ -177,3 +197,19 @@ $resetList()
 
 $uppercase()
     text-transform uppercase
+
+$noSelect()
+    outline none
+    touch-callout none
+    user-select none
+
+ $noBorder()
+    border none
+
+/* Filters */
+$grayscale($percentage)
+    filter grayscale($percentage)
+    -webkit-filter grayscale($percentage)
+    -o-filter grayscale($percentage)
+    -moz-filter grayscale($percentage)
+    -ms-filter grayscale($percentage)

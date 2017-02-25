@@ -16,6 +16,16 @@ export function $api(env) {
 }
 
 /**
+ * Returns app node
+ *
+ * @param {string} env Forcing environment
+ * @returns {string} app
+ */
+export function $app(env) {
+  return $config(env).app;
+}
+
+/**
  * Returns appName node
  *
  * @param {string} env Forcing environment

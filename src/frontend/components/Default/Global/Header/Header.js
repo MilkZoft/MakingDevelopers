@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 // Components
 import Logo from './Logo';
 import MainNav from './MainNav';
-import SignIn from './SignIn';
-import Search from './Search';
 
 class Header extends React.Component {
   static propTypes = {
@@ -16,12 +14,8 @@ class Header extends React.Component {
   render() {
     return (
       <div className="Header">
-        <div className="wrapper">
-          <Logo />
-          <MainNav />
-          <Search />
-          <SignIn />
-        </div>
+        <Logo />
+        <MainNav />
       </div>
     );
   }

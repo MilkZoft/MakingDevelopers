@@ -1,0 +1,32 @@
+$Logo()
+    float left
+    margin-top 10px
+
+    a
+        $background($white)
+        color #aaa
+        display block
+        padding 9px 12px 6px
+        transition background .6s ease-out
+        z-index 200
+
+        &:hover
+            $background(#fcfcfc)
+
+        img
+            display inline-block
+            margin 0
+            vertical-align middle
+            width 35px
+
+        .text
+            $font('Open Sans')
+            $fontSize(22px)
+            font-weight bold
+            vertical-align middle
+
+            .code
+                color #0073bc
+
+            @media Mobile
+                display none

@@ -1,0 +1,59 @@
+$Footer()
+    $center()
+    color $lightGray
+    font-size .8em
+    line-height 34px
+    max-width 760px
+    padding 25px 0
+    text-align center
+    width 90%
+
+    a
+        color $footerBlue
+
+    .navigation
+        border-bottom 1px solid $almostLightGray
+        display none
+        margin-bottom 10px
+        overflow hidden
+        padding-bottom 30px
+
+        @media Mobile
+            display block
+
+        .graybar
+            $bg(#eee)
+            $borderRadius(4px)
+            color #abaeb6
+            cursor pointer
+            font-size 1.2em
+            font-weight $fontWeightBold
+            margin 10px 0
+            overflow hidden
+            padding 17px 20px 15px
+
+            i
+                margin-right 10px
+
+            .left
+                float left
+
+            .right
+                float right
+
+        .menu
+            height 0
+            margin 0
+            overflow hidden
+            padding 0
+            transition all .6s ease-out
+
+            .wrapper
+                ul
+                    li
+                        float none
+                        margin 25px 0
+                        list-style none
+
+                        a
+                            font-size 1.3em

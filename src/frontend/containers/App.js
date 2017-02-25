@@ -5,7 +5,9 @@ import React, { PropTypes } from 'react';
 import { loadComponent } from '../../lib/utils/frontend';
 
 // Components
-const Header = loadComponent('Global/Header');
+const Header = loadComponent('Global/Header/Header');
+const Content = loadComponent('Global/Content/Content');
+const Footer = loadComponent('Global/Footer/Footer');
 
 class App extends React.Component {
   static propTypes = {
@@ -14,10 +16,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <Header />
-
-        {this.props.children}
+        <Content content={this.props.children} />
+        <Footer />
       </div>
     );
   }
